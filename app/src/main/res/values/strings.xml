@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NewtonApp</string>
+    <string name="konfirmasi">Confirm</string>
+    <string name="home">Home</string>
 </resources>

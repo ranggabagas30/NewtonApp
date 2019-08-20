@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".view.ui.MainActivity">
+    tools:context=".view.ui.VerificationActivity">
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/main.et.idcustomer"
+        android:id="@+id/verification.et.idcustomer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -17,26 +17,43 @@
         android:hint="ID Customer"/>
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/main.et.idbarcode"
+        android:id="@+id/verification.et.idbarcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:drawableEnd="@drawable/ic_camera_alt_black_24dp"
         android:hint="Scan barcode"/>
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/main.et.note"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="50dp"
-        android:gravity="start"
-        android:hint="Note : "/>
-
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/main.btn.confirm"
+        android:id="@+id/verification.btn.confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:text="@string/konfirmasi"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:padding="16dp"
+        android:weightSum="1">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/verification.btn.update"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginEnd="10dp"
+            android:text="Update"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/verification.btn.tracking"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginStart="10dp"
+            android:text="Tracking"/>
+    </LinearLayout>
 </LinearLayout>

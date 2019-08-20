@@ -41,11 +41,14 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0' // retrofir2 rxjava2 adapter squareup
-    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0' // add rxjava2 adapter jakewharton
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    // retrofir2 rxjava2 adapter squareup
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    // add rxjava2 adapter jakewharton
 
     // reactive
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'  // rxAndroid 2.0 to subscribe on AndroidSchedulers class
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    // rxAndroid 2.0 to subscribe on AndroidSchedulers class
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10' // rxJava 2
 
     // bindview
