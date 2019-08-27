@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#DF0404</color>
+    <color name="colorPrimaryDark">#990202</color>
+    <color name="colorAccent">#C90505</color>
+
+    <!-- table view color -->
+    <color name="selected_color">#C7C6C6</color>
+    <color name="unselected_color">#FFFFFF</color>
+    <color name="shadow_color">#6D6D6D</color>
+
+    <!-- timeline view color -->
+    <color name="icon_problem_inactive">#999999</color>
+    <color name="icon_problem_active">#4CAF50</color>
+    <color name="timeline_color">#C5C5C5</color>
+    
+    <color name="button_blue">#1F8CE2</color>
+    <color name="button_orange">#FA602F</color>
+    <color name="button_green">#327C36</color>
 </resources>
