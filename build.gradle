@@ -9,6 +9,7 @@ buildscript {
             // authentication interceptor
             url  "https://dl.bintray.com/damian-burke/maven"
         }
+        maven { url 'https://jitpack.io' }
         
     }
     dependencies {
@@ -27,7 +28,7 @@ allprojects {
             // authentication interceptor
             url  "https://dl.bintray.com/damian-burke/maven"
         }
-        
+        maven { url 'https://jitpack.io' }
     }
 }
 

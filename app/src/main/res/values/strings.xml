@@ -2,4 +2,27 @@
     <string name="app_name">NewtonApp</string>
     <string name="konfirmasi">Confirm</string>
     <string name="home">Home</string>
+    <string name="problem_tidak_ditemukan">Problem tidak ditemukan</string>
+
+    <string-array name="problems">
+        <item>Verification complain</item>
+        <item>Verified / Task assign</item>
+        <item>Our technician is on the way</item>
+        <item>Problem solving</item>
+        <item>Problem waiting for approval</item>
+    </string-array>
+    <string-array name="ic_inactive_problems">
+        <item>@drawable/ic_verification_complain_inactive_24dp</item>
+        <item>@drawable/ic_verified_inactive_24dp</item>
+        <item>@drawable/ic_technician_otw_inactive_24dp</item>
+        <item>@drawable/ic_solving_inactive_24dp</item>
+        <item>@drawable/ic_waiting_approval_inactive_24dp</item>
+    </string-array>
+    <integer-array name="ic_active_problems">
+        <item>@drawable/ic_verification_complain_active_24dp</item>
+        <item>@drawable/ic_verified_active_24dp</item>
+        <item>@drawable/ic_technician_otw_active_24dp</item>
+        <item>@drawable/ic_solving_active_24dp</item>
+        <item>@drawable/ic_waiting_approval_active_24dp</item>
+    </integer-array>
 </resources>

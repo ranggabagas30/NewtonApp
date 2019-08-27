@@ -7,11 +7,34 @@
     android:layout_height="match_parent"
     tools:context=".view.ui.ProblemTrackingActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/tracking.btn.home"
-        android:layout_width="wrap_content"
+    <include layout="@layout/layout_header" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:text="@string/home"/>
+        android:layout_marginTop="30dp">
+
+        <xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
+            android:id="@+id/problemtracking.timeline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:timeLineColor="@color/timeline_color"
+            app:timeLineWidth="@dimen/timeline_width"
+            app:isSticky="false"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </xyz.sangcomz.stickytimelineview.TimeLineRecyclerView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/tracking.btn.home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/home"
+            android:textColor="@android:color/white"
+            android:background="@color/button_blue"
+            app:layout_constraintTop_toBottomOf="@id/problemtracking.timeline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

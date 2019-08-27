@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".view.ui.MainActivity">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/main.et.idcustomer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:drawableEnd="@drawable/ic_perm_identity_black_24dp"
-        android:hint="ID Customer"/>
+    <include layout="@layout/layout_header" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/main.et.idbarcode"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:drawableEnd="@drawable/ic_camera_alt_black_24dp"
-        android:hint="Scan barcode"/>
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/main.et.note"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="50dp"
-        android:gravity="start"
-        android:hint="Note : "/>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/main.et.idcustomer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_perm_identity_black_24dp"
+            android:hint="ID Customer"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/main.btn.confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:text="@string/konfirmasi"/>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/main.et.idbarcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:drawableEnd="@drawable/ic_camera_alt_black_24dp"
+            android:hint="Scan barcode"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/main.et.note"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="50dp"
+            android:gravity="start"
+            android:hint="Note : "/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/main.btn.confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="@string/konfirmasi"
+            android:textColor="@android:color/white"
+            android:background="@color/button_blue"/>
+    </LinearLayout>
 </LinearLayout>
