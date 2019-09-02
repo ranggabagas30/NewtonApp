@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.newtonapp.customer.utility.Constants;
 
@@ -37,7 +38,12 @@ public class BarcodeScanningProcessor extends VisionProcessorBase<List<FirebaseV
         // new FirebaseVisionBarcodeDetectorOptions.Builder()
         //     .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_QR_CODE)
         //     .build();
-        detector = FirebaseVision.getInstance().getVisionBarcodeDetector();
+
+        FirebaseVisionBarcodeDetectorOptions visionBarcodeDetectorOptions = new FirebaseVisionBarcodeDetectorOptions.Builder()
+                .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_QR_CODE)
+                .build();
+
+        detector = FirebaseVision.getInstance().getVisionBarcodeDetector(visionBarcodeDetectorOptions);
         this.mActivity = activity;
     }
 
