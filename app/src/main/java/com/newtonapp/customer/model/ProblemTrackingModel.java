@@ -1,4 +1,4 @@
-package com.newtonapp.model;
+package com.newtonapp.customer.model;
 
 public class ProblemTrackingModel {
 

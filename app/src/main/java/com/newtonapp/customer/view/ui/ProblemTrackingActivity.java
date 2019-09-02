@@ -1,7 +1,5 @@
-package com.newtonapp.view.ui;
+package com.newtonapp.customer.view.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,9 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
-import com.newtonapp.R;
-import com.newtonapp.model.ProblemTrackingModel;
-import com.newtonapp.view.adapter.ProblemTrackingAdapter;
+import com.newtonapp.customer.R;
+import com.newtonapp.customer.model.ProblemTrackingModel;
+import com.newtonapp.customer.view.adapter.ProblemTrackingAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

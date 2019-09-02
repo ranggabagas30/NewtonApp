@@ -1,12 +1,11 @@
-package com.newtonapp.view.ui;
+package com.newtonapp.customer.view.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.os.Bundle;
 import android.view.View;
 
-import com.newtonapp.R;
+import com.newtonapp.customer.R;
 
 public class VerificationActivity extends BaseActivity {
 
