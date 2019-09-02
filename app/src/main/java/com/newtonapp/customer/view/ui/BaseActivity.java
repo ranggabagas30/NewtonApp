@@ -1,4 +1,4 @@
-package com.newtonapp.view.ui;
+package com.newtonapp.customer.view.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
