@@ -4,7 +4,9 @@
     android:id="@+id/header.layout.root"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:background="@android:color/white">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -14,10 +16,27 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/header.iv.logo"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/ic_launcher_background" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="5dp"
+        android:background="@drawable/shape_rect_white_black">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/header.tv.title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
 </LinearLayout>
