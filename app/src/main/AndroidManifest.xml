@@ -17,16 +17,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.ui.CameraPreviewActivity"></activity>
         <activity android:name=".view.ui.BaseActivity" />
-        <activity android:name=".view.ui.ProblemTrackingActivity" />
-        <activity android:name=".view.ui.VerificationActivity" />
-        <activity
-            android:name=".view.ui.MainActivity"
-            android:launchMode="singleTask">
+        <activity android:name=".view.ui.ProblemTrackingActivity" android:launchMode="singleTask"/>
+        <activity android:name=".view.ui.VerificationActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.ui.MainActivity" />
     </application>
 
 </manifest>

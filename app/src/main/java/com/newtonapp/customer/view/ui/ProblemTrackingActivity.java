@@ -1,6 +1,7 @@
 package com.newtonapp.customer.view.ui;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,7 @@ import xyz.sangcomz.stickytimelineview.model.SectionInfo;
 
 public class ProblemTrackingActivity extends BaseActivity {
 
+    private AppCompatTextView tvTitle;
     private AppCompatButton btnHome;
     private TimeLineRecyclerView rvTimeLineProblemTracking;
     private ProblemTrackingAdapter problemTrackingAdapter;
@@ -40,18 +42,17 @@ public class ProblemTrackingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_tracking);
         initProblemPoints();
+        tvTitle = findViewById(R.id.header_tv_title);
+        tvTitle.setText("Problem Tracking");
         problemTrackingAdapter = new ProblemTrackingAdapter(problemTrackingPoints);
         rvTimeLineProblemTracking = findViewById(R.id.problemtracking_timeline);
         rvTimeLineProblemTracking.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rvTimeLineProblemTracking.addItemDecoration(sectionCallback);
         rvTimeLineProblemTracking.setAdapter(problemTrackingAdapter);
         btnHome = findViewById(R.id.tracking_btn_home);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int flags = Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK;
-                navigateTo(ProblemTrackingActivity.this, MainActivity.class, flags);
-            }
+        btnHome.setOnClickListener(view -> {
+            int flags = Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK;
+            navigateTo(ProblemTrackingActivity.this, VerificationActivity.class, flags);
         });
     }
 
