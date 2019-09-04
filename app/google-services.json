@@ -1,0 +1,127 @@
+{
+  "project_info": {
+    "project_number": "148254111925",
+    "firebase_url": "https://freelance-newtonapp.firebaseio.com",
+    "project_id": "freelance-newtonapp",
+    "storage_bucket": "freelance-newtonapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148254111925:android:13657650fb7b175a",
+        "android_client_info": {
+          "package_name": "com.newtonapp.customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148254111925-f0gnbuj8l6qrl97mksuer12rp0n7rs1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2nWOAvbnrm-QG0VvMgHGaiNesm4QNOyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148254111925-f0gnbuj8l6qrl97mksuer12rp0n7rs1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148254111925:android:bd2916c49e2d1394",
+        "android_client_info": {
+          "package_name": "com.newtonapp.customer.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148254111925-f0gnbuj8l6qrl97mksuer12rp0n7rs1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2nWOAvbnrm-QG0VvMgHGaiNesm4QNOyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148254111925-f0gnbuj8l6qrl97mksuer12rp0n7rs1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148254111925:android:708f524ee76c472b",
+        "android_client_info": {
+          "package_name": "com.newtonapp.technician"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148254111925-f0gnbuj8l6qrl97mksuer12rp0n7rs1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2nWOAvbnrm-QG0VvMgHGaiNesm4QNOyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148254111925-f0gnbuj8l6qrl97mksuer12rp0n7rs1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148254111925:android:89362e482911958d",
+        "android_client_info": {
+          "package_name": "com.newtonapp.technician.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148254111925-f0gnbuj8l6qrl97mksuer12rp0n7rs1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2nWOAvbnrm-QG0VvMgHGaiNesm4QNOyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148254111925-f0gnbuj8l6qrl97mksuer12rp0n7rs1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
