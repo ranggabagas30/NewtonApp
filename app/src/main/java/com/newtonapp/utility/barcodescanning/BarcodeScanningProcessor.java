@@ -1,4 +1,4 @@
-package com.newtonapp.customer.utility.barcodescanning;
+package com.newtonapp.utility.barcodescanning;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.newtonapp.customer.utility.Constants;
+import com.newtonapp.utility.Constants;
 
 import java.io.IOException;
 import java.util.List;

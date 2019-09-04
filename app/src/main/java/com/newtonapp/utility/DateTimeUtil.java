@@ -1,4 +1,4 @@
-package com.newtonapp.customer.utility;
+package com.newtonapp.utility;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

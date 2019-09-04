@@ -1,4 +1,4 @@
-package com.newtonapp.customer.utility;
+package com.newtonapp.utility;
 
 public class Constants {
     public static final String EXTRA_INTENT_RESULT_SCAN = "EXTRA_INTENT_RESULT_SCAN";

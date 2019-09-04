@@ -1,4 +1,4 @@
-package com.newtonapp.customer.utility.barcodescanning;
+package com.newtonapp.utility.barcodescanning;
 
 import android.graphics.Bitmap;
 
@@ -11,7 +11,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
-import com.newtonapp.customer.utility.BitmapUtility;
+import com.newtonapp.utility.BitmapUtility;
 
 import java.nio.ByteBuffer;
 

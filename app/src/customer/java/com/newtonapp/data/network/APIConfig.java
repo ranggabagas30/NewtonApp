@@ -1,4 +1,4 @@
-package com.newtonapp.customer.data.network;
+package com.newtonapp.data.network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,4 +1,4 @@
-package com.newtonapp.customer;
+package com.newtonapp;
 
 import android.app.Application;
 import android.content.ContextWrapper;

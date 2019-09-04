@@ -1,7 +1,7 @@
-package com.newtonapp.customer.data.network;
+package com.newtonapp.data.network;
 
-import com.newtonapp.customer.data.network.pojo.request.ComplainRequestModel;
-import com.newtonapp.customer.data.network.pojo.response.ComplainResponseModel;
+import com.newtonapp.data.network.pojo.request.ComplainRequestModel;
+import com.newtonapp.data.network.pojo.response.ComplainResponseModel;
 
 import io.reactivex.Observable;
 

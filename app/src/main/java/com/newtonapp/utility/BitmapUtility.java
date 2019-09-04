@@ -1,4 +1,4 @@
-package com.newtonapp.customer.utility;
+package com.newtonapp.utility;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +12,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
-import com.newtonapp.customer.utility.barcodescanning.FrameMetadata;
+import com.newtonapp.utility.barcodescanning.FrameMetadata;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;

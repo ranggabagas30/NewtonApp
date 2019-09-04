@@ -1,4 +1,4 @@
-package com.newtonapp.customer.utility.barcodescanning;
+package com.newtonapp.utility.barcodescanning;
 
 public class FrameMetadata {
 
