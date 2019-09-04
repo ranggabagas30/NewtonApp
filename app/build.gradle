@@ -1,18 +1,23 @@
 apply plugin: 'com.android.application'
 
-android {
-    compileSdkVersion 28
-    defaultConfig {
+// Manifest version information!
+def minAPIlevel = rootProject.ext.minSdkVersion
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
 
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
         applicationId "com.newtonapp.customer"
-        minSdkVersion 19
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode minAPIlevel * 1000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        setProperty("archivesBaseName", "newtonapp-customer-" + "-v" + "(" + versionName + ")")
+        setProperty("archivesBaseName", "newtonapp-customer" + "-v" + "(" + versionName + ")")
     }
 
     lintOptions {
@@ -33,6 +38,24 @@ android {
             applicationVariants.all { variant ->
                 renameAPK(variant)
             }
+        }
+    }
+
+    flavorDimensions "user_role"
+
+    productFlavors {
+        customer {
+            applicationId 'com.newtonapp.customer'
+            dimension "user_role"
+        }
+        technician {
+            applicationId 'com.newtonapp.technician'
+            dimension "user_role"
+            versionMajor = 1
+            versionMinor = 0
+            versionPatch = 0
+            versionCode minAPIlevel * 1000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
+            versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         }
     }
 
@@ -78,11 +101,13 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0' // interceptor
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'  // // retrofit2 rxjava2 adapter
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    // // retrofit2 rxjava2 adapter
 
     // reactive
     // https://github.com/ReactiveX/RxAndroid
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1' // rxAndroid 2.0 to subscribe on AndroidSchedulers class
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    // rxAndroid 2.0 to subscribe on AndroidSchedulers class
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10' // rxJava2
 
     // bindview
@@ -91,7 +116,8 @@ dependencies {
 
     // customView
     implementation 'com.evrencoskun.library:tableview:0.8.8'
-    implementation 'com.github.sangcomz:StickyTimeLine:v0.0.20' //StickyTimeLine v0.0.20 and above only supports projects that have been migrated to androidx.
+    implementation 'com.github.sangcomz:StickyTimeLine:v0.0.20'
+    //StickyTimeLine v0.0.20 and above only supports projects that have been migrated to androidx.
 
     // persistent
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
