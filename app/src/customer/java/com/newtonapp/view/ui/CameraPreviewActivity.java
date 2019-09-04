@@ -1,4 +1,4 @@
-package com.newtonapp.customer.view.ui;
+package com.newtonapp.view.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -11,10 +11,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.newtonapp.customer.R;
-import com.newtonapp.customer.utility.barcodescanning.BarcodeScanningProcessor;
-import com.newtonapp.customer.utility.barcodescanning.CameraSource;
-import com.newtonapp.customer.utility.barcodescanning.CameraSourcePreview;
-import com.newtonapp.customer.utility.barcodescanning.GraphicOverlay;
+import com.newtonapp.utility.barcodescanning.BarcodeScanningProcessor;
+import com.newtonapp.utility.barcodescanning.CameraSource;
+import com.newtonapp.utility.barcodescanning.CameraSourcePreview;
+import com.newtonapp.utility.barcodescanning.GraphicOverlay;
 
 import java.io.IOException;
 import java.util.ArrayList;

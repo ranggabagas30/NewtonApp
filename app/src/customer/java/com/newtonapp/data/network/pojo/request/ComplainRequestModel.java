@@ -1,4 +1,4 @@
-package com.newtonapp.customer.data.network.pojo.request;
+package com.newtonapp.data.network.pojo.request;
 
 public class ComplainRequestModel {
 

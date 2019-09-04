@@ -1,4 +1,4 @@
-package com.newtonapp.customer.view.ui;
+package com.newtonapp.view.ui;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -9,11 +9,10 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 
 import com.newtonapp.customer.R;
-import com.newtonapp.customer.model.ProblemTrackingModel;
-import com.newtonapp.customer.view.adapter.ProblemTrackingAdapter;
+import com.newtonapp.model.ProblemTrackingModel;
+import com.newtonapp.view.adapter.ProblemTrackingAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

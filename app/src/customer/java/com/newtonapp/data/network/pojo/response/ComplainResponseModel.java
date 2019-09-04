@@ -1,4 +1,4 @@
-package com.newtonapp.customer.data.network.pojo.response;
+package com.newtonapp.data.network.pojo.response;
 
 public class ComplainResponseModel {
 

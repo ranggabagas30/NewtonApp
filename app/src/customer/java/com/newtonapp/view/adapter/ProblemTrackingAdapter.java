@@ -1,4 +1,4 @@
-package com.newtonapp.customer.view.adapter;
+package com.newtonapp.view.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

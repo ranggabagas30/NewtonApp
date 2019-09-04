@@ -1,4 +1,4 @@
-package com.newtonapp.customer.view.ui;
+package com.newtonapp.view.ui;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -13,9 +13,9 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.newtonapp.customer.R;
-import com.newtonapp.customer.data.network.APIHelper;
-import com.newtonapp.customer.data.network.pojo.request.ComplainRequestModel;
-import com.newtonapp.customer.utility.Constants;
+import com.newtonapp.data.network.APIHelper;
+import com.newtonapp.data.network.pojo.request.ComplainRequestModel;
+import com.newtonapp.utility.Constants;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

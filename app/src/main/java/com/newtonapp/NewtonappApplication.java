@@ -6,7 +6,7 @@ import android.content.ContextWrapper;
 import com.google.firebase.FirebaseApp;
 import com.pixplicity.easyprefs.library.Prefs;
 
-public class NewtonAppCustApplication extends Application {
+public class NewtonappApplication extends Application {
 
     @Override
     public void onCreate() {

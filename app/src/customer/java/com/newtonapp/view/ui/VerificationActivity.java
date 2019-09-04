@@ -1,4 +1,4 @@
-package com.newtonapp.customer.view.ui;
+package com.newtonapp.view.ui;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -6,13 +6,9 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,10 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.newtonapp.customer.R;
-import com.newtonapp.customer.data.network.APIHelper;
-import com.newtonapp.customer.data.network.pojo.request.ComplainRequestModel;
-import com.newtonapp.customer.utility.Constants;
-import com.newtonapp.customer.utility.DateTimeUtil;
+import com.newtonapp.data.network.APIHelper;
+import com.newtonapp.data.network.pojo.request.ComplainRequestModel;
+import com.newtonapp.utility.Constants;
+import com.newtonapp.utility.DateTimeUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
