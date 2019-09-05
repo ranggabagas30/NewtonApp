@@ -3,6 +3,9 @@
     <string name="konfirmasi">Confirm</string>
     <string name="home">Home</string>
     <string name="problem_tidak_ditemukan">Problem tidak ditemukan</string>
+    <string name="menu_outstanding">Outstanding</string>
+    <string name="menu_solving">Solving</string>
+    <string name="menu_report">Report</string>
 
     <string-array name="problems">
         <item>Verification complain</item>

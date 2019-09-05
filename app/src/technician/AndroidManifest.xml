@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.ui.DashboardActivity"></activity>
+        <activity android:name=".view.ui.SolvingActivity"></activity>
+        <activity android:name=".view.ui.OutstandingActivity" />
+        <activity android:name=".view.ui.DashboardActivity" />
         <activity android:name=".view.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
