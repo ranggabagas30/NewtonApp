@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import com.newtonapp.customer.R;
+import com.newtonapp.R;
 import com.newtonapp.data.network.APIHelper;
 import com.newtonapp.data.network.pojo.request.ComplainRequestModel;
 import com.newtonapp.utility.Constants;

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.newtonapp.customer.R;
+import com.newtonapp.R;
 
 import java.util.List;
 

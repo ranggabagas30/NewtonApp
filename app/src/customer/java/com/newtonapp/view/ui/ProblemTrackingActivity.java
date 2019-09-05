@@ -10,7 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-import com.newtonapp.customer.R;
+import com.newtonapp.R;
 import com.newtonapp.model.ProblemTrackingModel;
 import com.newtonapp.view.adapter.ProblemTrackingAdapter;
 

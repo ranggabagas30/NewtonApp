@@ -10,7 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.newtonapp.customer.R;
+import com.newtonapp.R;
 import com.newtonapp.utility.barcodescanning.BarcodeScanningProcessor;
 import com.newtonapp.utility.barcodescanning.CameraSource;
 import com.newtonapp.utility.barcodescanning.CameraSourcePreview;

@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.newtonapp.customer.R;
+import com.newtonapp.R;
 import com.newtonapp.data.network.APIHelper;
 import com.newtonapp.data.network.pojo.request.ComplainRequestModel;
 import com.newtonapp.utility.Constants;
@@ -146,7 +146,7 @@ public class VerificationActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         result -> {
-                            Log.d(TAG, "complain response: " + result.toString());
+                            Log.d(TAG, "== complain response ==");
                             Log.d(TAG, "ack : " + result.getAck());
                             Log.d(TAG, "token: " + result.getToken());
                             Log.d(TAG, "message: " + result.getMessage());
