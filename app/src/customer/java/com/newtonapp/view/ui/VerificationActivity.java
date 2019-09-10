@@ -176,7 +176,7 @@ public class VerificationActivity extends BaseActivity {
                         () -> {
                             hideDialog();
                             Log.d(TAG, "sendComplain: complete");
-                            //Toast.makeText(MainActivity.this, "Send complain complete", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LoginActivity.this, "Send complain complete", Toast.LENGTH_SHORT).show();
                         }
                 );
     }
