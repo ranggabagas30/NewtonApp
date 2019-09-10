@@ -1,11 +1,11 @@
 package com.newtonapp.view.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -27,6 +27,11 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(activity, targetActivity);
         intent.setFlags(mode);
         startActivity(intent);
+    }
+
+    protected void supportNavigateUpTo(Activity childActivity, Class parentActivityClass) {
+        Intent upIntent = new Intent(childActivity, parentActivityClass);
+        supportNavigateUpTo(upIntent);
     }
 
     public void showMessageDialog(String message) {
