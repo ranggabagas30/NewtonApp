@@ -1,13 +1,12 @@
 package com.newtonapp.view.ui;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.DialogInterface;
-import android.os.Bundle;
 
 import com.newtonapp.R;
 import com.newtonapp.model.OutstandingRvModel;
@@ -15,8 +14,9 @@ import com.newtonapp.view.adapter.OutstandingRvAdapter;
 
 import java.util.ArrayList;
 
-public class OutstandingActivity extends AppCompatActivity {
+public class OutstandingActivity extends BaseActivity {
 
+    private Toolbar toolbar;
     private RecyclerView outstandingRv;
     private OutstandingRvAdapter outstandingRvAdapter;
     private ArrayList<OutstandingRvModel> outstandingList;
@@ -26,7 +26,7 @@ public class OutstandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outstanding);
         popoulateData();
-
+        toolbar = findViewById(R.id.header_layout_toolbar);
         outstandingRvAdapter = new OutstandingRvAdapter(outstandingList);
         outstandingRvAdapter.setOnClickListener(outstanding -> {
             showConfirmationDialog(outstanding);
@@ -36,6 +36,16 @@ public class OutstandingActivity extends AppCompatActivity {
         outstandingRv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         outstandingRv.setItemAnimator(new DefaultItemAnimator());
         outstandingRv.setAdapter(outstandingRvAdapter);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        supportNavigateUpTo(this, DashboardActivity.class);
+        return true;
     }
 
     private void popoulateData() {
