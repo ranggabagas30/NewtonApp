@@ -117,10 +117,16 @@ dependencies {
     // custom shape imageview
     implementation 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
 
-    // customView
+    // svg support
+    implementation 'com.pixplicity.sharp:library:1.1.0'
+    implementation 'com.caverock:androidsvg-aar:1.4'
+
+    // tableView
     implementation 'com.evrencoskun.library:tableview:0.8.8'
-    implementation 'com.github.sangcomz:StickyTimeLine:v0.0.20'
+
+    // timelineView
     //StickyTimeLine v0.0.20 and above only supports projects that have been migrated to androidx.
+    implementation 'com.github.sangcomz:StickyTimeLine:v0.0.20'
 
     // persistent
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
