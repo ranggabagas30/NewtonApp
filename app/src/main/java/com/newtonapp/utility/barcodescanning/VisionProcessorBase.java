@@ -11,7 +11,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
-import com.newtonapp.utility.BitmapUtility;
+import com.newtonapp.utility.BitmapUtil;
 
 import java.nio.ByteBuffer;
 
@@ -77,7 +77,7 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                         .setRotation(frameMetadata.getRotation())
                         .build();
 
-        Bitmap bitmap = BitmapUtility.getBitmap(data, frameMetadata);
+        Bitmap bitmap = BitmapUtil.getBitmap(data, frameMetadata);
         detectInVisionImage(
                 bitmap, FirebaseVisionImage.fromByteBuffer(data, metadata), frameMetadata,
                 graphicOverlay);

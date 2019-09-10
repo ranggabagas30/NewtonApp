@@ -17,7 +17,7 @@ import com.newtonapp.utility.barcodescanning.FrameMetadata;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
-public class BitmapUtility {
+public class BitmapUtil {
 
     // Convert NV21 format byte buffer to bitmap.
     @Nullable

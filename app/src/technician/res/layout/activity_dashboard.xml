@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/background_light"
     tools:context="com.newtonapp.view.ui.DashboardActivity">
 
     <RelativeLayout
@@ -46,34 +47,32 @@
         app:layout_constraintTop_toBottomOf="@id/dashboard.layout.profile"/>
 
     <GridLayout
-        android:id="@+id/dashboard.layout.menu"
+        android:id="@+id/dashboard.layout.body"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="10dp"
         android:columnCount="1"
         android:rowCount="1"
-        android:orientation="horizontal"
-        android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
         app:layout_constraintTop_toBottomOf="@id/dashboard.view.line"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/dashboard.btn.logout">
 
         <LinearLayout
+            android:id="@+id/dashboard.layout.menu"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="50dp"
+            android:layout_marginTop="30dp"
             android:weightSum="3">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/dashboard.iv.outstanding"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="10dp"
-                android:layout_column="0"
-                android:layout_row="0">
+                android:clickable="true"
+                android:layout_margin="5dp"
+                app:contentPadding="10dp"
+                style="@style/AppTheme.CardView">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:orientation="vertical"
@@ -97,12 +96,11 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/dashboard.iv.solving"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="10dp"
-                android:layout_column="1"
-                android:layout_row="0">
+                android:layout_margin="5dp"
+                app:contentPadding="10dp"
+                style="@style/AppTheme.CardView">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:orientation="vertical"
@@ -126,12 +124,11 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/dashboard.iv.report"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="10dp"
-                android:layout_column="2"
-                android:layout_row="0">
+                android:layout_margin="5dp"
+                app:contentPadding="10dp"
+                style="@style/AppTheme.CardView">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:orientation="vertical"
@@ -153,6 +150,14 @@
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-
     </GridLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dashboard.btn.logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        style="@style/AppTheme.ButtonDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Log out"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
