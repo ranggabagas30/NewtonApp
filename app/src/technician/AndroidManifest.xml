@@ -10,13 +10,23 @@
     <application
         android:name=".NewtonappApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="true">
-        <activity android:name=".view.ui.OnboardingScreenActivity"></activity>
+        android:theme="@style/AppTheme">
+        <activity android:name=".view.ui.ReportDetailActivity"></activity>
+        <activity android:name=".view.ui.ReportActivity" />
+        <activity android:name=".view.ui.ApprovalActivity" />
+        <activity android:name=".view.ui.ProductHistoryActivity" />
+        <activity
+            android:name=".view.ui.OnboardingScreenActivity"
+            android:parentActivityName=".view.ui.DashboardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.ui.DashboardActivity" />
+        </activity>
         <activity android:name=".view.ui.SolvingActivity" />
         <activity android:name=".view.ui.OutstandingActivity" />
         <activity android:name=".view.ui.DashboardActivity" />
