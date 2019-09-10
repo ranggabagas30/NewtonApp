@@ -14,11 +14,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".view.ui.SolvingActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true">
+        <activity android:name=".view.ui.OnboardingScreenActivity"></activity>
+        <activity android:name=".view.ui.SolvingActivity" />
         <activity android:name=".view.ui.OutstandingActivity" />
         <activity android:name=".view.ui.DashboardActivity" />
-        <activity android:name=".view.ui.MainActivity">
+        <activity android:name=".view.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

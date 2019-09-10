@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity {
             return false;
         });
 
-        //btnConfirm.setOnClickListener(view -> navigateTo(MainActivity.this, VerificationActivity.class));
+        //btnConfirm.setOnClickListener(view -> navigateTo(LoginActivity.this, VerificationActivity.class));
         btnConfirm.setOnClickListener(view -> sendComplain());
 
     }
@@ -139,7 +139,7 @@ public class MainActivity extends BaseActivity {
                         error -> Log.e(TAG, "sendComplain: ", error),
                         () -> {
                             Log.d(TAG, "sendComplain: complete");
-                            //Toast.makeText(MainActivity.this, "Send complain complete", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LoginActivity.this, "Send complain complete", Toast.LENGTH_SHORT).show();
                         }
                 );
     }
