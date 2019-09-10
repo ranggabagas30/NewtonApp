@@ -3,6 +3,10 @@
     <color name="colorPrimary">#DF0404</color>
     <color name="colorPrimaryDark">#990202</color>
     <color name="colorAccent">#C90505</color>
+    <color name="colorBase">#80FFFFFF</color>
+
+    <color name="color_control_highlight">@color/fifty_percent_transparency_grey_400</color>
+    <color name="fifty_percent_transparency_grey_400">#80bdbdbd</color>
 
     <!-- table view color -->
     <color name="selected_color">#C7C6C6</color>

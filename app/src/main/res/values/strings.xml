@@ -28,4 +28,7 @@
         <item>@drawable/ic_solving_active_24dp</item>
         <item>@drawable/ic_waiting_approval_active_24dp</item>
     </integer-array>
+
+    <!-- prefs key-->
+    <string name="key_first_time_user">key_first_time_user</string>
 </resources>
