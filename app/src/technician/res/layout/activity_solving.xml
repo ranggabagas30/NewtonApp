@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.newtonapp.view.ui.SolvingActivity">
 
-    <include layout="@layout/layout_header_toolbar" />
+    <include
+        layout="@layout/layout_header_toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/solving.layout.body"
@@ -18,14 +20,14 @@
         app:layout_constraintBottom_toTopOf="@+id/footer.layout.root">
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/verification.et.idcustomer"
+            android:id="@+id/solving.et.idcustomer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_perm_identity_black_24dp"
             android:hint="ID Customer"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/verification.et.idbarcode"
+            android:id="@+id/solving.et.idbarcode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -33,7 +35,7 @@
             android:hint="Scan barcode"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/verification.et.note"
+            android:id="@+id/solving.et.note"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="30dp"
@@ -41,7 +43,7 @@
             android:hint="Note : " />
 
         <LinearLayout
-            android:id="@+id/verification.layout.update_tracking"
+            android:id="@+id/solving.layout.update_tracking"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +51,7 @@
             android:weightSum="1">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/verification.btn.update"
+                android:id="@+id/solving.btn.solved"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -59,7 +61,7 @@
                 android:background="@color/button_blue"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/verification.btn.tracking"
+                android:id="@+id/solving.btn.hold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
