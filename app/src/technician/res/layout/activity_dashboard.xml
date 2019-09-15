@@ -65,7 +65,7 @@
             android:weightSum="3">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/dashboard.iv.outstanding"
+                android:id="@+id/dashboard.cv.outstanding"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -81,11 +81,13 @@
                     android:gravity="center">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/dashboard.iv.ic_outstanding"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@mipmap/ic_outstanding"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/dashboard.tv.label_outstanding"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -94,11 +96,12 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/dashboard.iv.solving"
+                android:id="@+id/dashboard.cv.solving"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="5dp"
+                android:clickable="true"
                 app:contentPadding="10dp"
                 style="@style/AppTheme.CardView">
 
@@ -109,11 +112,13 @@
                     android:gravity="center">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/dashboard.iv.ic_solving"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@mipmap/ic_solving"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/dashboard.tv.label_solving"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -122,11 +127,12 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/dashboard.iv.report"
+                android:id="@+id/dashboard.cv.report"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="5dp"
+                android:clickable="true"
                 app:contentPadding="10dp"
                 style="@style/AppTheme.CardView">
 
@@ -137,11 +143,13 @@
                     android:gravity="center">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/dashboard.iv.ic_report"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@mipmap/ic_report"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/dashbaord.tv.label_report"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
