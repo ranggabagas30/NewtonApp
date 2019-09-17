@@ -38,6 +38,7 @@ public class SolvingActivity extends BaseActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.screen_solving);
 
         btnSolved.setOnClickListener(view -> solved());
         btnHold.setOnClickListener(view -> hold());

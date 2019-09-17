@@ -18,7 +18,11 @@
     <color name="icon_problem_active">#4CAF50</color>
     <color name="timeline_color">#C5C5C5</color>
     
+    <!-- button color -->
     <color name="button_blue">#1F8CE2</color>
     <color name="button_orange">#FA602F</color>
     <color name="button_green">#327C36</color>
+    
+    <color name="status_solved">#4CAF50</color>
+    <color name="status_hold">#F32C2C</color>
 </resources>

@@ -8,25 +8,31 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppbarTheme" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Base.Widget.Newton.AppBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
     </style>
 
-    <style name="PopUpTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.AppBar" parent="Base.Widget.Newton.AppBar">
+    </style>
+
+    <style name="AppTheme.PopUp" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:background">@android:color/white</item>
     </style>
 
-    <style name="EditTextDarkTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="Base.Widget.Newton.EditText.Dark" parent="Theme.AppCompat.NoActionBar">
     </style>
 
-    <style name="BaseButtonDarkTheme" parent="Widget.AppCompat.Button">
+    <style name="Base.Widget.Newton.Button.Dark" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.ButtonPrimaryDark" parent="Base.Widget.Newton.Button.Dark">
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="AppTheme.ButtonDark" parent="BaseButtonDarkTheme"></style>
+    <style name="AppTheme.ButtonBlueDark" parent="Base.Widget.Newton.Button.Dark">
+        <item name="android:background">@color/button_blue</item>
+    </style>
 
     <style name="AppTheme.CardView" parent="android:Widget.TextView">
         <item name="android:foreground">@drawable/selector_bg_card</item>

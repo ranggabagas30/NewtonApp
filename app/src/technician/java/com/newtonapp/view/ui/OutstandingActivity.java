@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 public class OutstandingActivity extends BaseActivity {
 
     private Toolbar toolbar;
-    private RecyclerView outstandingRv;
+    private RecyclerView rvOutstandingList;
     private OutstandingRvAdapter outstandingRvAdapter;
     private ArrayList<OutstandingRvModel> outstandingList;
 
@@ -28,18 +29,18 @@ public class OutstandingActivity extends BaseActivity {
         popoulateData();
         toolbar = findViewById(R.id.header_layout_toolbar);
         outstandingRvAdapter = new OutstandingRvAdapter(outstandingList);
-        outstandingRvAdapter.setOnClickListener(outstanding -> {
-            showConfirmationDialog(outstanding);
-        });
+        outstandingRvAdapter.setOnClickListener(outstanding -> showConfirmationDialog(outstanding));
 
-        outstandingRv = findViewById(R.id.outstanding_rv_tasklist);
-        outstandingRv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        outstandingRv.setItemAnimator(new DefaultItemAnimator());
-        outstandingRv.setAdapter(outstandingRvAdapter);
+        rvOutstandingList = findViewById(R.id.outstanding_rv_tasklist);
+        rvOutstandingList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        rvOutstandingList.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
+        rvOutstandingList.setItemAnimator(new DefaultItemAnimator());
+        rvOutstandingList.setAdapter(outstandingRvAdapter);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(R.string.screen_outstanding_list);
+
     }
 
     @Override

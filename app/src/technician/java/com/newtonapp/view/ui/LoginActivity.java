@@ -42,8 +42,8 @@ public class LoginActivity extends BaseActivity {
             if (isFirstTime) {
                 Prefs.putBoolean(getString(R.string.key_first_time_user), false);
                 navigateTo(this, OnboardingScreenActivity.class);
-            }
-            else navigateTo(this, DashboardActivity.class);
+            } else navigateTo(this, DashboardActivity.class);
+            finish();
         } else {
             Toast.makeText(this, "Please input correct data", Toast.LENGTH_LONG).show();
         }
