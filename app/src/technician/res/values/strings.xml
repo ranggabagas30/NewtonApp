@@ -1,1 +1,15 @@
-<resources></resources>
+<resources>
+    <string name="app_name">Newton Technician</string>
+
+    <!-- screens -->
+    <string name="screen_dashboard">Dashboard</string>
+    <string name="screen_outstanding_list">Outstanding List</string>
+    <string name="screen_solving">Solving</string>
+    <string name="screen_approval">Solving Approval</string>
+    <string name="screen_historical_usage">Historical Usage</string>
+    <string name="screen_report_list">Report List</string>
+    <string name="screen_report_detail">Report Detail</string>
+
+    <string name="status_solved">SOLVED</string>
+    <string name="status_hold">HOLD</string>
+</resources>
