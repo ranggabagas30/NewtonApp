@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.newtonapp.R;
-import com.newtonapp.model.OutstandingRvModel;
-import com.newtonapp.view.adapter.OutstandingRvAdapter;
+import com.newtonapp.model.rvmodel.OutstandingRvModel;
+import com.newtonapp.view.adapter.rvadapter.OutstandingRvAdapter;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,7 +22,7 @@ public class ProductHistoryActivity extends BaseActivity {
     private Toolbar toolbar;
     private RecyclerView rvProductHistory;
     private OutstandingRvAdapter outstandingRvAdapter;
-    private ArrayList<OutstandingRvModel> outstandingList;
+    private ArrayList<OutstandingRvModel> outstandingList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class ProductHistoryActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.screen_historical_usage);
 
-        outstandingRvAdapter = new OutstandingRvAdapter(outstandingList);
+        outstandingRvAdapter = new OutstandingRvAdapter(outstandingList, R.layout.item_outstanding_task);
         rvProductHistory.setAdapter(outstandingRvAdapter);
         rvProductHistory.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         rvProductHistory.setItemAnimator(new DefaultItemAnimator());

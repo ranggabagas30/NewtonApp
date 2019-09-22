@@ -16,9 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.ui.ReportDetailActivity"></activity>
+        <activity android:name=".view.ui.ForgetPasswordActivity"></activity>
+        <activity android:name=".view.ui.ReportDetailActivity" />
         <activity android:name=".view.ui.ReportActivity" />
-        <activity android:name=".view.ui.ApprovalActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".view.ui.ApprovalActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".view.ui.ProductHistoryActivity" />
         <activity
             android:name=".view.ui.OnboardingScreenActivity"
@@ -30,8 +33,7 @@
         <activity android:name=".view.ui.SolvingActivity" />
         <activity android:name=".view.ui.OutstandingActivity" />
         <activity android:name=".view.ui.DashboardActivity" />
-        <activity
-            android:name=".view.ui.LoginActivity">
+        <activity android:name=".view.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

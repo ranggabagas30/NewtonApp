@@ -1,8 +1,6 @@
-package com.newtonapp.view.adapter;
+package com.newtonapp.view.adapter.rvadapter;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -13,41 +11,24 @@ import com.newtonapp.model.rvmodel.OutstandingRvModel;
 
 import java.util.ArrayList;
 
-public class OutstandingRvAdapter extends RecyclerView.Adapter<OutstandingRvAdapter.ViewHolder> {
+public class OutstandingRvAdapter extends BaseSingleViewTypeRvAdapter<OutstandingRvModel, OutstandingRvAdapter.ViewHolder> {
 
-    private OnClickListener onClickListener;
-    private ArrayList<OutstandingRvModel> outstandingList;
-
-    public OutstandingRvAdapter(ArrayList<OutstandingRvModel> outstandingList) {
-        this.outstandingList = outstandingList;
-    }
-
-    public void setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View outstandingItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_outstanding_task, parent, false);
-        return new ViewHolder(outstandingItemView);
+    public OutstandingRvAdapter(ArrayList<OutstandingRvModel> data, int itemLayoutRes) {
+        super(data, itemLayoutRes);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        OutstandingRvModel outstanding = outstandingList.get(position);
+    public ViewHolder onCreateViewHolder(@NonNull View itemView) {
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull OutstandingRvModel outstanding) {
         holder.setCustomer(outstanding.getCustomer());
         holder.setAddress(outstanding.getAddress());
-        holder.itemView.setOnClickListener(view -> onClickListener.onClick(outstanding));
     }
 
-    @Override
-    public int getItemCount() {
-        if (outstandingList == null) return 0;
-        else return outstandingList.size();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private AppCompatTextView customer;
         private AppCompatTextView address;
@@ -65,9 +46,5 @@ public class OutstandingRvAdapter extends RecyclerView.Adapter<OutstandingRvAdap
         private void setAddress(String address) {
             this.address.setText(address);
         }
-    }
-
-    public interface OnClickListener {
-        void onClick(OutstandingRvModel outstanding);
     }
 }

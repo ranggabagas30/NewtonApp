@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.newtonapp.R;
-import com.newtonapp.model.ReportRvModel;
-import com.newtonapp.view.adapter.ReportRvAdapter;
+import com.newtonapp.model.rvmodel.ReportRvModel;
+import com.newtonapp.view.adapter.rvadapter.ReportRvAdapter;
 
 import java.util.ArrayList;
 

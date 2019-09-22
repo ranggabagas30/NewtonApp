@@ -1,4 +1,4 @@
-package com.newtonapp.view.adapter;
+package com.newtonapp.view.adapter.rvadapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +22,13 @@ public class ReportRvAdapter extends RecyclerView.Adapter<ReportRvAdapter.ViewHo
         this.reportList = reportList;
     }
 
-    public void setReportList(ArrayList<ReportRvModel> reportList) {
+    public void setData(ArrayList<ReportRvModel> reportList) {
         this.reportList = reportList;
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
+        notifyDataSetChanged();
     }
 
     @NonNull

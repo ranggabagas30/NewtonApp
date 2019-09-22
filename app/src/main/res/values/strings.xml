@@ -31,4 +31,5 @@
 
     <!-- prefs key-->
     <string name="key_first_time_user">key_first_time_user</string>
+    <string name="key_token">key_token</string>
 </resources>

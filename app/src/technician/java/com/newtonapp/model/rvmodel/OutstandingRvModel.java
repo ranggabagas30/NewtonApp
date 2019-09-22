@@ -1,4 +1,4 @@
-package com.newtonapp.model;
+package com.newtonapp.model.rvmodel;
 
 public class OutstandingRvModel {
 

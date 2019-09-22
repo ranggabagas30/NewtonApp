@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.newtonapp.R;
-import com.newtonapp.model.OutstandingRvModel;
-import com.newtonapp.view.adapter.OutstandingRvAdapter;
+import com.newtonapp.model.rvmodel.OutstandingRvModel;
+import com.newtonapp.view.adapter.rvadapter.OutstandingRvAdapter;
 
 import java.util.ArrayList;
 
@@ -20,27 +20,27 @@ public class OutstandingActivity extends BaseActivity {
     private Toolbar toolbar;
     private RecyclerView rvOutstandingList;
     private OutstandingRvAdapter outstandingRvAdapter;
-    private ArrayList<OutstandingRvModel> outstandingList;
+    private ArrayList<OutstandingRvModel> outstandingList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outstanding);
         popoulateData();
-        toolbar = findViewById(R.id.header_layout_toolbar);
-        outstandingRvAdapter = new OutstandingRvAdapter(outstandingList);
-        outstandingRvAdapter.setOnClickListener(outstanding -> showConfirmationDialog(outstanding));
 
+        toolbar = findViewById(R.id.header_layout_toolbar);
         rvOutstandingList = findViewById(R.id.outstanding_rv_tasklist);
-        rvOutstandingList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        rvOutstandingList.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
-        rvOutstandingList.setItemAnimator(new DefaultItemAnimator());
-        rvOutstandingList.setAdapter(outstandingRvAdapter);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.screen_outstanding_list);
 
+        outstandingRvAdapter = new OutstandingRvAdapter(outstandingList, R.layout.item_outstanding_task);
+        outstandingRvAdapter.setOnItemClickListener(this::showConfirmationDialog);
+        rvOutstandingList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        rvOutstandingList.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
+        rvOutstandingList.setItemAnimator(new DefaultItemAnimator());
+        rvOutstandingList.setAdapter(outstandingRvAdapter);
     }
 
     @Override
