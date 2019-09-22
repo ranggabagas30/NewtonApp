@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.newtonapp.R;
-import com.newtonapp.model.ReportRvModel;
+import com.newtonapp.model.rvmodel.ReportRvModel;
 
 import java.util.ArrayList;
 
