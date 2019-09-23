@@ -6,6 +6,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.newtonapp.R;
 import com.newtonapp.utility.CommonUtil;
@@ -17,6 +18,7 @@ public class LoginActivity extends BaseActivity {
     private AppCompatEditText etUsername;
     private AppCompatEditText etPassword;
     private AppCompatButton btnLogin;
+    private AppCompatTextView tvForgetPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,9 @@ public class LoginActivity extends BaseActivity {
         etUsername = findViewById(R.id.main_et_username);
         etPassword = findViewById(R.id.main_et_password);
         btnLogin = findViewById(R.id.main_btn_login);
+        tvForgetPassword = findViewById(R.id.main_tv_forgetpassword_link);
+
+        tvForgetPassword.setOnClickListener(view -> doForgetPassword());
     }
 
     private void doLogin() {
@@ -47,5 +52,9 @@ public class LoginActivity extends BaseActivity {
         } else {
             Toast.makeText(this, "Please input correct data", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void doForgetPassword() {
+        navigateTo(this, ForgetPasswordActivity.class);
     }
 }
