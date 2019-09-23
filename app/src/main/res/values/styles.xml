@@ -20,6 +20,18 @@
     </style>
 
     <style name="Base.Widget.Newton.EditText.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.EditText.Dark.SingleLine" parent="Base.Widget.Newton.EditText.Dark">
+        <item name="android:maxLines">1</item>
+        <item name="android:minLines">1</item>
+    </style>
+
+    <style name="AppTheme.EditText.SingleLine." parent="Widget.AppCompat.EditText">
+        <item name="android:maxLines">1</item>
+        <item name="android:minLines">1</item>
     </style>
 
     <style name="Base.Widget.Newton.Button.Dark" parent="Widget.AppCompat.Button">
@@ -32,6 +44,10 @@
 
     <style name="AppTheme.ButtonBlueDark" parent="Base.Widget.Newton.Button.Dark">
         <item name="android:background">@color/button_blue</item>
+    </style>
+
+    <style name="AppTheme.ButtonOrangeDark" parent="Base.Widget.Newton.Button.Dark">
+        <item name="android:background">@color/button_orange</item>
     </style>
 
     <style name="AppTheme.CardView" parent="android:Widget.TextView">
