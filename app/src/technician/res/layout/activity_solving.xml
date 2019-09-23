@@ -23,7 +23,9 @@
             android:id="@+id/solving.et.idcustomer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text|textCapCharacters"
             android:drawableEnd="@drawable/ic_perm_identity_black_24dp"
+            style="@style/AppTheme.EditText.SingleLine."
             android:hint="ID Customer"/>
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -31,7 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:inputType="text|textCapCharacters"
             android:drawableEnd="@drawable/ic_camera_alt_black_24dp"
+            style="@style/AppTheme.EditText.SingleLine."
             android:hint="Scan barcode"/>
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -57,8 +61,7 @@
                 android:layout_weight="0.5"
                 android:layout_marginEnd="10dp"
                 android:text="Solved"
-                android:textColor="@android:color/white"
-                android:background="@color/button_blue"/>
+                style="@style/AppTheme.ButtonBlueDark"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/solving.btn.hold"
@@ -67,8 +70,7 @@
                 android:layout_weight="0.5"
                 android:layout_marginStart="10dp"
                 android:text="Hold"
-                android:textColor="@android:color/white"
-                android:background="@color/button_orange"/>
+                style="@style/AppTheme.ButtonOrangeDark"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -76,5 +78,6 @@
         layout="@layout/layout_footer"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

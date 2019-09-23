@@ -11,366 +11,353 @@
         layout="@layout/layout_header_toolbar"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/approval.iv.pic_printer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.16"
         app:layout_constraintTop_toBottomOf="@+id/header.layout.toolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:src="@drawable/printer_transparent_background" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/approval.layout.problem.brief"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/approval.iv.pic_printer"
+        tools:layout_editor_absoluteX="25dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="25dp">
+            android:text="Problem Info"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/approval.iv.pic_printer"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.25"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/printer_transparent_background"
-                tools:layout_editor_absoluteX="0dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-            <LinearLayout
-                android:id="@+id/approval.layout.problem.brief"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/approval.iv.pic_printer"
-                tools:layout_editor_absoluteX="25dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Problem Info"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.customer.label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:text="Customer" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.customer.doubledot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.09"
-                        android:text=":" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.customer.value"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.58"
-                        android:gravity="center"
-                        android:text="BK127789" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.idprinter.label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:text="SN" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.idprinter.doubledot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.09"
-                        android:text=":" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.idprinter.value"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.58"
-                        android:gravity="center"
-                        android:text="120301231" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.idtechnician.label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:text="Teknisi" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.idtechnician.doubledot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.09"
-                        android:text=":" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.idtechnician.value"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.58"
-                        android:gravity="center"
-                        android:text="T12300303" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@android:color/darker_gray"
-                    android:visibility="invisible" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Detail"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.tglreport.label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:text="Tgl report" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.tglreport.doubledot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.09"
-                        android:text=":" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.tglreport.value"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.58"
-                        android:gravity="center"
-                        android:text="21-07-2019" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.waktu.label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:text="Waktu" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.waktu.doubledot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.09"
-                        android:text=":" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.waktu.value"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.58"
-                        android:gravity="center"
-                        android:text="21:00" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.contract.label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:text="Kontrak No." />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.contract.doubledot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.09"
-                        android:text=":" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.contract.value"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.58"
-                        android:gravity="center"
-                        android:text="BGH-123/1231/1231" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.product.label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:text="Produksi" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.product.doubledot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.09"
-                        android:text=":" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.product.value"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.58"
-                        android:gravity="center"
-                        android:text="EPSON L360 Series" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.aktivitas.label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:text="Aktivitas" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.aktivitas.doubledot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.09"
-                        android:text=":" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.aktivitas.value"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.58"
-                        android:gravity="center"
-                        android:text="Service Cartridge" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.result.label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:text="Result" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.result.doubledot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.09"
-                        android:text=":" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/approval.tv.result.value"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.58"
-                        android:gravity="center"
-                        android:text="Cartridge rusak ganti baru" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                android:id="@+id/approval.rb.rate.value"
-                style="@style/Widget.MaterialRatingBar.RatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:isIndicator="false"
-                android:numStars="5"
-                android:stepSize="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/approval.layout.problem.brief" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/approval.et.customerotp"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.customer.label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Customer OTP code"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/approval.rb.rate.value" />
+                android:layout_weight="0.33"
+                android:text="Customer" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/approval.btn.approve"
-                style="@style/AppTheme.ButtonPrimaryDark"
-                android:layout_width="150dp"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.customer.doubledot"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:text="Approve"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/approval.et.customerotp" />
+                android:layout_weight="0.09"
+                android:text=":" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.customer.value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:gravity="center"
+                android:text="BK127789" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.idprinter.label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="SN" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.idprinter.doubledot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:text=":" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.idprinter.value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:gravity="center"
+                android:text="120301231" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.idtechnician.label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="Teknisi" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.idtechnician.doubledot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:text=":" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.idtechnician.value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:gravity="center"
+                android:text="T12300303" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/darker_gray"
+            android:visibility="invisible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Detail"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.tglreport.label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="Tgl report" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.tglreport.doubledot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:text=":" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.tglreport.value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:gravity="center"
+                android:text="21-07-2019" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.waktu.label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="Waktu" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.waktu.doubledot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:text=":" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.waktu.value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:gravity="center"
+                android:text="21:00" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.contract.label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="Kontrak No." />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.contract.doubledot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:text=":" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.contract.value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:gravity="center"
+                android:text="BGH-123/1231/1231" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.product.label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="Produksi" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.product.doubledot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:text=":" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.product.value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:gravity="center"
+                android:text="EPSON L360 Series" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.aktivitas.label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="Aktivitas" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.aktivitas.doubledot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:text=":" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.aktivitas.value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:gravity="center"
+                android:text="Service Cartridge" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.result.label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="Result" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.result.doubledot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:text=":" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/approval.tv.result.value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:gravity="center"
+                android:text="Cartridge rusak ganti baru" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/approval.rb.rate.value"
+        style="@style/Widget.MaterialRatingBar.RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:stepSize="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/approval.layout.problem.brief" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/approval.et.customerotp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+        android:inputType="numberSigned"
+        android:minLines="1"
+        android:maxLines="1"
+        android:hint="Customer OTP code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/approval.rb.rate.value" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/approval.btn.approve"
+        style="@style/AppTheme.ButtonPrimaryDark"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Approve"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/approval.et.customerotp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
