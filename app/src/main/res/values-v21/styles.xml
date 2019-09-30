@@ -4,23 +4,32 @@
         <item name="android:elevation">21dp</item>
     </style>
 
-    <style name="AppTheme.AppBar" parent="Base.Widget.Newton.AppBar.V21">
+    <style name="AppTheme.AppBar" parent="Base.Widget.Newton.Button.Dark.V21">
+    </style>
+
+    <style name="AppTheme.AccentButton.colorPrimaryDark" parent="Base.AccentButton">
+        <item name="android:colorAccent">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="AppTheme.AccentButton.BlueDark" parent="Base.AccentButton">
+        <item name="android:colorAccent">@color/button_blue</item>
+    </style>
+
+    <style name="AppTheme.AccentButton.OrangeDark" parent="Base.AccentButton">
+        <item name="android:colorAccent">@color/button_orange</item>
     </style>
 
     <style name="Base.Widget.Newton.Button.Dark.V21" parent="Base.Widget.Newton.Button.Dark">
-        <item name="android:elevation">21dp</item>
+        <item name="android:elevation">4dp</item>
     </style>
 
     <style name="AppTheme.ButtonPrimaryDark" parent="Base.Widget.Newton.Button.Dark.V21">
-        <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppTheme.ButtonBlueDark" parent="Base.Widget.Newton.Button.Dark.V21">
-        <item name="android:background">@color/button_blue</item>
     </style>
 
     <style name="AppTheme.ButtonOrangeDark" parent="Base.Widget.Newton.Button.Dark.V21">
-        <item name="android:background">@color/button_orange</item>
     </style>
 
     <style name="AppTheme.CardView" parent="android:Widget.TextView">

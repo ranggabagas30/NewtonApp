@@ -1,0 +1,68 @@
+package com.newtonapp;
+
+import android.app.Application;
+import android.content.ContextWrapper;
+
+import com.google.firebase.FirebaseApp;
+import com.newtonapp.utility.DebugUtil;
+import com.pixplicity.easyprefs.library.Prefs;
+
+public class NewtonappApplication extends Application implements ActivityLifecycleHandler.LifecycleListener {
+
+    private static volatile NewtonappApplication INSTANCE;
+
+    public NewtonappApplication() {}
+
+    public static synchronized NewtonappApplication getInstance() {
+
+        if (INSTANCE == null) {
+            synchronized (NewtonappApplication.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new NewtonappApplication();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        FirebaseApp.initializeApp(this);
+
+        // Initialize the Prefs class
+        new Prefs.Builder()
+                .setContext(this)
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setPrefsName(getPackageName())
+                .setUseDefaultSharedPreference(true)
+                .build();
+    }
+
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        unregisterActivityLifecycleCallbacks(new ActivityLifecycleHandler(this));
+    }
+
+    @Override
+    public void onApplicationStopped() {
+        DebugUtil.d("application stopped");
+    }
+
+    @Override
+    public void onApplicationStarted() {
+        DebugUtil.d("application started");
+    }
+
+    @Override
+    public void onApplicationPaused() {
+        DebugUtil.d("application paused");
+    }
+
+    @Override
+    public void onApplicationResumed() {
+        DebugUtil.d("application resumed");
+    }
+}
