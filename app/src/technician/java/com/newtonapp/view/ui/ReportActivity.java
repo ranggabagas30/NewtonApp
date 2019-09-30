@@ -1,5 +1,6 @@
 package com.newtonapp.view.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -41,6 +42,11 @@ public class ReportActivity extends BaseActivity {
         rvReportList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rvReportList.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         rvReportList.setAdapter(reportRvAdapter);
+    }
+
+    @Override
+    public Activity onCreateGetCurrentActivity() {
+        return this;
     }
 
     @Override

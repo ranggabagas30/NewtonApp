@@ -12,6 +12,6 @@ public class APIHelper {
      * type : post
      * */
     public static Observable<ComplainResponseModel> sendComplain(ComplainRequestModel complainBody) {
-        return APIConfig.createService(APIClient.class).sendComplain(complainBody);
+        return BaseAPIConfig.createService(APIClient.class).sendComplain(complainBody);
     }
 }

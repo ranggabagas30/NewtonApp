@@ -18,7 +18,7 @@
             android:id="@+id/dashboard.tv.name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rangga bagas"
+            android:text="Your name"
             android:textStyle="bold"
             android:textSize="20sp"/>
 
@@ -28,14 +28,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/dashboard.tv.name"
-            android:text="0234-242-123"
+            android:text="tech id"
             android:textSize="20sp"/>
 
         <com.github.siyamed.shapeimageview.CircularImageView
             android:id="@+id/dashboard.iv.profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/profile"
+            android:src="@drawable/blank_profile"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
@@ -50,7 +50,6 @@
         android:id="@+id/dashboard.layout.body"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="10dp"
         android:columnCount="1"
         android:rowCount="1"
         app:layout_constraintTop_toBottomOf="@id/dashboard.view.line"
@@ -61,7 +60,6 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
             android:weightSum="3">
 
             <androidx.cardview.widget.CardView
@@ -69,10 +67,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:clickable="true"
-                android:layout_margin="5dp"
+                android:clickable="false"
                 app:contentPadding="10dp"
-                style="@style/AppTheme.CardView">
+                style="@style/AppTheme.CardView.DashboardMenu">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:orientation="vertical"
@@ -91,7 +88,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/menu_outstanding"/>
+                        android:text="@string/menu_outstanding"
+                        android:textSize="12sp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -100,10 +98,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_margin="5dp"
                 android:clickable="true"
                 app:contentPadding="10dp"
-                style="@style/AppTheme.CardView">
+                style="@style/AppTheme.CardView.DashboardMenu">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:orientation="vertical"
@@ -122,7 +119,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/menu_solving"/>
+                        android:text="@string/menu_solving"
+                        android:textSize="12sp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -131,10 +129,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_margin="5dp"
                 android:clickable="true"
                 app:contentPadding="10dp"
-                style="@style/AppTheme.CardView">
+                style="@style/AppTheme.CardView.DashboardMenu">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:orientation="vertical"
@@ -153,7 +150,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/menu_report"/>
+                        android:text="@string/menu_report"
+                        android:textSize="12sp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 

@@ -7,18 +7,18 @@ import com.google.firebase.FirebaseApp;
 import com.newtonapp.utility.DebugUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
-public class NewtonappApplication extends Application implements ActivityLifecycleHandler.LifecycleListener {
+public class NewtonApplication extends Application implements ActivityLifecycleHandler.LifecycleListener {
 
-    private static volatile NewtonappApplication INSTANCE;
+    private static volatile NewtonApplication INSTANCE;
 
-    public NewtonappApplication() {}
+    public NewtonApplication() {}
 
-    public static synchronized NewtonappApplication getInstance() {
+    public static synchronized NewtonApplication getInstance() {
 
         if (INSTANCE == null) {
-            synchronized (NewtonappApplication.class) {
+            synchronized (NewtonApplication.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new NewtonappApplication();
+                    INSTANCE = new NewtonApplication();
                 }
             }
         }

@@ -1,14 +1,15 @@
 package com.newtonapp.data.network.pojo.request;
 
 import com.google.gson.annotations.SerializedName;
+import com.newtonapp.utility.Constants;
 
-public class TakingOutstandingJoblistRequestModel{
+public class TakingOutstandingRequestModel {
 
 	@SerializedName("prob")
 	private String prob;
 
 	@SerializedName("flag")
-	private String flag = "2";
+	private String flag = Constants.FLAG_START_PROGRESS;
 
 	@SerializedName("action")
 	private String action = "outstanding";
@@ -62,7 +63,7 @@ public class TakingOutstandingJoblistRequestModel{
 	@Override
  	public String toString(){
 		return 
-			"TakingOutstandingJoblistRequestModel{" + 
+			"TakingOutstandingRequestModel{" +
 			"prob = '" + prob + '\'' + 
 			",flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 

@@ -22,7 +22,8 @@
     <color name="button_blue">#1F8CE2</color>
     <color name="button_orange">#FA602F</color>
     <color name="button_green">#327C36</color>
-    
+    <color name="button_disabled">#cccccc</color>
+
     <color name="status_solved">#4CAF50</color>
     <color name="status_hold">#F32C2C</color>
 </resources>

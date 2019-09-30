@@ -4,32 +4,38 @@
         <item name="android:elevation">21dp</item>
     </style>
 
-    <style name="AppTheme.AppBar" parent="Base.Widget.Newton.Button.Dark.V21">
+    <style name="AppTheme.AppBar" parent="Base.Widget.Newton.AppBar.V21">
     </style>
 
-    <style name="AppTheme.AccentButton.colorPrimaryDark" parent="Base.AccentButton">
-        <item name="android:colorAccent">@color/colorPrimaryDark</item>
+    <style name="Base.AccentButton.V21" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:colorButtonNormal">@color/button_disabled</item>
     </style>
 
-    <style name="AppTheme.AccentButton.BlueDark" parent="Base.AccentButton">
-        <item name="android:colorAccent">@color/button_blue</item>
+    <style name="AppTheme.AccentButton.PrimaryDark" parent="Base.AccentButton.V21">
     </style>
 
-    <style name="AppTheme.AccentButton.OrangeDark" parent="Base.AccentButton">
-        <item name="android:colorAccent">@color/button_orange</item>
+    <style name="AppTheme.AccentButton.BlueDark" parent="Base.AccentButton.V21">
     </style>
 
-    <style name="Base.Widget.Newton.Button.Dark.V21" parent="Base.Widget.Newton.Button.Dark">
+    <style name="AppTheme.AccentButton.OrangeDark" parent="Base.AccentButton.V21">
+    </style>
+
+    <style name="Base.Widget.Newton.Button.Dark.V21" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">16dp</item>
         <item name="android:elevation">4dp</item>
     </style>
 
     <style name="AppTheme.ButtonPrimaryDark" parent="Base.Widget.Newton.Button.Dark.V21">
+        <item name="android:background">@drawable/ripple_button_colorprimarydark</item>
     </style>
 
     <style name="AppTheme.ButtonBlueDark" parent="Base.Widget.Newton.Button.Dark.V21">
+        <item name="android:background">@drawable/ripple_button_bluedark</item>
     </style>
 
     <style name="AppTheme.ButtonOrangeDark" parent="Base.Widget.Newton.Button.Dark.V21">
+        <item name="android:background">@drawable/ripple_button_orangedark</item>
     </style>
 
     <style name="AppTheme.CardView" parent="android:Widget.TextView">

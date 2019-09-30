@@ -1,5 +1,6 @@
 package com.newtonapp.view.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -34,6 +35,11 @@ public class ForgetPasswordActivity extends BaseActivity {
         getSupportActionBar().setTitle(R.string.screen_forget_password);
 
         btnConfirm.setOnClickListener(view -> confirm());
+    }
+
+    @Override
+    public Activity onCreateGetCurrentActivity() {
+        return this;
     }
 
     @Override

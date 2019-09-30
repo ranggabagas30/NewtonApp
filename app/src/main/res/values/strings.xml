@@ -32,4 +32,23 @@
     <!-- prefs key-->
     <string name="key_first_time_user">key_first_time_user</string>
     <string name="key_token">key_token</string>
+
+    <!-- error messages-->
+    <string name="error_null_response">ERROR: server not responding</string>
+    <string name="error_bad_token">Session ended. Token bad format.\nPlease login again</string>
+    <string name="error_session_not_valid">Invalid session. Automatically logout</string>
+    <string name="error_failed_refresh_data">Couldn\'t refresh data</string>
+    <string name="error_no_internet_connection">No internet connection</string>
+
+    <string name="error_problem_not_found">Problem not found</string>
+    <string name="error_unable_taking_job">Unable taking job. Please finish the on-going job</string>
+    <!-- success messages-->
+    <string name="success_message_login">Login successful</string>
+    <string name="success_message_empty_data_item">No item</string>
+
+    <!-- progress messages-->
+    <string name="progress_login">Verifying account</string>
+    <string name="progress_loading">Loading data please wait</string>
+    <string name="progress_taking_outstanding_job">Sending request taking job</string>
+    <string name="progress_solved">Please wait</string>
 </resources>

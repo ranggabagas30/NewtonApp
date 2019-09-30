@@ -1,5 +1,6 @@
 package com.newtonapp.view.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -18,5 +19,9 @@ public class OnboardingScreenActivity extends BaseActivity {
         btnNext.setOnClickListener(view -> navigateTo(this, DashboardActivity.class));
     }
 
+    @Override
+    public Activity onCreateGetCurrentActivity() {
+        return this;
+    }
 
 }

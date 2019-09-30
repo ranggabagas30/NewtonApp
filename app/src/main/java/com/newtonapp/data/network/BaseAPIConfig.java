@@ -9,9 +9,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class APIConfig {
+public class BaseAPIConfig {
 
-    private static final String TAG = APIConfig.class.getSimpleName();
+    private static final String TAG = BaseAPIConfig.class.getSimpleName();
     private static final String API_BASE_URL = "https://dev.pramadhan.com/api/";
 
     private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor()

@@ -5,16 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class BaseResponseModel{
 
 	@SerializedName("ack")
-	private String ack;
+	protected String ack;
 
 	@SerializedName("message")
-	private String message;
-
-	@SerializedName("token")
-	private String token;
+	protected String message;
 
 	@SerializedName("status")
-	private int status;
+	protected int status;
 
 	public void setAck(String ack){
 		this.ack = ack;
@@ -32,14 +29,6 @@ public class BaseResponseModel{
 		return message;
 	}
 
-	public void setToken(String token){
-		this.token = token;
-	}
-
-	public String getToken(){
-		return token;
-	}
-
 	public void setStatus(int status){
 		this.status = status;
 	}
@@ -53,8 +42,7 @@ public class BaseResponseModel{
 		return 
 			"BaseResponseModel{" + 
 			"ack = '" + ack + '\'' + 
-			",message = '" + message + '\'' + 
-			",token = '" + token + '\'' + 
+			",message = '" + message + '\'' +
 			",status = '" + status + '\'' + 
 			"}";
 		}

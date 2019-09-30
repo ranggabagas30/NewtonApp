@@ -1,5 +1,6 @@
 package com.newtonapp.view.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatImageView;
@@ -41,6 +42,11 @@ public class ReportDetailActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.screen_report_detail);
+    }
+
+    @Override
+    public Activity onCreateGetCurrentActivity() {
+        return this;
     }
 
     @Override

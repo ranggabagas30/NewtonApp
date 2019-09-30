@@ -1,5 +1,6 @@
 package com.newtonapp.view.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -19,6 +20,11 @@ public class ApprovalActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.screen_approval);
+    }
+
+    @Override
+    public Activity onCreateGetCurrentActivity() {
+        return this;
     }
 
     @Override

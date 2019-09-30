@@ -7,13 +7,13 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.newtonapp.R;
-import com.newtonapp.model.rvmodel.OutstandingRvModel;
+import com.newtonapp.model.rvmodel.OutstandingRvModelNew;
 
 import java.util.ArrayList;
 
-public class OutstandingRvAdapter extends BaseSingleViewTypeRvAdapter<OutstandingRvModel, OutstandingRvAdapter.ViewHolder> {
+public class OutstandingRvAdapter extends BaseSingleViewTypeRvAdapter<OutstandingRvModelNew, OutstandingRvAdapter.ViewHolder> {
 
-    public OutstandingRvAdapter(ArrayList<OutstandingRvModel> data, int itemLayoutRes) {
+    public OutstandingRvAdapter(ArrayList<OutstandingRvModelNew> data, int itemLayoutRes) {
         super(data, itemLayoutRes);
     }
 
@@ -23,9 +23,9 @@ public class OutstandingRvAdapter extends BaseSingleViewTypeRvAdapter<Outstandin
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull OutstandingRvModel outstanding) {
-        holder.setCustomer(outstanding.getCustomer());
-        holder.setAddress(outstanding.getAddress());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull OutstandingRvModelNew outstanding) {
+        holder.setCustomer(outstanding.getCustomer().getIdCust());
+        holder.setAddress(outstanding.getCustomer().getAlamat());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

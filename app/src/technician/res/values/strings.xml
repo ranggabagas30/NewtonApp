@@ -23,4 +23,13 @@
     <string name="flag_retrieve_report_joblist">6</string>
     <string name="flag_retrieve_history_product">7</string>
 
+    <string name="key_idproblem_under_solving">key_idproblem_under_solving</string>
+    <string name="key_problem_under_solving">key_problem_under_solving</string>
+
+    <string-array name="solving_options">
+        <item>service</item>
+        <item>maintenance</item>
+        <item>ganti sparepart</item>
+        <item>replacement</item>
+    </string-array>
 </resources>
