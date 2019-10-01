@@ -6,7 +6,7 @@
     <string name="screen_dashboard">Dashboard</string>
     <string name="screen_outstanding_list">Outstanding List</string>
     <string name="screen_solving">Solving</string>
-    <string name="screen_approval">Solving Approval</string>
+    <string name="screen_approval">Approval</string>
     <string name="screen_historical_usage">Historical Usage</string>
     <string name="screen_report_list">Report List</string>
     <string name="screen_report_detail">Report Detail</string>
@@ -24,7 +24,7 @@
     <string name="flag_retrieve_history_product">7</string>
 
     <string name="key_idproblem_under_solving">key_idproblem_under_solving</string>
-    <string name="key_problem_under_solving">key_problem_under_solving</string>
+    <string name="key_ongoing_problem">key_ongoing_problem</string>
 
     <string-array name="solving_options">
         <item>service</item>

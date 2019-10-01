@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.auth0.android.jwt.DecodeException;
 import com.auth0.android.jwt.JWT;
+import com.google.gson.Gson;
 import com.newtonapp.R;
+import com.newtonapp.data.database.entity.Customer;
 import com.newtonapp.utility.CommonUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -30,7 +32,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentActivity = onCreateGetCurrentActivity();
-        if (!(currentActivity instanceof LoginActivity)) obtainLoginInformation(this);
+        if (!(currentActivity instanceof LoginActivity) &&
+            !(currentActivity instanceof ForgetPasswordActivity))
+             obtainLoginInformation(this);
         compositeDisposable = new CompositeDisposable();
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -113,18 +117,23 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setCurrentProblemId(String idProblem) {
         // TODO: set current problem id change to Problem
-        Prefs.putString(getString(R.string.key_problem_under_solving), idProblem);
+        Prefs.putString(getString(R.string.key_ongoing_problem), idProblem);
     }
 
-    protected String getOngoindCustomerProblem() {
-        return Prefs.getString(getString(R.string.key_problem_under_solving), null);
+    protected Customer getOngoindCustomerProblem() {
+        String customerJson = Prefs.getString(getString(R.string.key_ongoing_problem), null);
+        if (TextUtils.isEmpty(customerJson)) {
+            // TODO: get ongoing problem from server
+            return null;
+        }
+        return new Gson().fromJson(customerJson, Customer.class);
     }
 
-    protected void setOngoingCustomerProblem(String customerJson) {
-        Prefs.putString(getString(R.string.key_problem_under_solving), customerJson);
+    protected void setOngoingCustomerProblem(Customer customer) {
+        Prefs.putString(getString(R.string.key_ongoing_problem), new Gson().toJson(customer));
     }
 
     protected void clearOngoingCustomerProblem() {
-        Prefs.remove(getString(R.string.key_problem_under_solving));
+        Prefs.remove(getString(R.string.key_ongoing_problem));
     }
 }

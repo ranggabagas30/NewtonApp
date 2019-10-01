@@ -2,16 +2,13 @@ package com.newtonapp.data.network.pojo.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RetrieveHistoryProductRequestModel{
+public class ReportsRequestModel {
 
 	@SerializedName("flag")
-	private String flag = "7";
+	private String flag = "6";
 
 	@SerializedName("action")
-	private String action = "history";
-
-	@SerializedName("sn")
-	private String sn;
+	private String action = "report";
 
 	@SerializedName("category")
 	private String category = "technician";
@@ -35,14 +32,6 @@ public class RetrieveHistoryProductRequestModel{
 		return action;
 	}
 
-	public void setSn(String sn){
-		this.sn = sn;
-	}
-
-	public String getSn(){
-		return sn;
-	}
-
 	public void setCategory(String category){
 		this.category = category;
 	}
@@ -62,10 +51,9 @@ public class RetrieveHistoryProductRequestModel{
 	@Override
  	public String toString(){
 		return 
-			"RetrieveHistoryProductRequestModel{" + 
+			"ReportsRequestModel{" +
 			"flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 
-			",sn = '" + sn + '\'' + 
 			",category = '" + category + '\'' + 
 			",token = '" + token + '\'' + 
 			"}";

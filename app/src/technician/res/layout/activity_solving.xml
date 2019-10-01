@@ -43,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Verify"
-            android:enabled="false"
             android:theme="@style/AppTheme.AccentButton.PrimaryDark"
             style="@style/AppTheme.ButtonPrimaryDark"/>
     </LinearLayout>
@@ -88,7 +87,6 @@
                 android:layout_weight="0.5"
                 android:layout_marginEnd="5dp"
                 android:text="Solved"
-                android:enabled="true"
                 android:theme="@style/AppTheme.AccentButton.BlueDark"
                 style="@style/AppTheme.ButtonBlueDark"/>
 
@@ -99,7 +97,6 @@
                 android:layout_weight="0.5"
                 android:layout_marginStart="5dp"
                 android:text="Hold"
-                android:enabled="true"
                 android:theme="@style/AppTheme.AccentButton.OrangeDark"
                 style="@style/AppTheme.ButtonOrangeDark"/>
         </LinearLayout>

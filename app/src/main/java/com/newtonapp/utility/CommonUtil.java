@@ -1,7 +1,12 @@
 package com.newtonapp.utility;
 
+import android.Manifest;
+import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.RequiresPermission;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.DecodeException;
@@ -25,6 +30,13 @@ public class CommonUtil {
         return new Random().nextInt((max - min) + 1) + min;
     }
 
+    public static int getIndex(String keyword, String[] source) {
+        for (int i = 0; i < source.length; i++) {
+            if (keyword.equalsIgnoreCase(source[i])) return i;
+        }
+        return -1;
+    }
+
     public static JWT getJWTtokenDecrypt(String token) throws DecodeException {
         String TAG = "JWT";
         JWT jwtTokenDecrypt = new JWT(token);
@@ -44,5 +56,13 @@ public class CommonUtil {
                         "\tnbf: " + nbfClaim.asString() + "\n" +
                     "}");
         return jwtTokenDecrypt;
+    }
+
+    @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+    public static String getIMEI(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String imei = telephonyManager.getDeviceId();
+        DebugUtil.d("imei : " + imei);
+        return imei;
     }
 }

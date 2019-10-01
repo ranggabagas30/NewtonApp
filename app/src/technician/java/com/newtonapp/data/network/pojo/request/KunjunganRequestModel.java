@@ -3,19 +3,30 @@ package com.newtonapp.data.network.pojo.request;
 import com.google.gson.annotations.SerializedName;
 import com.newtonapp.utility.Constants;
 
-public class OutstandingJoblistRequestModel {
+public class KunjunganRequestModel {
+
+	@SerializedName("prob")
+	private String prob;
 
 	@SerializedName("flag")
-	private String flag = Constants.FLAG_OPEN;
+	private String flag = Constants.FLAG_KUNJUNGAN;
 
 	@SerializedName("action")
-	private String action = "outstanding";
+	private String action = "solving";
 
 	@SerializedName("category")
 	private String category = "technician";
 
 	@SerializedName("token")
 	private String token;
+
+	public void setProb(String prob){
+		this.prob = prob;
+	}
+
+	public String getProb(){
+		return prob;
+	}
 
 	public void setFlag(String flag){
 		this.flag = flag;
@@ -52,8 +63,9 @@ public class OutstandingJoblistRequestModel {
 	@Override
  	public String toString(){
 		return 
-			"OutstandingJoblistRequestModel{" +
-			"flag = '" + flag + '\'' + 
+			"KunjunganRequestModel{" +
+			"prob = '" + prob + '\'' + 
+			",flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 
 			",category = '" + category + '\'' + 
 			",token = '" + token + '\'' + 

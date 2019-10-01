@@ -32,23 +32,34 @@
     <!-- prefs key-->
     <string name="key_first_time_user">key_first_time_user</string>
     <string name="key_token">key_token</string>
+    <string name="key_app_fcm_reg_id">key_app_fcm_reg_id</string>
 
     <!-- error messages-->
+    <string name="error_blank_fields">Please fill the empty fields</string>
+    <string name="error_incorrect_data">Please input correct data</string>
     <string name="error_null_response">ERROR: server not responding</string>
     <string name="error_bad_token">Session ended. Token bad format.\nPlease login again</string>
     <string name="error_session_not_valid">Invalid session. Automatically logout</string>
     <string name="error_failed_refresh_data">Couldn\'t refresh data</string>
     <string name="error_no_internet_connection">No internet connection</string>
-
-    <string name="error_problem_not_found">Problem not found</string>
+    <string name="error_problem_not_found">Problem not found, please do re-login again</string>
     <string name="error_unable_taking_job">Unable taking job. Please finish the on-going job</string>
+    <string name="error_empty_otp">Please insert customer OTP</string>
+    <string name="error_empty_rate">Please rate us</string>
+    <!-- warning messages-->
+    <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
+
     <!-- success messages-->
     <string name="success_message_login">Login successful</string>
     <string name="success_message_empty_data_item">No item</string>
+    <string name="success_message_approved">Thanks for your approval</string>
 
     <!-- progress messages-->
     <string name="progress_login">Verifying account</string>
     <string name="progress_loading">Loading data please wait</string>
     <string name="progress_taking_outstanding_job">Sending request taking job</string>
+    <string name="progress_verifying_kunjungan">Verifying</string>
     <string name="progress_solved">Please wait</string>
+    <string name="progress_hold">Please wait</string>
+    <string name="progress_approve">Approving please wait</string>
 </resources>

@@ -1,32 +1,23 @@
 package com.newtonapp.data.network.pojo.request;
 
 import com.google.gson.annotations.SerializedName;
-import com.newtonapp.utility.Constants;
 
-public class FinishingSolvingOkRequestModel{
-
-	@SerializedName("prob")
-	private String prob;
+public class ProductHistoryRequestModel {
 
 	@SerializedName("flag")
-	private String flag = Constants.FLAG_CLOSED;
+	private String flag = "7";
 
 	@SerializedName("action")
-	private String action = "solving";
+	private String action = "history";
+
+	@SerializedName("sn")
+	private String sn;
 
 	@SerializedName("category")
 	private String category = "technician";
 
 	@SerializedName("token")
 	private String token;
-
-	public void setProb(String prob){
-		this.prob = prob;
-	}
-
-	public String getProb(){
-		return prob;
-	}
 
 	public void setFlag(String flag){
 		this.flag = flag;
@@ -42,6 +33,14 @@ public class FinishingSolvingOkRequestModel{
 
 	public String getAction(){
 		return action;
+	}
+
+	public void setSn(String sn){
+		this.sn = sn;
+	}
+
+	public String getSn(){
+		return sn;
 	}
 
 	public void setCategory(String category){
@@ -63,10 +62,10 @@ public class FinishingSolvingOkRequestModel{
 	@Override
  	public String toString(){
 		return 
-			"FinishingSolvingOkRequestModel{" + 
-			"prob = '" + prob + '\'' + 
-			",flag = '" + flag + '\'' + 
+			"ProductHistoryRequestModel{" +
+			"flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 
+			",sn = '" + sn + '\'' + 
 			",category = '" + category + '\'' + 
 			",token = '" + token + '\'' + 
 			"}";

@@ -4,26 +4,12 @@ import android.app.Application;
 import android.content.ContextWrapper;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.newtonapp.model.notification.DefaultNotificationChannel;
 import com.newtonapp.utility.DebugUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
 public class NewtonApplication extends Application implements ActivityLifecycleHandler.LifecycleListener {
-
-    private static volatile NewtonApplication INSTANCE;
-
-    public NewtonApplication() {}
-
-    public static synchronized NewtonApplication getInstance() {
-
-        if (INSTANCE == null) {
-            synchronized (NewtonApplication.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new NewtonApplication();
-                }
-            }
-        }
-        return INSTANCE;
-    }
 
     @Override
     public void onCreate() {
@@ -37,6 +23,22 @@ public class NewtonApplication extends Application implements ActivityLifecycleH
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
+
+        // Initialization FCM
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnSuccessListener(instanceIdResult -> {
+
+                    DebugUtil.d("FIREBASE INSTANCE ID ; " + instanceIdResult.getId());
+                    DebugUtil.d("FIREBASE TOKEN : " + instanceIdResult.getToken());
+
+                }).addOnFailureListener(Throwable::printStackTrace);
+
+        // Create default notification channel
+        DefaultNotificationChannel defaultNotificationChannel = new DefaultNotificationChannel();
+        defaultNotificationChannel.createNotificationChannel(this);
+
+        // Register activity lifecycle callbacks
+        registerActivityLifecycleCallbacks(new ActivityLifecycleHandler(this));
     }
 
 

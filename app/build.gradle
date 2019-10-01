@@ -84,6 +84,7 @@ dependencies {
     // firebase integration
     implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation 'com.google.firebase:firebase-ml-vision:18.0.1'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
 
     // Room components
     implementation 'androidx.room:room-runtime:2.2.0-alpha02'

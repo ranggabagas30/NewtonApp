@@ -2,26 +2,27 @@ package com.newtonapp.data.network.pojo.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RetrieveReportJoblistRequestModel {
-
-	@SerializedName("flag")
-	private String flag = "6";
+public class VerificationRequestModel {
 
 	@SerializedName("action")
-	private String action = "report";
+	private String action = "in";
+
+	@SerializedName("username")
+	private String username;
+
+	@SerializedName("password")
+	private String password;
 
 	@SerializedName("category")
 	private String category = "technician";
 
-	@SerializedName("token")
-	private String token;
 
-	public void setFlag(String flag){
-		this.flag = flag;
+	public void setPassword(String password){
+		this.password = password;
 	}
 
-	public String getFlag(){
-		return flag;
+	public String getPassword(){
+		return password;
 	}
 
 	public void setAction(String action){
@@ -40,22 +41,22 @@ public class RetrieveReportJoblistRequestModel {
 		return category;
 	}
 
-	public void setToken(String token){
-		this.token = token;
+	public void setUsername(String username){
+		this.username = username;
 	}
 
-	public String getToken(){
-		return token;
+	public String getUsername(){
+		return username;
 	}
 
 	@Override
  	public String toString(){
 		return 
-			"RetrieveReportJoblistRequestModel{" +
-			"flag = '" + flag + '\'' + 
+			"VerificationRequestModel{" +
+			"password = '" + password + '\'' + 
 			",action = '" + action + '\'' + 
 			",category = '" + category + '\'' + 
-			",token = '" + token + '\'' + 
+			",username = '" + username + '\'' + 
 			"}";
 		}
 }

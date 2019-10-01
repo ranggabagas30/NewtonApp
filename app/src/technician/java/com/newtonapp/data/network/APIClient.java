@@ -1,21 +1,23 @@
 package com.newtonapp.data.network;
 
-import com.newtonapp.data.network.pojo.request.FinishingSolvingOkRequestModel;
-import com.newtonapp.data.network.pojo.request.HoldSolvingRequestModel;
-import com.newtonapp.data.network.pojo.request.KunjunganSolvingInRequestModel;
-import com.newtonapp.data.network.pojo.request.OutstandingJoblistRequestModel;
-import com.newtonapp.data.network.pojo.request.RetrieveHistoryProductRequestModel;
-import com.newtonapp.data.network.pojo.request.RetrieveReportJoblistRequestModel;
-import com.newtonapp.data.network.pojo.request.TakingOutstandingRequestModel;
-import com.newtonapp.data.network.pojo.request.TeknisiVerifyRequestModel;
-import com.newtonapp.data.network.pojo.response.FinishinGSolvingOkResponseModel;
-import com.newtonapp.data.network.pojo.response.HoldSolvingResponseModel;
-import com.newtonapp.data.network.pojo.response.KunjunganSolvingInResponseModel;
-import com.newtonapp.data.network.pojo.response.OutstandingJoblistResponseModel;
-import com.newtonapp.data.network.pojo.response.RetrieveHistoryProductResponseModel;
-import com.newtonapp.data.network.pojo.response.RetrieveReportJoblistResponseModel;
-import com.newtonapp.data.network.pojo.response.TakingOutstandingResponseModel;
-import com.newtonapp.data.network.pojo.response.TeknisiVerifyResponseModel;
+import com.newtonapp.data.network.pojo.request.ApprovalRequestModel;
+import com.newtonapp.data.network.pojo.request.HoldRequestModel;
+import com.newtonapp.data.network.pojo.request.KunjunganRequestModel;
+import com.newtonapp.data.network.pojo.request.OutstandingRequestModel;
+import com.newtonapp.data.network.pojo.request.ProductHistoryRequestModel;
+import com.newtonapp.data.network.pojo.request.ReportsRequestModel;
+import com.newtonapp.data.network.pojo.request.SolvedRequestModel;
+import com.newtonapp.data.network.pojo.request.TakeJobRequestModel;
+import com.newtonapp.data.network.pojo.request.VerificationRequestModel;
+import com.newtonapp.data.network.pojo.response.ApprovalResponseModel;
+import com.newtonapp.data.network.pojo.response.HoldResponseModel;
+import com.newtonapp.data.network.pojo.response.KunjunganResponseModel;
+import com.newtonapp.data.network.pojo.response.OutstandingResponseModel;
+import com.newtonapp.data.network.pojo.response.ProductHistoryResponseModel;
+import com.newtonapp.data.network.pojo.response.ReportsResponseModel;
+import com.newtonapp.data.network.pojo.response.SolvedResponseModel;
+import com.newtonapp.data.network.pojo.response.TakingJobResponseModel;
+import com.newtonapp.data.network.pojo.response.VerificationResponseModel;
 
 import io.reactivex.Single;
 import retrofit2.http.Body;
@@ -25,34 +27,38 @@ public interface APIClient {
 
     // technician verification
     @POST("api_verify.php")
-    Single<TeknisiVerifyResponseModel> postTechnicianVerification(@Body TeknisiVerifyRequestModel requestBody);
+    Single<VerificationResponseModel> postTechnicianVerification(@Body VerificationRequestModel requestBody);
 
     // retrieve outstanding job list
     @POST("teknisi.php")
-    Single<OutstandingJoblistResponseModel> postRetrieveOutstandingJoblist(@Body OutstandingJoblistRequestModel requestBody);
+    Single<OutstandingResponseModel> postRetrieveOutstandingJoblist(@Body OutstandingRequestModel requestBody);
 
     // taking outstanding job
     @POST("teknisi.php")
-    Single<TakingOutstandingResponseModel> postTakingOutstandingJob(@Body TakingOutstandingRequestModel requestBody);
+    Single<TakingJobResponseModel> postTakingOutstandingJob(@Body TakeJobRequestModel requestBody);
 
     // kunjungan solving in
     @POST("teknisi.php")
-    Single<KunjunganSolvingInResponseModel> postKunjunganSolvingIn(@Body KunjunganSolvingInRequestModel requestBody);
+    Single<KunjunganResponseModel> postKunjunganSolvingIn(@Body KunjunganRequestModel requestBody);
 
-    // finishing solving ok
+    // solved
     @POST("teknisi.php")
-    Single<FinishinGSolvingOkResponseModel> postFinishingSolvingOk(@Body FinishingSolvingOkRequestModel requestBody);
+    Single<SolvedResponseModel> postSolved(@Body SolvedRequestModel requestBody);
 
-    // hold solving
+    // hold
     @POST("teknisi.php")
-    Single<HoldSolvingResponseModel> postHoldSolving(@Body HoldSolvingRequestModel requestBody);
+    Single<HoldResponseModel> postHold(@Body HoldRequestModel requestBody);
 
-    // retrieve report joblist
+    // approval (finishing)
     @POST("teknisi.php")
-    Single<RetrieveReportJoblistResponseModel> postRetrieveReportJoblist(@Body RetrieveReportJoblistRequestModel requestBody);
+    Single<ApprovalResponseModel> postApproval(@Body ApprovalRequestModel requestBody);
 
-    // retrieve history product
+    // retrieve report job list
     @POST("teknisi.php")
-    Single<RetrieveHistoryProductResponseModel> postRetrieveHistoryProduct(@Body RetrieveHistoryProductRequestModel requestBody);
+    Single<ReportsResponseModel> postReports(@Body ReportsRequestModel requestBody);
+
+    // retrieve product's history
+    @POST("teknisi.php")
+    Single<ProductHistoryResponseModel> postProductHistory(@Body ProductHistoryRequestModel requestBody);
 
 }

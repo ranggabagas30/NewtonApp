@@ -1,28 +1,28 @@
 package com.newtonapp.data.network.pojo.request;
 
 import com.google.gson.annotations.SerializedName;
+import com.newtonapp.utility.Constants;
 
-public class TeknisiVerifyRequestModel{
+public class OutstandingRequestModel {
+
+	@SerializedName("flag")
+	private String flag = Constants.FLAG_OPEN;
 
 	@SerializedName("action")
-	private String action = "in";
-
-	@SerializedName("username")
-	private String username;
-
-	@SerializedName("password")
-	private String password;
+	private String action = "outstanding";
 
 	@SerializedName("category")
 	private String category = "technician";
 
+	@SerializedName("token")
+	private String token;
 
-	public void setPassword(String password){
-		this.password = password;
+	public void setFlag(String flag){
+		this.flag = flag;
 	}
 
-	public String getPassword(){
-		return password;
+	public String getFlag(){
+		return flag;
 	}
 
 	public void setAction(String action){
@@ -41,22 +41,22 @@ public class TeknisiVerifyRequestModel{
 		return category;
 	}
 
-	public void setUsername(String username){
-		this.username = username;
+	public void setToken(String token){
+		this.token = token;
 	}
 
-	public String getUsername(){
-		return username;
+	public String getToken(){
+		return token;
 	}
 
 	@Override
  	public String toString(){
 		return 
-			"TeknisiVerifyRequestModel{" + 
-			"password = '" + password + '\'' + 
+			"OutstandingRequestModel{" +
+			"flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 
 			",category = '" + category + '\'' + 
-			",username = '" + username + '\'' + 
+			",token = '" + token + '\'' + 
 			"}";
 		}
 }
