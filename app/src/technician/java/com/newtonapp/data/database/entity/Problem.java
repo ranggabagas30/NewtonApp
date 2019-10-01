@@ -28,6 +28,8 @@ public class Problem {
 	@SerializedName("waktu_comp")
 	private String waktuComp;
 
+	private Solving solving;
+
 	public String getIdProblem() {
 		return idProblem;
 	}
@@ -90,6 +92,14 @@ public class Problem {
 
 	public String getWaktuComp(){
 		return waktuComp;
+	}
+
+	public Solving getSolving() {
+		return solving;
+	}
+
+	public void setSolving(Solving solving) {
+		this.solving = solving;
 	}
 
 	@Override

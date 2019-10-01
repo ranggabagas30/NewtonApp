@@ -2,7 +2,7 @@ package com.newtonapp.data.network.pojo.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TeknisiVerifyRequestModel{
+public class VerificationRequestModel {
 
 	@SerializedName("action")
 	private String action = "in";
@@ -52,7 +52,7 @@ public class TeknisiVerifyRequestModel{
 	@Override
  	public String toString(){
 		return 
-			"TeknisiVerifyRequestModel{" + 
+			"VerificationRequestModel{" +
 			"password = '" + password + '\'' + 
 			",action = '" + action + '\'' + 
 			",category = '" + category + '\'' + 

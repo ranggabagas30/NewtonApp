@@ -2,7 +2,7 @@ package com.newtonapp.data.network.pojo.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TeknisiVerifyResponseModel extends BaseResponseModel {
+public class VerificationResponseModel extends BaseResponseModel {
 
     @SerializedName("token")
     private String token;

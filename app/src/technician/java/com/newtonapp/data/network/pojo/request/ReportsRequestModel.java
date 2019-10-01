@@ -2,7 +2,7 @@ package com.newtonapp.data.network.pojo.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RetrieveReportJoblistRequestModel {
+public class ReportsRequestModel {
 
 	@SerializedName("flag")
 	private String flag = "6";
@@ -51,7 +51,7 @@ public class RetrieveReportJoblistRequestModel {
 	@Override
  	public String toString(){
 		return 
-			"RetrieveReportJoblistRequestModel{" +
+			"ReportsRequestModel{" +
 			"flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 
 			",category = '" + category + '\'' + 

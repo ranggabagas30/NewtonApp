@@ -3,6 +3,8 @@ package com.newtonapp.utility;
 import com.google.gson.JsonSyntaxException;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
+import java.net.UnknownHostException;
+
 import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtil {
@@ -34,10 +36,13 @@ public class NetworkUtil {
             }
         } else if (error instanceof JsonSyntaxException) {
             errorMessage = "Something Went Wrong API is not responding properly!";
-        } else {
+        } else if (error instanceof UnknownHostException) {
+            errorMessage = "No internet connection";
+        } else{
             errorMessage = error.getMessage();
         }
 
+        DebugUtil.d("error (" + errorMessage + ")");
         return errorMessage;
     }
 }

@@ -1,4 +1,4 @@
 package com.newtonapp.data.network.pojo.response;
 
-public class FinishinGSolvingOkResponseModel extends BaseResponseModel {
+public class ApprovalResponseModel extends BaseResponseModel {
 }

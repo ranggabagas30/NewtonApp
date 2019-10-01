@@ -2,6 +2,8 @@ package com.newtonapp.view.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 public class ReportActivity extends BaseActivity {
 
     private Toolbar toolbar;
+    private LinearLayout llFailedBody;
     private RecyclerView rvReportList;
     private ReportRvAdapter reportRvAdapter;
     private ArrayList<ReportRvModel> reportList = new ArrayList<>();
@@ -25,23 +28,8 @@ public class ReportActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-        toolbar = findViewById(R.id.header_layout_toolbar);
-        rvReportList = findViewById(R.id.report_rv_list);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.screen_report_list);
-
-        prePopulateReportList();
-        reportRvAdapter = new ReportRvAdapter(reportList);
-        reportRvAdapter.setOnClickListener(report -> {
-            // go to report detail
-            navigateTo(this, ReportDetailActivity.class);
-        });
-
-        rvReportList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        rvReportList.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
-        rvReportList.setAdapter(reportRvAdapter);
+        initView();
+        initRecyclerView();
     }
 
     @Override
@@ -53,6 +41,34 @@ public class ReportActivity extends BaseActivity {
     public boolean onSupportNavigateUp() {
         supportNavigateUpTo(this, DashboardActivity.class);
         return true;
+    }
+
+    private void initView() {
+        toolbar = findViewById(R.id.header_layout_toolbar);
+        llFailedBody = findViewById(R.id.failed_layout_body);
+        rvReportList = findViewById(R.id.report_rv_list);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.screen_report_list);
+    }
+
+    private void initRecyclerView() {
+        //prePopulateReportList();
+        reportRvAdapter = new ReportRvAdapter(reportList);
+        reportRvAdapter.setOnClickListener(report -> {
+            // go to report detail
+            navigateTo(this, ReportDetailActivity.class);
+        });
+
+        rvReportList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        rvReportList.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
+        rvReportList.setAdapter(reportRvAdapter);
+
+        if (reportList.isEmpty()) {
+            llFailedBody.setVisibility(View.VISIBLE);
+            rvReportList.setVisibility(View.GONE);
+        }
     }
 
     private void prePopulateReportList() {

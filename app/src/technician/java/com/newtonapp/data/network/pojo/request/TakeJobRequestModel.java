@@ -3,7 +3,7 @@ package com.newtonapp.data.network.pojo.request;
 import com.google.gson.annotations.SerializedName;
 import com.newtonapp.utility.Constants;
 
-public class TakingOutstandingRequestModel {
+public class TakeJobRequestModel {
 
 	@SerializedName("prob")
 	private String prob;
@@ -63,7 +63,7 @@ public class TakingOutstandingRequestModel {
 	@Override
  	public String toString(){
 		return 
-			"TakingOutstandingRequestModel{" +
+			"TakeJobRequestModel{" +
 			"prob = '" + prob + '\'' + 
 			",flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 

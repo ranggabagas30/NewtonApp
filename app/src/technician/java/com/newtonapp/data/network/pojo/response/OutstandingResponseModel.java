@@ -4,7 +4,7 @@ import com.newtonapp.data.database.entity.Customer;
 
 import java.util.List;
 
-public class OutstandingJoblistResponseModel extends BaseResponseModel {
+public class OutstandingResponseModel extends BaseResponseModel {
 
     private List<Customer> data;
 

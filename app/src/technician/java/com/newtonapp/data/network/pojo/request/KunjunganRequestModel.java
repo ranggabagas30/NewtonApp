@@ -3,7 +3,7 @@ package com.newtonapp.data.network.pojo.request;
 import com.google.gson.annotations.SerializedName;
 import com.newtonapp.utility.Constants;
 
-public class KunjunganSolvingInRequestModel{
+public class KunjunganRequestModel {
 
 	@SerializedName("prob")
 	private String prob;
@@ -63,7 +63,7 @@ public class KunjunganSolvingInRequestModel{
 	@Override
  	public String toString(){
 		return 
-			"KunjunganSolvingInRequestModel{" + 
+			"KunjunganRequestModel{" +
 			"prob = '" + prob + '\'' + 
 			",flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 

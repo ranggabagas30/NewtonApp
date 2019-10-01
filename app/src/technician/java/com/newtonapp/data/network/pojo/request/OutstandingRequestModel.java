@@ -3,7 +3,7 @@ package com.newtonapp.data.network.pojo.request;
 import com.google.gson.annotations.SerializedName;
 import com.newtonapp.utility.Constants;
 
-public class OutstandingJoblistRequestModel {
+public class OutstandingRequestModel {
 
 	@SerializedName("flag")
 	private String flag = Constants.FLAG_OPEN;
@@ -52,7 +52,7 @@ public class OutstandingJoblistRequestModel {
 	@Override
  	public String toString(){
 		return 
-			"OutstandingJoblistRequestModel{" +
+			"OutstandingRequestModel{" +
 			"flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 
 			",category = '" + category + '\'' + 

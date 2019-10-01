@@ -2,7 +2,8 @@ package com.newtonapp.view.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -12,13 +13,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.newtonapp.R;
 import com.newtonapp.data.database.entity.Customer;
 import com.newtonapp.data.network.APIHelper;
-import com.newtonapp.data.network.pojo.request.OutstandingJoblistRequestModel;
-import com.newtonapp.data.network.pojo.request.TakingOutstandingRequestModel;
+import com.newtonapp.data.network.pojo.request.OutstandingRequestModel;
+import com.newtonapp.data.network.pojo.request.TakeJobRequestModel;
 import com.newtonapp.model.rvmodel.OutstandingRvModelNew;
+import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NetworkUtil;
 import com.newtonapp.view.adapter.rvadapter.OutstandingRvAdapter;
@@ -33,6 +34,7 @@ public class OutstandingActivity extends BaseActivity {
 
     private static final String TAG = OutstandingActivity.class.getSimpleName();
     private Toolbar toolbar;
+    private LinearLayout llFailedBody;
     private RecyclerView rvOutstandingList;
     private OutstandingRvAdapter outstandingRvAdapter;
     private ArrayList<OutstandingRvModelNew> outstandingList;
@@ -65,6 +67,7 @@ public class OutstandingActivity extends BaseActivity {
 
     private void initView() {
         toolbar = findViewById(R.id.header_layout_toolbar);
+        llFailedBody = findViewById(R.id.failed_layout_body);
         rvOutstandingList = findViewById(R.id.outstanding_rv_tasklist);
 
         setSupportActionBar(toolbar);
@@ -76,7 +79,6 @@ public class OutstandingActivity extends BaseActivity {
         outstandingList = new ArrayList<>();
         outstandingRvAdapter = new OutstandingRvAdapter(outstandingList, R.layout.item_outstanding_task);
         outstandingRvAdapter.setOnItemClickListener(this::showConfirmationDialog);
-
         rvOutstandingList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rvOutstandingList.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         rvOutstandingList.setItemAnimator(new DefaultItemAnimator());
@@ -84,8 +86,8 @@ public class OutstandingActivity extends BaseActivity {
     }
 
     private void checkOnGoingProblemAvailbility() {
-        String currentIdProblem = getOngoindCustomerProblem();
-        if (!TextUtils.isEmpty(currentIdProblem)) {
+        Customer customerProblem = getOngoindCustomerProblem();
+        if (customerProblem != null) {
             outstandingRvAdapter.setOnItemClickListener(data -> showUnableTakingOutstandingJob());
             rvOutstandingList.setAdapter(outstandingRvAdapter);
         }
@@ -109,17 +111,9 @@ public class OutstandingActivity extends BaseActivity {
         Toast.makeText(this, getString(R.string.error_unable_taking_job), Toast.LENGTH_LONG).show();
     }
 
-    private void populateDataFromNetwork(List<Customer> data) {
-        outstandingList.clear();
-        for (Customer item : data) {
-            outstandingList.add(new OutstandingRvModelNew(item));
-        }
-        outstandingRvAdapter.setData(outstandingList);
-    }
-
     private void downloadOutstandingJoblist() {
         showMessageDialog(getString(R.string.progress_loading));
-        OutstandingJoblistRequestModel formBody = new OutstandingJoblistRequestModel();
+        OutstandingRequestModel formBody = new OutstandingRequestModel();
         formBody.setToken(loginToken.toString());
         compositeDisposable.add(
                 APIHelper.getOutstandingJoblist(formBody)
@@ -133,7 +127,7 @@ public class OutstandingActivity extends BaseActivity {
                                     }
 
                                     if (response.getStatus() == 1) {
-                                        populateDataFromNetwork(response.getData());
+                                        onSuccessDownloadOutstandinglist(response.getData());
                                     } else {
                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                     }
@@ -146,11 +140,26 @@ public class OutstandingActivity extends BaseActivity {
         );
     }
 
+    private void onSuccessDownloadOutstandinglist(List<Customer> data) {
+        if (data.isEmpty()) {
+            llFailedBody.setVisibility(View.VISIBLE);
+            rvOutstandingList.setVisibility(View.GONE);
+        } else populateDataFromNetwork(data);
+    }
+
+    private void populateDataFromNetwork(List<Customer> data) {
+        outstandingList.clear();
+        for (Customer item : data) {
+            outstandingList.add(new OutstandingRvModelNew(item));
+        }
+        outstandingRvAdapter.setData(outstandingList);
+    }
+
     private void takingOutstandingJob(OutstandingRvModelNew outstanding) {
         String idProblem = outstanding.getCustomer().getProblems().get(0).getIdProblem();
         DebugUtil.d("taking job with idprob: " + idProblem);
         showMessageDialog(getString(R.string.progress_taking_outstanding_job));
-        TakingOutstandingRequestModel formBody = new TakingOutstandingRequestModel();
+        TakeJobRequestModel formBody = new TakeJobRequestModel();
         formBody.setProb(idProblem);
         formBody.setToken(loginToken.toString());
         compositeDisposable.add(
@@ -166,7 +175,7 @@ public class OutstandingActivity extends BaseActivity {
 
                                     if (response.getStatus() == 1) {
                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
-                                        proceedSolvingProblem(outstanding);
+                                        proceedSolvingProblem(outstanding.getCustomer());
                                     } else {
                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                     }
@@ -179,9 +188,9 @@ public class OutstandingActivity extends BaseActivity {
         );
     }
 
-    private void proceedSolvingProblem(OutstandingRvModelNew outstanding) {
-        String customerJson = new Gson().toJson(outstanding);
-        setOngoingCustomerProblem(customerJson);
+    private void proceedSolvingProblem(Customer customer) {
+        customer.getProblems().get(0).setStatusComplain(Constants.FLAG_START_PROGRESS);
+        setOngoingCustomerProblem(customer);
         navigateTo(this, SolvingActivity.class);
         finish();
     }

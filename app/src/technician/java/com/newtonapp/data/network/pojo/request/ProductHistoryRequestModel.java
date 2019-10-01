@@ -2,7 +2,7 @@ package com.newtonapp.data.network.pojo.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RetrieveHistoryProductRequestModel{
+public class ProductHistoryRequestModel {
 
 	@SerializedName("flag")
 	private String flag = "7";
@@ -62,7 +62,7 @@ public class RetrieveHistoryProductRequestModel{
 	@Override
  	public String toString(){
 		return 
-			"RetrieveHistoryProductRequestModel{" + 
+			"ProductHistoryRequestModel{" +
 			"flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 
 			",sn = '" + sn + '\'' + 

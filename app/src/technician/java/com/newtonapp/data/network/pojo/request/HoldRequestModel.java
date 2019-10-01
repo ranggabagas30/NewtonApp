@@ -3,7 +3,7 @@ package com.newtonapp.data.network.pojo.request;
 import com.google.gson.annotations.SerializedName;
 import com.newtonapp.utility.Constants;
 
-public class HoldSolvingRequestModel{
+public class HoldRequestModel {
 
 	@SerializedName("note")
 	private String note;
@@ -107,7 +107,7 @@ public class HoldSolvingRequestModel{
 	@Override
 	public String toString(){
 		return
-				"HoldSolvingRequestModel {" +
+				"HoldRequestModel {" +
 						"note = '" + note + '\'' +
 						",prob = '" + prob + '\'' +
 						",flag = '" + flag + '\'' +

@@ -1,4 +1,4 @@
 package com.newtonapp.data.network.pojo.response;
 
-public class SolvingResponseModel extends BaseResponseModel {
+public class SolvedResponseModel extends BaseResponseModel {
 }

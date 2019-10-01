@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -15,19 +16,25 @@ import com.auth0.android.jwt.DecodeException;
 import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
 import com.newtonapp.data.network.APIHelper;
-import com.newtonapp.data.network.pojo.request.TeknisiVerifyRequestModel;
-import com.newtonapp.data.network.pojo.response.TeknisiVerifyResponseModel;
+import com.newtonapp.data.network.pojo.request.VerificationRequestModel;
+import com.newtonapp.data.network.pojo.response.VerificationResponseModel;
 import com.newtonapp.utility.CommonUtil;
 import com.newtonapp.utility.Constants;
+import com.newtonapp.utility.DebugUtil;
+import com.newtonapp.utility.NetworkUtil;
+import com.newtonapp.utility.PermissionUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private AppCompatImageView ivLogo;
@@ -59,6 +66,30 @@ public class LoginActivity extends BaseActivity {
         super.onResume();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == Constants.RC_ALL_PERMISSIONS) {
+            doLogin();
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        doLogin();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        DebugUtil.d("onPermissionsDenied:" + requestCode + ":" + perms.size());
+        // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
+        // This will display a dialog directing them to enable the permission in app settings.
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).build().show();
+        }
+    }
+
     private void initView() {
         ivLogo = findViewById(R.id.main_iv_logo);
         etUsername = findViewById(R.id.main_et_username);
@@ -77,6 +108,12 @@ public class LoginActivity extends BaseActivity {
         btnLogin.setOnClickListener(view -> doLogin());
     }
 
+    @AfterPermissionGranted(Constants.RC_ALL_PERMISSIONS)
+    private void requestAllPermissions() {
+        PermissionUtil.requestAllPermissions(this, getString(R.string.warning_message_rationale_all_permissions), Constants.RC_ALL_PERMISSIONS);
+    }
+
+
     private boolean isLoggedIn() {
         String token = Prefs.getString(getString(R.string.key_token), null);
         if (!TextUtils.isEmpty(token)) {
@@ -93,51 +130,56 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void doLogin() {
-        String username = Objects.requireNonNull(etUsername.getText()).toString();
-        String password = Objects.requireNonNull(etPassword.getText()).toString();
-
-        boolean isValid = CommonUtil.isLoginValidated(username, password);
-        if (isValid) {
-
-            showMessageDialog(getString(R.string.progress_login));
-            TeknisiVerifyRequestModel loginBody = new TeknisiVerifyRequestModel();
-            loginBody.setUsername(username);
-            loginBody.setPassword(password);
-            Disposable subscRequestLogin = APIHelper.requestLogin(loginBody)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(
-                            teknisiVerifyResponseModel -> {
-                                hideDialog();
-                                if (teknisiVerifyResponseModel == null) {
-                                    Toast.makeText(this, getString(R.string.error_null_response), Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-
-                                if (teknisiVerifyResponseModel.getStatus() == 1) {
-                                    proccedLoginSuccess(teknisiVerifyResponseModel);
-                                } else {
-                                    proceedLoginFailed(teknisiVerifyResponseModel);
-                                }
-                            }, error -> {
-                                hideDialog();
-                                Log.e(TAG, "doLogin: error -> " + error.getMessage(), error);
-                                Toast.makeText(this, "Login failed:\n" + error.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                    );
-            compositeDisposable.add(subscRequestLogin);
-
+        if (!PermissionUtil.hasAllPermissions(this)) {
+            requestAllPermissions();
         } else {
-            Toast.makeText(this, "Please input correct data", Toast.LENGTH_LONG).show();
+            String username = Objects.requireNonNull(etUsername.getText()).toString();
+            String password = Objects.requireNonNull(etPassword.getText()).toString();
+
+            boolean isValid = CommonUtil.isLoginValidated(username, password);
+            if (isValid) {
+
+                showMessageDialog(getString(R.string.progress_login));
+                VerificationRequestModel loginBody = new VerificationRequestModel();
+                loginBody.setUsername(username);
+                loginBody.setPassword(password);
+                compositeDisposable.add(
+                        APIHelper.requestLogin(loginBody)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(
+                                        verificationResponseModel -> {
+                                            hideDialog();
+                                            if (verificationResponseModel == null) {
+                                                Toast.makeText(this, getString(R.string.error_null_response), Toast.LENGTH_LONG).show();
+                                                return;
+                                            }
+
+                                            if (verificationResponseModel.getStatus() == 1) {
+                                                proccedLoginSuccess(verificationResponseModel);
+                                            } else {
+                                                proceedLoginFailed(verificationResponseModel);
+                                            }
+                                        }, error -> {
+                                            hideDialog();
+                                            String errorMessage = NetworkUtil.handleApiError(error);
+                                            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                                        }
+                                )
+                );
+
+            } else {
+                Toast.makeText(this, getString(R.string.error_incorrect_data), Toast.LENGTH_LONG).show();
+            }
         }
     }
 
-    private void proccedLoginSuccess(TeknisiVerifyResponseModel teknisiVerifyResponseModel) {
+    private void proccedLoginSuccess(VerificationResponseModel verificationResponseModel) {
 
         if (BuildConfig.DEBUG)
             Toast.makeText(this, getString(R.string.success_message_login), Toast.LENGTH_SHORT).show();
 
-        Prefs.putString(getString(R.string.key_token), teknisiVerifyResponseModel.getToken());
+        Prefs.putString(getString(R.string.key_token), verificationResponseModel.getToken());
         boolean isFirstTime = Prefs.getBoolean(getString(R.string.key_first_time_user), true);
         if (isFirstTime) {
             Prefs.putBoolean(getString(R.string.key_first_time_user), false);
@@ -146,10 +188,12 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
-    private void proceedLoginFailed(TeknisiVerifyResponseModel teknisiVerifyResponseModel) {
-        Toast.makeText(this, "Login failed\n" + teknisiVerifyResponseModel.getMessage(), Toast.LENGTH_SHORT).show();
+    private void proceedLoginFailed(VerificationResponseModel verificationResponseModel) {
+        Toast.makeText(this, "Login failed\n" + verificationResponseModel.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
     private void doForgetPassword() {
         navigateTo(this, ForgetPasswordActivity.class);
     }
+
 }

@@ -22,7 +22,6 @@
 
     <style name="Base.Widget.Newton.Button.Dark.V21" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:padding">16dp</item>
         <item name="android:elevation">4dp</item>
     </style>
 

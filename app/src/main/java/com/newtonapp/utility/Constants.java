@@ -4,6 +4,8 @@ public class Constants {
     public static final String EXTRA_INTENT_RESULT_SCAN = "EXTRA_INTENT_RESULT_SCAN";
 
     public static final int RC_SCAN_BARCODE = 101;
+    public static final int RC_ALL_PERMISSIONS = 0;
+    public static final int RC_READ_PHONE_STATE = 1;
 
     public static final int REQUEST_STATUS_FAILED = 0;
     public static final int REQUEST_STATUS_SUCCESS = 1;
@@ -22,6 +24,8 @@ public class Constants {
     public static final String FLAG_SOLVED = "3";
     public static final String FLAG_HOLD = "4";
     public static final String FLAG_CLOSED = "5";
+
+    public static final String NOTIF_TYPE_NEW_OUTSTANDING = "NOTIF_TYPE_NEW_OUTSTANDING";
 
     // dummy
     public static final String username = "tch20_2";
