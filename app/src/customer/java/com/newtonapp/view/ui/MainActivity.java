@@ -1,146 +1,321 @@
 package com.newtonapp.view.ui;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatTextView;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.newtonapp.R;
+import com.newtonapp.data.database.entity.Customer;
+import com.newtonapp.data.database.entity.Problem;
 import com.newtonapp.data.network.APIHelper;
 import com.newtonapp.data.network.pojo.request.ComplainRequestModel;
+import com.newtonapp.data.network.pojo.response.ComplainResponseModel;
 import com.newtonapp.utility.Constants;
-import com.pixplicity.easyprefs.library.Prefs;
+import com.newtonapp.utility.DateTimeUtil;
+import com.newtonapp.utility.NetworkUtil;
+
+import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity {
+public class VerificationActivity extends BaseActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = VerificationActivity.class.getSimpleName();
 
-    private AppCompatTextView tvTitle;
+    private Toolbar toolbar;
+    private LinearLayout llVerification;
+    private LinearLayout llNote;
     private AppCompatEditText etIdCustomer;
-    private AppCompatEditText etIdBarcode;
+    private AppCompatEditText etIdPrinter;
     private AppCompatEditText etNote;
-    private AppCompatButton btnConfirm;
+    private AppCompatButton btnSendComplain;
+    private AppCompatButton btnUpdateComplain;
+    private AppCompatButton btnTracking;
+
+    private String idCustomer;
+    private String idPrinter;
+    private String note;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        int status = Prefs.getInt("status", 0);
-        if (status == 1) navigateTo(this, VerificationActivity.class);
-
+        setContentView(R.layout.activity_verification);
         initView();
-        setDefault();
+        setListener();
+        //setDefault();
+    }
 
-        etIdBarcode.setOnTouchListener((view, event) -> {
-            final int DRAWABLE_LEFT = 0;
-            final int DRAWABLE_TOP = 1;
-            final int DRAWABLE_RIGHT = 2;
-            final int DRAWABLE_BOTTOM = 3;
+    @Override
+    public Activity onCreateGetCurrentActivity() {
+        return this;
+    }
 
-            if(event.getAction() == MotionEvent.ACTION_UP) {
-                if(event.getRawX() >= (etIdBarcode.getRight() - etIdBarcode.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                    // your action here
-                    Intent openCameraIntent = new Intent(MainActivity.this, CameraPreviewActivity.class);
-                    startActivityForResult(openCameraIntent, Constants.RC_SCAN_BARCODE);
-                    return true;
-                }
-            }
-            return false;
-        });
-
-        //btnConfirm.setOnClickListener(view -> navigateTo(LoginActivity.this, VerificationActivity.class));
-        btnConfirm.setOnClickListener(view -> sendComplain());
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkOnGoingProblemAvailbility();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        String barcodeValue = data != null ? data.getStringExtra(Constants.EXTRA_INTENT_RESULT_SCAN) : null;
+        String qrcodeValue = data != null ? data.getStringExtra(Constants.EXTRA_INTENT_RESULT_SCAN) : null;
 
         Log.d(TAG, "requestCode : " + requestCode);
         Log.d(TAG, "resultCode : " + resultCode);
-        Log.d(TAG, "data barcode : " + barcodeValue);
+        Log.d(TAG, "data barcode : " + qrcodeValue);
 
         if (requestCode == Constants.RC_SCAN_BARCODE && resultCode == RESULT_OK) {
-            etIdBarcode.setText(barcodeValue);
+            etIdPrinter.setText(qrcodeValue);
         }
     }
 
     private void initView() {
-        tvTitle         = findViewById(R.id.header_tv_title);
-        etIdCustomer    = findViewById(R.id.main_et_idcustomer);
-        etIdBarcode     = findViewById(R.id.main_et_idbarcode);
-        etNote          = findViewById(R.id.main_et_note);
-        btnConfirm      = findViewById(R.id.main_btn_confirm);
+        toolbar = findViewById(R.id.header_layout_toolbar);
+        llVerification = findViewById(R.id.verification_layout_verify);
+        llNote = findViewById(R.id.verification_layout_note);
+        etIdCustomer = findViewById(R.id.verification_et_idcustomer);
+        etIdPrinter = findViewById(R.id.verification_et_idprinter);
+        etNote = findViewById(R.id.verification_et_note);
+        btnSendComplain = findViewById(R.id.verification_btn_submit);
+        btnUpdateComplain = findViewById(R.id.verification_btn_update);
+        btnTracking = findViewById(R.id.verification_btn_tracking);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.screen_verification));
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private void setListener() {
+        etIdPrinter.setOnTouchListener((view, event) -> {
+            final int DRAWABLE_LEFT = 0;
+            final int DRAWABLE_TOP = 1;
+            final int DRAWABLE_RIGHT = 2;
+            final int DRAWABLE_BOTTOM = 3;
+
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                if(event.getRawX() >= (etIdPrinter.getRight() - etIdPrinter.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    // your action here
+                    Intent openCameraIntent = new Intent(this, CameraPreviewActivity.class);
+                    startActivityForResult(openCameraIntent, Constants.RC_SCAN_BARCODE);
+                    return true;
+                }
+            }
+            return false;
+        });
+        etIdCustomer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                idCustomer = editable.toString();
+            }
+        });
+        etIdPrinter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                idPrinter = editable.toString();
+            }
+        });
+        etNote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                note = editable.toString();
+            }
+        });
+        btnSendComplain.setOnClickListener(view -> {
+            onComplain();
+        });
+
+        btnUpdateComplain.setOnClickListener(view -> {
+            onUpdate();
+        });
+
+        btnTracking.setOnClickListener(view -> navigateTo(VerificationActivity.this, ProblemTrackingActivity.class));
+    }
     private void setDefault() {
-        tvTitle.setText("Complain");
-        etIdCustomer.setText("NWT00085");
-        etIdBarcode.setText("6Qv6Ui9ZZHXqHQjWOFw0fMa0I04dBwnJRRE+TyqWB/c=");
-        etNote.setText("printernya Gak bisa hidup");
+        etIdCustomer.setText(Constants.idcustomer);
+        etIdPrinter.setText(Constants.idprinter);
+    }
+
+    private void checkOnGoingProblemAvailbility() {
+        Customer customer = getOngoindCustomerProblem();
+        if (customer != null) {
+            Problem problem = customer.getProblems().get(0);
+            if (problem != null) {
+                etIdCustomer.setText(customer.getIdCust());
+                etIdPrinter.setText(loginToken.getClaim(Constants.CLAIM_SN).asString());
+                etNote.setText(problem.getNote());
+                switch (problem.getStatusComplain()) {
+                    case Constants.FLAG_OPEN:
+                        setUpdateMode();
+                        break;
+                    default:
+                        setTrackingMode();
+                        break;
+                }
+            }
+        } else {
+            setComplainMode();
+        }
+    }
+    private boolean isValid() {
+        return !TextUtils.isEmpty(idCustomer) &&
+                !TextUtils.isEmpty(idPrinter) &&
+                !TextUtils.isEmpty(note);
+    }
+
+    private void onComplain() {
+        if (isValid()) sendComplain();
+        else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
+    }
+
+    private void onUpdate() {
+        if (isValid()) updateComplain();
+        else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
+    }
+
+    private void onTracking() {
+
     }
 
     @SuppressLint("CheckResult")
     private void sendComplain() {
+        showMessageDialog(getString(R.string.progress_send_complain));
+        ComplainRequestModel formBody = new ComplainRequestModel();
+        formBody.setUsername(idCustomer);
+        formBody.setPassword(idPrinter);
+        formBody.setNote(note);
+        compositeDisposable.add(
+                APIHelper.sendComplain(formBody)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(
+                                response -> {
+                                    hideDialog();
+                                    if (response == null) {
+                                        throw new NullPointerException(getString(R.string.error_null_response));
+                                    }
 
-        String act      = "cmp";
-        String username = etIdCustomer.getText().toString();
-        String password = etIdBarcode.getText().toString();
-        String category = "customer";
-        String message  = etNote.getText().toString();
-
-        ComplainRequestModel complainBody = new ComplainRequestModel(
-                act,
-                username,
-                password,
-                category,
-                message
+                                    if (response.getStatus() == 1) {
+                                        Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                                        onSuccessComplain(response);
+                                    } else {
+                                        Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }, error -> {
+                                    hideDialog();
+                                    String errorMessage = NetworkUtil.handleApiError(error);
+                                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                                }
+                        )
         );
+    }
 
-        APIHelper.sendComplain(complainBody)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(
-                        result -> {
-                            Log.d(TAG, "complain response: " + result.toString());
-                            Log.d(TAG, "ack : " + result.getAck());
-                            Log.d(TAG, "token: " + result.getToken());
-                            Log.d(TAG, "message: " + result.getMessage());
-                            Log.d(TAG, "status: " + result.getStatus());
+    private void updateComplain() {
+        showMessageDialog(getString(R.string.progress_update_complain));
 
-                            switch (result.getStatus()) {
-                                case 0 :
-                                    Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_LONG).show(); break;
-                                case 1 :
-                                    Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_LONG).show();
-                                    Prefs.putString("idcustomer", etIdCustomer.getText().toString());
-                                    Prefs.putString("idprinter", etIdBarcode.getText().toString());
-                                    Prefs.putInt("status", result.getStatus());
-                                    navigateTo(MainActivity.this, VerificationActivity.class); break;
-                                default:
-                                    Log.e(TAG, "sendComplain: unknown status"); break;
-                            }
-                        },
-                        error -> Log.e(TAG, "sendComplain: ", error),
-                        () -> {
-                            Log.d(TAG, "sendComplain: complete");
-                            //Toast.makeText(LoginActivity.this, "Send complain complete", Toast.LENGTH_SHORT).show();
-                        }
-                );
+    }
+
+    private void onSuccessComplain(ComplainResponseModel response) {
+        Customer customer = new Customer();
+        customer.setIdCust(idCustomer);
+        ArrayList<Problem> problems = new ArrayList<>();
+        Problem problem = new Problem();
+        problem.setIdProduk(Constants.idprinter);
+        problem.setNote(note);
+        problem.setStatusComplain(Constants.FLAG_OPEN);
+        problem.setOtp(loginToken.getClaim(Constants.CLAIM_OTP).asString());
+        problem.setWaktuComp(DateTimeUtil.getCurrentDate(DateTimeUtil.DATE_TIME_PATTERN_2));
+        problems.add(problem);
+        customer.setProblems(problems);
+        setOngoingCustomerProblem(customer);
+    }
+
+    private void setComplainMode() {
+        notifyVerifyEnabled();
+        notifyNoteEnabled();
+        btnSendComplain.setVisibility(View.VISIBLE);
+        btnUpdateComplain.setVisibility(View.GONE);
+        btnTracking.setVisibility(View.GONE);
+    }
+
+    private void setUpdateMode() {
+        notifyVerifyDisabled();
+        notifyNoteEnabled();
+        btnSendComplain.setVisibility(View.GONE);
+        btnUpdateComplain.setVisibility(View.VISIBLE);
+        btnTracking.setVisibility(View.GONE);
+    }
+
+    private void setTrackingMode() {
+        notifyVerifyDisabled();
+        notifyNoteDisabled();
+        btnSendComplain.setVisibility(View.GONE);
+        btnUpdateComplain.setVisibility(View.GONE);
+        btnTracking.setVisibility(View.VISIBLE);
+    }
+
+    private void notifyVerifyEnabled() {
+        etIdCustomer.setEnabled(true);
+        etIdPrinter.setEnabled(true);
+    }
+
+    private void notifyVerifyDisabled() {
+        etIdCustomer.setEnabled(false);
+        etIdPrinter.setEnabled(false);
+    }
+
+    private void notifyNoteEnabled() {
+        etNote.setEnabled(true);
+    }
+
+    private void notifyNoteDisabled() {
+        etNote.setEnabled(false);
     }
 }
