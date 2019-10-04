@@ -20,7 +20,7 @@ public class NewtonApplication extends Application implements ActivityLifecycleH
         new Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)
-                .setPrefsName(getPackageName())
+                .setPrefsName(BuildConfig.APPLICATION_ID)
                 .setUseDefaultSharedPreference(true)
                 .build();
 

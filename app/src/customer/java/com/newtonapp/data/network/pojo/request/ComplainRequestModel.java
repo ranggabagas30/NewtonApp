@@ -2,19 +2,11 @@ package com.newtonapp.data.network.pojo.request;
 
 public class ComplainRequestModel {
 
-    private String action;
+    private String action = "cmp";
     private String username;
     private String password;
-    private String category;
-    private String message;
-
-    public ComplainRequestModel(String action, String username, String password, String category, String message) {
-        this.action = action;
-        this.username = username;
-        this.password = password;
-        this.category = category;
-        this.message = message;
-    }
+    private String category = "customer";
+    private String note;
 
     public String getAction() {
         return action;
@@ -48,11 +40,11 @@ public class ComplainRequestModel {
         this.category = category;
     }
 
-    public String getMessage() {
-        return message;
+    public String getNote() {
+        return note;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setNote(String note) {
+        this.note = note;
     }
 }

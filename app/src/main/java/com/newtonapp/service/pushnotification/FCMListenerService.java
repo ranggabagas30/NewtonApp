@@ -1,25 +1,14 @@
 package com.newtonapp.service.pushnotification;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.newtonapp.NewtonApplication;
-import com.newtonapp.R;
 import com.newtonapp.utility.CommonUtil;
 import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NotificationUtil;
-import com.pixplicity.easyprefs.library.Prefs;
-
-import java.util.concurrent.Callable;
-
-import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
+import com.newtonapp.utility.PermissionUtil;
 
 public class FCMListenerService extends FirebaseMessagingService {
     @Override
@@ -96,8 +85,10 @@ public class FCMListenerService extends FirebaseMessagingService {
          *
          * */
         DebugUtil.d("NEW TOKEN : " + token);
-        String imei = CommonUtil.getIMEI(getApplicationContext());
-        sendRegistrationToServer(token, imei);
+        if (PermissionUtil.hasPermission(this, PermissionUtil.READ_PHONE_STATE_PERMISSION)) {
+            String imei = CommonUtil.getIMEI(getApplicationContext());
+            sendRegistrationToServer(token, imei);
+        }
     }
 
     private void sendRegistrationToServer(String deviceId, String token) {

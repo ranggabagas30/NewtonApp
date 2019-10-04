@@ -23,9 +23,12 @@ import com.newtonapp.data.database.entity.Customer;
 import com.newtonapp.data.database.entity.Problem;
 import com.newtonapp.data.network.APIHelper;
 import com.newtonapp.data.network.pojo.request.ComplainRequestModel;
+import com.newtonapp.data.network.pojo.request.TrackRequestModel;
+import com.newtonapp.data.network.pojo.request.UpdateRequestModel;
 import com.newtonapp.data.network.pojo.response.ComplainResponseModel;
+import com.newtonapp.data.network.pojo.response.TrackResponseModel;
+import com.newtonapp.data.network.pojo.response.UpdateResponseModel;
 import com.newtonapp.utility.Constants;
-import com.newtonapp.utility.DateTimeUtil;
 import com.newtonapp.utility.NetworkUtil;
 
 import java.util.ArrayList;
@@ -33,9 +36,9 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class VerificationActivity extends BaseActivity {
+public class MainActivity extends BaseActivity {
 
-    private static final String TAG = VerificationActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private Toolbar toolbar;
     private LinearLayout llVerification;
@@ -50,6 +53,7 @@ public class VerificationActivity extends BaseActivity {
     private String idCustomer;
     private String idPrinter;
     private String note;
+    private String statusComplain = "0";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -58,6 +62,7 @@ public class VerificationActivity extends BaseActivity {
         setContentView(R.layout.activity_verification);
         initView();
         setListener();
+        setTrackVerifyMode();
         //setDefault();
     }
 
@@ -84,6 +89,7 @@ public class VerificationActivity extends BaseActivity {
 
         if (requestCode == Constants.RC_SCAN_BARCODE && resultCode == RESULT_OK) {
             etIdPrinter.setText(qrcodeValue);
+            onTrackVerify();
         }
     }
 
@@ -113,6 +119,11 @@ public class VerificationActivity extends BaseActivity {
             if(event.getAction() == MotionEvent.ACTION_UP) {
                 if(event.getRawX() >= (etIdPrinter.getRight() - etIdPrinter.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                     // your action here
+                    if (TextUtils.isEmpty(idCustomer)) {
+                        Toast.makeText(this, getString(R.string.error_blank_customer_id), Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+
                     Intent openCameraIntent = new Intent(this, CameraPreviewActivity.class);
                     startActivityForResult(openCameraIntent, Constants.RC_SCAN_BARCODE);
                     return true;
@@ -176,7 +187,7 @@ public class VerificationActivity extends BaseActivity {
             onUpdate();
         });
 
-        btnTracking.setOnClickListener(view -> navigateTo(VerificationActivity.this, ProblemTrackingActivity.class));
+        btnTracking.setOnClickListener(view -> trackComplain());
     }
     private void setDefault() {
         etIdCustomer.setText(Constants.idcustomer);
@@ -184,7 +195,7 @@ public class VerificationActivity extends BaseActivity {
     }
 
     private void checkOnGoingProblemAvailbility() {
-        Customer customer = getOngoindCustomerProblem();
+        /*Customer customer = getOngoindCustomerProblem();
         if (customer != null) {
             Problem problem = customer.getProblems().get(0);
             if (problem != null) {
@@ -202,8 +213,9 @@ public class VerificationActivity extends BaseActivity {
             }
         } else {
             setComplainMode();
-        }
+        }*/
     }
+
     private boolean isValid() {
         return !TextUtils.isEmpty(idCustomer) &&
                 !TextUtils.isEmpty(idPrinter) &&
@@ -220,10 +232,42 @@ public class VerificationActivity extends BaseActivity {
         else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
     }
 
-    private void onTracking() {
-
+    private void onTrackVerify() {
+        if (!TextUtils.isEmpty(idCustomer) && !TextUtils.isEmpty(idPrinter)) trackVerify();
+        else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
     }
 
+    private void trackVerify() {
+        showMessageDialog(getString(R.string.progress_tracking));
+        TrackRequestModel formBody = new TrackRequestModel();
+        formBody.setUsername(idCustomer);
+        formBody.setPassword(idPrinter);
+        compositeDisposable.add(
+                APIHelper.trackComplain(formBody)
+                         .observeOn(AndroidSchedulers.mainThread())
+                         .subscribeOn(Schedulers.io())
+                         .subscribe(
+                                 response -> {
+                                     hideDialog();
+                                     if (response == null) {
+                                         throw new NullPointerException(getString(R.string.error_null_response));
+                                     }
+
+                                     if (response.getStatus() == 1 && !TextUtils.isEmpty(response.getData().getStatusComplain())) {
+                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                                         onSuccessTrackVerify(response);
+                                     } else {
+                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
+                                         setComplainMode();
+                                     }
+                                 }, error -> {
+                                     hideDialog();
+                                     String errorMessage = NetworkUtil.handleApiError(error);
+                                     Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                                 }
+                         )
+        );
+    }
     @SuppressLint("CheckResult")
     private void sendComplain() {
         showMessageDialog(getString(R.string.progress_send_complain));
@@ -237,6 +281,7 @@ public class VerificationActivity extends BaseActivity {
                         .subscribeOn(Schedulers.io())
                         .subscribe(
                                 response -> {
+                                    setTrackVerifyMode();
                                     hideDialog();
                                     if (response == null) {
                                         throw new NullPointerException(getString(R.string.error_null_response));
@@ -259,45 +304,125 @@ public class VerificationActivity extends BaseActivity {
 
     private void updateComplain() {
         showMessageDialog(getString(R.string.progress_update_complain));
+        UpdateRequestModel formBody = new UpdateRequestModel();
+        formBody.setUsername(idCustomer);
+        formBody.setPassword(idPrinter);
+        formBody.setNote(note);
+        compositeDisposable.add(
+                APIHelper.updateComplain(formBody)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(
+                                response -> {
+                                    setTrackVerifyMode();
+                                    hideDialog();
+                                    if (response == null) {
+                                        throw new NullPointerException(getString(R.string.error_null_response));
+                                    }
 
+                                    if (response.getStatus() == 1) {
+                                        Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                                        onSuccessUpdate(response);
+                                    } else {
+                                        Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }, error -> {
+                                    hideDialog();
+                                    String errorMessage = NetworkUtil.handleApiError(error);
+                                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                                }
+                        )
+        );
+    }
+
+    private void trackComplain() {
+        int currentStatusComplain = Integer.parseInt(statusComplain);
+        Intent intent = new Intent(this, ProblemTrackingActivity.class);
+        intent.putExtra(Constants.EXTRA_STATUS_COMPLAIN, currentStatusComplain);
+        startActivity(intent);
+        setTrackVerifyMode();
+    }
+
+    private void onSuccessTrackVerify(TrackResponseModel response) {
+        // open, update is eligible
+        saveToken(response.getToken());
+        obtainToken(this);
+        etNote.setText(response.getData().getNote());
+
+        statusComplain = response.getData().getStatusComplain();
+        if (Constants.FLAG_OPEN.equals(response.getData().getStatusComplain()))
+            setUpdateMode();
+        else if (Integer.parseInt(response.getData().getStatusComplain()) > Integer.parseInt(Constants.FLAG_OPEN)) {
+            setTrackingMode();
+        }
     }
 
     private void onSuccessComplain(ComplainResponseModel response) {
+
+        saveToken(response.getToken());
+        obtainToken(this);
+
         Customer customer = new Customer();
         customer.setIdCust(idCustomer);
+
         ArrayList<Problem> problems = new ArrayList<>();
         Problem problem = new Problem();
-        problem.setIdProduk(Constants.idprinter);
+        problem.setIdProblem(response.getData().getIdProblem());
+        problem.setIdProduk(loginToken.getClaim(Constants.CLAIM_SN).asString());
         problem.setNote(note);
-        problem.setStatusComplain(Constants.FLAG_OPEN);
+        problem.setStatusComplain(response.getData().getStatusComplain());
         problem.setOtp(loginToken.getClaim(Constants.CLAIM_OTP).asString());
-        problem.setWaktuComp(DateTimeUtil.getCurrentDate(DateTimeUtil.DATE_TIME_PATTERN_2));
+        problem.setWaktuComp(response.getData().getWaktuComp());
         problems.add(problem);
+
         customer.setProblems(problems);
+
         setOngoingCustomerProblem(customer);
+        //setUpdateMode();
+    }
+
+    private void onSuccessUpdate(UpdateResponseModel response) {
+        // update pref
+        saveToken(response.getToken());
+        obtainToken(this);
+    }
+
+    private void setTrackVerifyMode() {
+        statusComplain = "0";
+        etIdCustomer.setText("");
+        etIdPrinter.setText("");
+        etNote.setText("");
+        notifyVerifyEnabled();
+        notifyNoteDisabled();
+        btnSendComplain.setVisibility(View.VISIBLE);
+        btnSendComplain.setEnabled(false);
+        btnUpdateComplain.setVisibility(View.GONE);
+        btnTracking.setVisibility(View.GONE);
     }
 
     private void setComplainMode() {
         notifyVerifyEnabled();
         notifyNoteEnabled();
         btnSendComplain.setVisibility(View.VISIBLE);
+        btnSendComplain.setEnabled(true);
         btnUpdateComplain.setVisibility(View.GONE);
         btnTracking.setVisibility(View.GONE);
     }
 
     private void setUpdateMode() {
-        notifyVerifyDisabled();
+        notifyVerifyEnabled();
         notifyNoteEnabled();
         btnSendComplain.setVisibility(View.GONE);
         btnUpdateComplain.setVisibility(View.VISIBLE);
-        btnTracking.setVisibility(View.GONE);
+        btnTracking.setVisibility(View.VISIBLE);
     }
 
     private void setTrackingMode() {
-        notifyVerifyDisabled();
+        notifyVerifyEnabled();
         notifyNoteDisabled();
         btnSendComplain.setVisibility(View.GONE);
-        btnUpdateComplain.setVisibility(View.GONE);
+        btnUpdateComplain.setVisibility(View.VISIBLE);
+        btnUpdateComplain.setEnabled(false);
         btnTracking.setVisibility(View.VISIBLE);
     }
 

@@ -34,9 +34,9 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class LoginActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
+public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
     private AppCompatImageView ivLogo;
     private AppCompatEditText etUsername;
     private AppCompatEditText etPassword;

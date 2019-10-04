@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Newton Technician</string>
+    <string name="app_name">Tekton</string>
 
     <!-- screens -->
     <string name="screen_forget_password">Forget Password</string>
@@ -24,7 +24,6 @@
     <string name="flag_retrieve_history_product">7</string>
 
     <string name="key_idproblem_under_solving">key_idproblem_under_solving</string>
-    <string name="key_ongoing_problem">key_ongoing_problem</string>
 
     <string-array name="solving_options">
         <item>service</item>

@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.newtonapp.R;
 import com.newtonapp.utility.DebugUtil;
-import com.newtonapp.view.ui.LoginActivity;
+import com.newtonapp.view.ui.MainActivity;
 
 public class BaseNotification {
 
@@ -90,7 +90,7 @@ public class BaseNotification {
     }
 
     protected PendingIntent getPendingIntent() {
-        Intent resultIntent = new Intent(context, LoginActivity.class);
+        Intent resultIntent = new Intent(context, MainActivity.class);
         return PendingIntent.getActivity(context.getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }

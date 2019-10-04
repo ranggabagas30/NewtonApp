@@ -130,6 +130,10 @@ public class OutstandingActivity extends BaseActivity {
                                         onSuccessDownloadOutstandinglist(response.getData());
                                     } else {
                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
+                                        if (response.getData() == null) {
+                                            llFailedBody.setVisibility(View.VISIBLE);
+                                            rvOutstandingList.setVisibility(View.GONE);
+                                        }
                                     }
                                 }, error -> {
                                     hideDialog();
@@ -141,10 +145,7 @@ public class OutstandingActivity extends BaseActivity {
     }
 
     private void onSuccessDownloadOutstandinglist(List<Customer> data) {
-        if (data.isEmpty()) {
-            llFailedBody.setVisibility(View.VISIBLE);
-            rvOutstandingList.setVisibility(View.GONE);
-        } else populateDataFromNetwork(data);
+        populateDataFromNetwork(data);
     }
 
     private void populateDataFromNetwork(List<Customer> data) {

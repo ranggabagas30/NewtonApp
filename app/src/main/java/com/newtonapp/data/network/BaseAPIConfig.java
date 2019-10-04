@@ -3,6 +3,7 @@ package com.newtonapp.data.network;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.newtonapp.BuildConfig;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -12,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BaseAPIConfig {
 
     private static final String TAG = BaseAPIConfig.class.getSimpleName();
-    private static final String API_BASE_URL = "https://dev.pramadhan.com/api/";
+    private static final String API_BASE_URL = BuildConfig.DEBUG ? BuildConfig.BASE_API_DEV : BuildConfig.BASE_API_PROD;
 
     private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BASIC);

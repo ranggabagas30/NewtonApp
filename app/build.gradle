@@ -47,10 +47,14 @@ android {
         customer {
             applicationId 'com.newtonapp.customer'
             dimension "user_role"
+            buildConfigField("String", "BASE_API_DEV", '"https://dev.pramadhan.com/api/"')
+            buildConfigField("String", "BASE_API_PROD", '"http://149.129.254.64:80/newton/api/"')
         }
         technician {
             applicationId 'com.newtonapp.technician'
             dimension "user_role"
+            buildConfigField("String", "BASE_API_DEV", '"https://dev.pramadhan.com/api/"')
+            buildConfigField("String", "BASE_API_PROD", '"http://149.129.254.64/newton/api/"')
             versionMajor = 1
             versionMinor = 0
             versionPatch = 0

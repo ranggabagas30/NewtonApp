@@ -230,7 +230,7 @@ public class SolvingActivity extends BaseActivity {
                 }
             }
         } else {
-             Toast.makeText(this, getString(R.string.error_problem_not_found), Toast.LENGTH_LONG).show();
+             Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
              setBlockMode();
         }
     }

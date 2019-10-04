@@ -58,9 +58,4 @@
             android:background="@drawable/shape_rect_white_black"/>
 
     </LinearLayout>
-    <include
-        layout="@layout/layout_footer"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

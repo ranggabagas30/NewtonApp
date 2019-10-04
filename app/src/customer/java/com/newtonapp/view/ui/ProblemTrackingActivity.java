@@ -1,17 +1,20 @@
 package com.newtonapp.view.ui;
 
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.newtonapp.R;
 import com.newtonapp.model.ProblemTrackingModel;
+import com.newtonapp.utility.Constants;
+import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.view.adapter.ProblemTrackingAdapter;
 
 import java.util.ArrayList;
@@ -40,6 +43,8 @@ public class ProblemTrackingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_tracking);
+        currentActiveProblemId = getIntent().getIntExtra(Constants.EXTRA_STATUS_COMPLAIN, 0);
+        DebugUtil.d("current status complain: " + currentActiveProblemId);
         initProblemPoints();
         tvTitle = findViewById(R.id.header_tv_title);
         tvTitle.setText("Problem Tracking");
@@ -51,8 +56,13 @@ public class ProblemTrackingActivity extends BaseActivity {
         btnHome = findViewById(R.id.tracking_btn_home);
         btnHome.setOnClickListener(view -> {
             int flags = Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK;
-            navigateTo(ProblemTrackingActivity.this, VerificationActivity.class, flags);
+            navigateTo(ProblemTrackingActivity.this, MainActivity.class, flags);
         });
+    }
+
+    @Override
+    public Activity onCreateGetCurrentActivity() {
+        return this;
     }
 
     @Override
