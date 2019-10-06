@@ -32,10 +32,14 @@
     <!-- prefs key-->
     <string name="key_first_time_user">key_first_time_user</string>
     <string name="key_token">key_token</string>
-    <string name="key_app_fcm_reg_id">key_app_fcm_reg_id</string>
+    <string name="key_firebase_token">key_firebase_token</string>
     <string name="key_ongoing_problem">key_ongoing_problem</string>
 
     <!-- error messages-->
+    <string name="error_failed_sending_firebase_token">ERROR: failed sending firebase token</string>
+    <string name="error_null_firebase_token">ERROR: firebase token is null</string>
+    <string name="error_imei_not_found">IMEI not found</string>
+    <string name="error_read_phone_state_not_allowed">Permission read phone state not allowed</string>
     <string name="error_blank_fields">Please fill the empty fields</string>
     <string name="error_incorrect_data">Please input correct data</string>
     <string name="error_null_response">ERROR: server not responding</string>
@@ -53,6 +57,7 @@
     <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
 
     <!-- success messages-->
+    <string name="success_message_firebase_token_sent">Firebase token sent successfully</string>
     <string name="success_message_login">Login successful</string>
     <string name="success_message_empty_data_item">No item</string>
     <string name="success_message_approved">Thanks for your approval</string>

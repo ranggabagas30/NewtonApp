@@ -19,13 +19,13 @@ public class ActivityLifecycleHandler implements Application.ActivityLifecycleCa
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
         //trackThisPage(activity.getLocalClassName() + " created");
-        DebugUtil.d(activity.getLocalClassName() + " created");
+        DebugUtil.d(activity.getClass().getSimpleName() + " created");
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
         //trackThisPage(activity.getLocalClassName() + " started");
-        DebugUtil.d(activity.getLocalClassName() + " started");
+        DebugUtil.d(activity.getClass().getSimpleName() + " started");
         if (started == 0 && listener != null) {
             listener.onApplicationStarted();
         }
@@ -35,7 +35,7 @@ public class ActivityLifecycleHandler implements Application.ActivityLifecycleCa
     @Override
     public void onActivityResumed(Activity activity) {
         //trackThisPage(activity.getLocalClassName() + " resumed");
-        DebugUtil.d(activity.getLocalClassName() + " resumed");
+        DebugUtil.d(activity.getClass().getSimpleName() + " resumed");
         if (resumed == 0 && !transitionPossible && listener != null) {
             listener.onApplicationResumed();
         }
@@ -46,7 +46,7 @@ public class ActivityLifecycleHandler implements Application.ActivityLifecycleCa
     @Override
     public void onActivityPaused(Activity activity) {
         //trackThisPage(activity.getLocalClassName() + " paused");
-        DebugUtil.d(activity.getLocalClassName() + " paused");
+        DebugUtil.d(activity.getClass().getSimpleName() + " paused");
         transitionPossible = true;
         resumed--;
     }
@@ -54,7 +54,7 @@ public class ActivityLifecycleHandler implements Application.ActivityLifecycleCa
     @Override
     public void onActivityStopped(Activity activity) {
         //trackThisPage(activity.getLocalClassName() + " stopped");
-        DebugUtil.d(activity.getLocalClassName() + " stopped");
+        DebugUtil.d(activity.getClass().getSimpleName() + " stopped");
         if (started == 1 && listener != null) {
             // We only know the application was paused when it's stopped (because transitions always pause activities)
             // http://developer.android.com/guide/components/activities.html#CoordinatingActivities
@@ -75,7 +75,7 @@ public class ActivityLifecycleHandler implements Application.ActivityLifecycleCa
     @Override
     public void onActivityDestroyed(Activity activity) {
         //trackThisPage(activity.getLocalClassName() + " destroyed");
-        DebugUtil.d(activity.getLocalClassName() + " destroyed");
+        DebugUtil.d(activity.getClass().getSimpleName() + " destroyed");
 
     }
 

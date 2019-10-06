@@ -2,8 +2,9 @@ package com.newtonapp.view.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.TextWatcher;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,21 +13,22 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.auth0.android.jwt.DecodeException;
 import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
 import com.newtonapp.data.network.APIHelper;
+import com.newtonapp.data.network.pojo.request.ErrorLoggingRequestModel;
+import com.newtonapp.data.network.pojo.request.FirebaseTokenSendingRequestModel;
 import com.newtonapp.data.network.pojo.request.VerificationRequestModel;
 import com.newtonapp.data.network.pojo.response.VerificationResponseModel;
 import com.newtonapp.utility.CommonUtil;
 import com.newtonapp.utility.Constants;
+import com.newtonapp.utility.DateTimeUtil;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NetworkUtil;
 import com.newtonapp.utility.PermissionUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
-import java.util.Objects;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -43,13 +45,23 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private AppCompatButton btnLogin;
     private AppCompatTextView tvForgetPassword;
 
+    private String deviceId;
+    private String username;
+    private String password;
+    private String token;
+    private String firebaseToken;
+    private String errorMessage;
+    private String errorDateTime;
+    private String errorDescription;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DebugUtil.d(TAG.concat(" created"));
         setContentView(R.layout.activity_login);
         initView();
-        setDummy();
         setListener();
+        setDummy();
         if (isLoggedIn()) {
             navigateTo(this, DashboardActivity.class);
             finish();
@@ -104,6 +116,38 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     }
 
     private void setListener() {
+        etUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                username = editable.toString();
+            }
+        });
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                password = editable.toString();
+            }
+        });
         tvForgetPassword.setOnClickListener(view -> doForgetPassword());
         btnLogin.setOnClickListener(view -> doLogin());
     }
@@ -115,30 +159,14 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
 
     private boolean isLoggedIn() {
-        String token = Prefs.getString(getString(R.string.key_token), null);
-        if (!TextUtils.isEmpty(token)) {
-            try {
-                CommonUtil.getJWTtokenDecrypt(token);
-                Log.d(TAG, "isLoggedIn: token exist, isLoggedIn -> true");
-                return true;
-            } catch (DecodeException de) {
-                Log.e(TAG, "isLoggedIn: token error -> " + de.getMessage(), de);
-                Toast.makeText(this, getString(R.string.error_bad_token), Toast.LENGTH_LONG).show();
-            }
-        }
-        return false;
+        return loginToken != null;
     }
 
     private void doLogin() {
         if (!PermissionUtil.hasAllPermissions(this)) {
             requestAllPermissions();
         } else {
-            String username = Objects.requireNonNull(etUsername.getText()).toString();
-            String password = Objects.requireNonNull(etPassword.getText()).toString();
-
-            boolean isValid = CommonUtil.isLoginValidated(username, password);
-            if (isValid) {
-
+            if (isLoginValidated(username, password)) {
                 showMessageDialog(getString(R.string.progress_login));
                 VerificationRequestModel loginBody = new VerificationRequestModel();
                 loginBody.setUsername(username);
@@ -148,17 +176,18 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe(
-                                        verificationResponseModel -> {
+                                        response -> {
                                             hideDialog();
-                                            if (verificationResponseModel == null) {
+                                            if (response == null) {
                                                 Toast.makeText(this, getString(R.string.error_null_response), Toast.LENGTH_LONG).show();
                                                 return;
                                             }
 
-                                            if (verificationResponseModel.getStatus() == 1) {
-                                                proccedLoginSuccess(verificationResponseModel);
+                                            if (response.getStatus() == 1) {
+                                                proccedLoginSuccess(response);
+
                                             } else {
-                                                proceedLoginFailed(verificationResponseModel);
+                                                proceedLoginFailed(response);
                                             }
                                         }, error -> {
                                             hideDialog();
@@ -174,26 +203,108 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         }
     }
 
-    private void proccedLoginSuccess(VerificationResponseModel verificationResponseModel) {
+    private void proccedLoginSuccess(VerificationResponseModel response) {
 
-        if (BuildConfig.DEBUG)
-            Toast.makeText(this, getString(R.string.success_message_login), Toast.LENGTH_SHORT).show();
+        if (BuildConfig.DEBUG) Toast.makeText(this, getString(R.string.success_message_login), Toast.LENGTH_SHORT).show();
 
-        Prefs.putString(getString(R.string.key_token), verificationResponseModel.getToken());
-        boolean isFirstTime = Prefs.getBoolean(getString(R.string.key_first_time_user), true);
+        token = response.getToken();
+        saveToken(token);
+
+        boolean isFirstTime = getFirstTimeUserFlag();
         if (isFirstTime) {
-            Prefs.putBoolean(getString(R.string.key_first_time_user), false);
+            setFirstTimeUserFlag(false);
+            sendFirebaseToken();
             navigateTo(this, OnboardingScreenActivity.class);
         } else navigateTo(this, DashboardActivity.class);
         finish();
     }
 
-    private void proceedLoginFailed(VerificationResponseModel verificationResponseModel) {
-        Toast.makeText(this, "Login failed\n" + verificationResponseModel.getMessage(), Toast.LENGTH_SHORT).show();
+    private void proceedLoginFailed(VerificationResponseModel response) {
+        Toast.makeText(this, "Login failed\n" + response.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void sendFirebaseToken() {
+        try {
+            deviceId = CommonUtil.getIMEI(this);
+        } catch (SecurityException se) {
+            errorMessage = getString(R.string.error_failed_sending_firebase_token);
+            errorDescription = getString(R.string.error_read_phone_state_not_allowed);
+            errorDateTime = DateTimeUtil.getCurrentDate(DateTimeUtil.DATE_TIME_PATTERN_1);;
+            sendErrorLog(username, deviceId, token, errorMessage, errorDateTime, errorDescription);
+            DebugUtil.e(errorMessage, se);
+            return;
+        }
+
+        firebaseToken = Prefs.getString(getString(R.string.key_firebase_token), null);
+        if (TextUtils.isEmpty(firebaseToken)) {
+            errorMessage = getString(R.string.error_failed_sending_firebase_token);
+            errorDescription = getString(R.string.error_null_firebase_token);
+            errorDateTime = DateTimeUtil.getCurrentDate(DateTimeUtil.DATE_TIME_PATTERN_1);;
+            sendErrorLog(username, deviceId, token, errorMessage, errorDateTime, errorDescription);
+            return;
+        }
+
+        FirebaseTokenSendingRequestModel formBody = new FirebaseTokenSendingRequestModel();
+        formBody.setUsername(username);
+        formBody.setWebtoken(token);
+        formBody.setImei(deviceId);
+        formBody.setFirebasetoken(firebaseToken);
+        compositeDisposable.add(
+                APIHelper.sendFirebaseToken(formBody)
+                         .observeOn(AndroidSchedulers.mainThread())
+                         .subscribeOn(Schedulers.io())
+                         .subscribe(
+                                 response -> {
+                                     if (response == null)
+                                         throw new NullPointerException(getString(R.string.error_null_response));
+
+                                     if (response.getStatus() == 1) {
+                                         // success
+                                         DebugUtil.d(getString(R.string.success_message_firebase_token_sent));
+                                     } else {
+                                         errorMessage = getString(R.string.error_failed_sending_firebase_token);
+                                         errorDescription = "ERROR: " + response.getMessage();;
+                                         errorDateTime = DateTimeUtil.getCurrentDate(DateTimeUtil.DATE_TIME_PATTERN_1);;
+                                         sendErrorLog(username, deviceId, token, errorMessage, errorDateTime, errorDescription);
+                                     }
+                                 }, error -> {
+                                     errorMessage = getString(R.string.error_failed_sending_firebase_token);
+                                     errorDescription = "ERROR: " + NetworkUtil.handleApiError(error);
+                                     errorDateTime = DateTimeUtil.getCurrentDate(DateTimeUtil.DATE_TIME_PATTERN_1);;
+                                     sendErrorLog(username, deviceId, token, errorMessage, errorDateTime, errorDescription);
+                                 }
+                         )
+        );
+    }
+
+    private void sendErrorLog(String username, String imei, String webtoken, String errorMessage, String errorDateTime, String errorDescription) {
+        ErrorLoggingRequestModel formBody = new ErrorLoggingRequestModel();
+        formBody.setUsername(username);
+        formBody.setImei(imei);
+        formBody.setWebtoken(webtoken);
+        formBody.setErrorMessage(errorMessage);
+        formBody.setErrorDatetime(errorDateTime);
+        formBody.setErrorDescription(errorDescription);
+        compositeDisposable.add(
+                APIHelper.sendErrorLog(formBody)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(() -> DebugUtil.d("error log sent"),
+                                throwable -> {
+                                    DebugUtil.e("error log not sent: " + throwable.getMessage(), throwable);
+                                })
+        );
     }
 
     private void doForgetPassword() {
         navigateTo(this, ForgetPasswordActivity.class);
     }
 
+    private boolean isLoginValidated(String username, String password) {
+        boolean isValid = false;
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+            isValid = true;
+        }
+        return isValid;
+    }
 }

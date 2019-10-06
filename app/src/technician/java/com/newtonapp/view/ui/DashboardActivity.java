@@ -24,10 +24,24 @@ public class DashboardActivity extends BaseActivity {
     private AppCompatTextView tvName, tvIdtechnisian;
     private AppCompatButton btnLogout;
 
+    private String techName;
+    private String techUsername;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        setInitView();
+        setListener();
+        loadData();
+    }
+
+    @Override
+    public Activity onCreateGetCurrentActivity() {
+        return this;
+    }
+
+    private void setInitView() {
         glLayoutDashboardBody = findViewById(R.id.dashboard_layout_body);
         llLayoutDashboardMenu = findViewById(R.id.dashboard_layout_menu);
         cvOutstanding         = findViewById(R.id.dashboard_cv_outstanding);
@@ -37,7 +51,9 @@ public class DashboardActivity extends BaseActivity {
         tvName                = findViewById(R.id.dashboard_tv_name);
         tvIdtechnisian        = findViewById(R.id.dashboard_tv_id);
         btnLogout             = findViewById(R.id.dashboard_btn_logout);
+    }
 
+    private void setListener() {
         // main menu listener
         cvOutstanding.setOnClickListener(view -> navigateTo(this, OutstandingActivity.class));
         cvSolving.setOnClickListener(view -> navigateTo(this, SolvingActivity.class));
@@ -45,17 +61,14 @@ public class DashboardActivity extends BaseActivity {
 
         // logout listener
         btnLogout.setOnClickListener(view -> showConfirmationDialog());
-
-        String username = loginToken.getClaim(Constants.CLAIM_USERNAME).asString();
-        String idtech   = loginToken.getClaim(Constants.CLAIM_IDTECHNICIAN).asString();
-        setName(username);
-        setIdTecnisian(idtech);
-        setProfileImage();
     }
 
-    @Override
-    public Activity onCreateGetCurrentActivity() {
-        return this;
+    private void loadData() {
+        techName = loginToken.getClaim(Constants.CLAIM_USERNAME).asString();
+        techUsername = loginToken.getClaim(Constants.CLAIM_IDTECHNICIAN).asString();
+        setName(techName);
+        setIdTecnisian(techUsername);
+        setProfileImage();
     }
 
     private void setName(String name) {

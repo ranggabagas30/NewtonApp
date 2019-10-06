@@ -73,4 +73,12 @@ public abstract class BaseProjectActivity extends AppCompatActivity {
     public void clearToken() {
         Prefs.remove(getString(R.string.key_token));
     }
+
+    public boolean getFirstTimeUserFlag() {
+        return Prefs.getBoolean(getString(R.string.key_first_time_user), true);
+    }
+
+    public void setFirstTimeUserFlag(boolean firstTimeFlag) {
+        Prefs.putBoolean(getString(R.string.key_first_time_user), firstTimeFlag);
+    }
 }

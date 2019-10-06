@@ -5,13 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.auth0.android.jwt.DecodeException;
 import com.auth0.android.jwt.JWT;
 import com.newtonapp.R;
 import com.newtonapp.utility.CommonUtil;
+import com.newtonapp.utility.DebugUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -21,19 +21,17 @@ public abstract class BaseActivity extends BaseProjectActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
     private ProgressDialog progressDialog;
     protected CompositeDisposable compositeDisposable;
-    protected Activity currentActivity;
     protected JWT loginToken;
+    protected Activity currentActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentActivity = onCreateGetCurrentActivity();
-        if (!(currentActivity instanceof MainActivity) &&
-                !(currentActivity instanceof ForgetPasswordActivity))
-            obtainLoginInformation(this);
         compositeDisposable = new CompositeDisposable();
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        obtainLoginInformation();
     }
 
     @Override
@@ -48,24 +46,32 @@ public abstract class BaseActivity extends BaseProjectActivity {
         compositeDisposable.dispose();
     }
 
-    protected void obtainLoginInformation(Activity activity) {
+    protected void obtainLoginInformation() {
         try {
-            String token = Prefs.getString(activity.getString(R.string.key_token), null);
+            String token = loadToken();
             if (!TextUtils.isEmpty(token)) {
                 loginToken = CommonUtil.getJWTtokenDecrypt(token);
             } else {
-                Toast.makeText(this, getString(R.string.error_session_not_valid), Toast.LENGTH_LONG).show();
-                doLogout();
+                DebugUtil.d("token is empty");
+                if (!(currentActivity instanceof MainActivity) &&
+                        !(currentActivity instanceof ForgetPasswordActivity)) {
+                    Toast.makeText(this, getString(R.string.error_session_not_valid), Toast.LENGTH_LONG).show();
+                    doLogout();
+                }
             }
         } catch (DecodeException de) {
-            Log.e(TAG, "token error -> " + de.getMessage(), de);
-            Toast.makeText(this, getString(R.string.error_bad_token), Toast.LENGTH_LONG).show();
-            doLogout();
+            DebugUtil.e("token error -> " + de.getMessage(), de);
+            if (!(currentActivity instanceof MainActivity) &&
+                    !(currentActivity instanceof ForgetPasswordActivity)) {
+                Toast.makeText(this, getString(R.string.error_bad_token), Toast.LENGTH_LONG).show();
+                doLogout();
+            }
         }
     }
 
     protected void doLogout() {
-        Prefs.remove(getString(R.string.key_token));
+        loginToken = null;
+        clearToken();
         navigateTo(this, MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 
