@@ -66,6 +66,7 @@
     <string name="progress_login">Verifying account</string>
     <string name="progress_loading">Loading data please wait</string>
     <string name="progress_taking_outstanding_job">Sending request taking job</string>
+    <string name="progress_getting_latest_tracking">Getting latest tracking progress</string>
     <string name="progress_verifying_kunjungan">Verifying</string>
     <string name="progress_solved">Please wait</string>
     <string name="progress_hold">Please wait</string>

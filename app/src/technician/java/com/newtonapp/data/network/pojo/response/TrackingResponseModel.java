@@ -7,14 +7,15 @@ import java.util.List;
 
 public class TrackingResponseModel{
 
-	@SerializedName("data")
-	private List<Customer> data;
 
 	@SerializedName("ack")
 	private String ack;
 
 	@SerializedName("message")
 	private String message;
+
+	@SerializedName("data")
+	private List<Customer> data;
 
 	@SerializedName("status")
 	private int status;

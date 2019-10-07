@@ -1,5 +1,6 @@
 package com.newtonapp.view.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,13 +29,28 @@ import com.newtonapp.data.network.APIHelper;
 import com.newtonapp.data.network.pojo.request.HoldRequestModel;
 import com.newtonapp.data.network.pojo.request.KunjunganRequestModel;
 import com.newtonapp.data.network.pojo.request.SolvedRequestModel;
+import com.newtonapp.data.network.pojo.request.TrackingRequestModel;
+import com.newtonapp.data.network.pojo.response.TrackingResponseModel;
 import com.newtonapp.utility.CommonUtil;
 import com.newtonapp.utility.Constants;
+import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NetworkUtil;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * page: Solving
+ * normal scenario:
+ * 1. check problem availbility (problem tracking) from server {@link #checkOnGoingProblemAvailbility()}
+ * 2. check problem's status complain {@link #onSuccessTracking(TrackingResponseModel)}
+ * 3. set how page should be shown {@link #onSuccessTracking(TrackingResponseModel)}
+ * 4. verify (cek kunjungan) customer's problem {@link #verify()}
+ * 5. if verify problem succeed, then {@link #setSolvingMode()}
+ * 6. solved customer's problem {@link #onSolved()}
+ * 7. if solved problem succeed, navigate to {@link ApprovalActivity}
+ * 8. if hold problem succeed, navigate back to {@link DashboardActivity}
+ * */
 public class SolvingActivity extends BaseActivity {
 
     private static final String TAG = SolvingActivity.class.getSimpleName();
@@ -48,7 +64,7 @@ public class SolvingActivity extends BaseActivity {
     private AppCompatButton btnSolved;
     private AppCompatButton btnHold;
 
-    private boolean isKunjunganEnabled = false;
+    private Customer customer;
     private String idCustomer;
     private String idPrinter;
     private String solvingNote;
@@ -115,6 +131,7 @@ public class SolvingActivity extends BaseActivity {
         spSolvingOption.setAdapter(spSolvingOptionsAdapter);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
         btnVerify.setOnClickListener(view -> onVerify());
         btnSolved.setOnClickListener(view -> onSolved());
@@ -198,18 +215,55 @@ public class SolvingActivity extends BaseActivity {
     }
 
     private void checkOnGoingProblemAvailbility() {
-        Customer customer = getOngoindCustomerProblem();
+        showMessageDialog(getString(R.string.progress_getting_latest_tracking));
+        TrackingRequestModel formBody = new TrackingRequestModel();
+        formBody.setToken(loginToken.toString());
+        DebugUtil.d("tracking token: " + loginToken.toString());
+        compositeDisposable.add(
+                APIHelper.track(formBody)
+                         .observeOn(AndroidSchedulers.mainThread())
+                         .subscribeOn(Schedulers.io())
+                         .subscribe(
+                                 response -> {
+                                     hideDialog();
+                                     setBlockMode();
+                                     if (response == null) {
+                                         throw new NullPointerException(getString(R.string.error_null_response));
+                                     }
+
+                                     DebugUtil.d("response: " + response.toString());
+                                     if (response.getStatus() == 1) {
+                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                                         onSuccessTracking(response);
+                                     } else {
+                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
+                                     }
+                                 }, error -> {
+                                     hideDialog();
+                                     setBlockMode();
+                                     String errorMessage = NetworkUtil.handleApiError(error);
+                                     Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                                 }
+                         )
+        );
+    }
+
+    private void onSuccessTracking(TrackingResponseModel response) {
+        customer = response.getData().get(0);
         if (customer != null) {
             Problem problem = customer.getProblems().get(0);
             if (problem != null) {
                 etIdCustomer.setText(customer.getIdCust());
                 etIdBarcode.setText(problem.getIdProduk());
+                etNote.setText("");
                 Solving solving = problem.getSolving();
                 if (solving != null) {
                     int posSolvingOption = CommonUtil.getIndex(solving.getSolvingOption(), arrSolvingOptions);
                     spSolvingOption.setSelection(posSolvingOption);
-                    etNote.setText(problem.getSolving().getSolvingNote());
+                    if (!TextUtils.isEmpty(problem.getSolving().getSolvingNote()))
+                        etNote.setText(problem.getSolving().getSolvingNote());
                 }
+
                 switch (problem.getStatusComplain()) {
                     case Constants.FLAG_START_PROGRESS:
                         setKunjunganMode();
@@ -217,35 +271,33 @@ public class SolvingActivity extends BaseActivity {
                     case Constants.FLAG_KUNJUNGAN:
                         setSolvingMode();
                         break;
-                    case Constants.FLAG_HOLD:
-                        setSolvingMode();
-                        break;
                     case Constants.FLAG_SOLVED:
                         navigateTo(this, ApprovalActivity.class);
                         finish();
                         break;
+                    case Constants.FLAG_HOLD:
+                        setSolvingMode();
+                        break;
                     default:
-                        setKunjunganMode();
+                        Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
+                        //setBlockMode();
                         break;
                 }
             }
         } else {
-             Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
-             setBlockMode();
+            Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
+            //setBlockMode();
         }
     }
 
-    private void loadData(Customer customer) {
-
-    }
-
+    // verifikasi sebagai kunjungan
     private void onVerify() {
         if (!TextUtils.isEmpty(idCustomer) && !TextUtils.isEmpty(idPrinter)) {
             verify();
         } else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
     }
+
     private void onSolved() {
-        // TODO: add navigation method with order detail data bundle
         if (isValid()) {
             solved(idCustomer, idPrinter, solvingOption, solvingNote);
         }
@@ -253,7 +305,6 @@ public class SolvingActivity extends BaseActivity {
     }
 
     private void onHold() {
-        // TODO: add navigation method with printer's historical usage data bundle
         if (isValid()) {
             hold(idCustomer, idPrinter, solvingOption, solvingNote);
         }
@@ -261,7 +312,6 @@ public class SolvingActivity extends BaseActivity {
     }
 
     private void verify() {
-        Customer customer = getOngoindCustomerProblem();
         if (customer != null) {
             showMessageDialog(getString(R.string.progress_verifying_kunjungan));
             KunjunganRequestModel formBody = new KunjunganRequestModel();
@@ -280,7 +330,7 @@ public class SolvingActivity extends BaseActivity {
 
                                         if (response.getStatus() == 1) {
                                             Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
-                                            proceedKunjungan(customer);
+                                            onSuccessVerifyKunjungan(customer);
                                         } else {
                                             Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                         }
@@ -295,7 +345,6 @@ public class SolvingActivity extends BaseActivity {
     }
 
     private void solved(String idCustomer, String idPrinter, String solvingOption, String solvingNote) {
-        Customer customer = getOngoindCustomerProblem();
         if (customer != null) {
             showMessageDialog(getString(R.string.progress_solved));
             SolvedRequestModel formBody = new SolvedRequestModel();
@@ -321,7 +370,7 @@ public class SolvingActivity extends BaseActivity {
                                             Solving solving = new Solving();
                                             solving.setSolvingOption(solvingOption);
                                             solving.setSolvingNote(solvingNote);
-                                            proceedSolved(customer, solving);
+                                            onSuccessSolved(customer, solving);
                                         } else {
                                             Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                         }
@@ -336,7 +385,6 @@ public class SolvingActivity extends BaseActivity {
     }
 
     private void hold(String idCustomer, String idPrinter, String solvingOption, String solvingNote) {
-        Customer customer = getOngoindCustomerProblem();
         if (customer != null) {
             showMessageDialog(getString(R.string.progress_hold));
             HoldRequestModel formBody = new HoldRequestModel();
@@ -362,7 +410,7 @@ public class SolvingActivity extends BaseActivity {
                                              Solving solving = new Solving();
                                              solving.setSolvingOption(solvingOption);
                                              solving.setSolvingNote(solvingNote);
-                                             proceedHold(customer, solving);
+                                             onSuccessHold(customer, solving);
                                          } else {
                                              Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                          }
@@ -376,13 +424,13 @@ public class SolvingActivity extends BaseActivity {
         }
     }
 
-    private void proceedKunjungan(Customer customer) {
+    private void onSuccessVerifyKunjungan(Customer customer) {
         customer.getProblems().get(0).setStatusComplain(Constants.FLAG_KUNJUNGAN);
         setOngoingCustomerProblem(customer);
         setSolvingMode();
     }
 
-    private void proceedSolved(Customer customer, Solving solving) {
+    private void onSuccessSolved(Customer customer, Solving solving) {
         customer.getProblems().get(0).setSolving(solving);
         customer.getProblems().get(0).setStatusComplain(Constants.FLAG_SOLVED);
         setOngoingCustomerProblem(customer);
@@ -390,7 +438,7 @@ public class SolvingActivity extends BaseActivity {
         finish();
     }
 
-    private void proceedHold(Customer customer, Solving solving) {
+    private void onSuccessHold(Customer customer, Solving solving) {
         customer.getProblems().get(0).setSolving(solving);
         customer.getProblems().get(0).setStatusComplain(Constants.FLAG_HOLD);
         setOngoingCustomerProblem(customer);
