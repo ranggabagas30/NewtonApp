@@ -54,7 +54,8 @@ public abstract class BaseActivity extends BaseProjectActivity {
             } else {
                 DebugUtil.d("token is empty");
                 if (!(currentActivity instanceof MainActivity) &&
-                        !(currentActivity instanceof ForgetPasswordActivity)) {
+                    !(currentActivity instanceof ForgetPasswordActivity) &&
+                    !(currentActivity instanceof SplashActivity)) {
                     Toast.makeText(this, getString(R.string.error_session_not_valid), Toast.LENGTH_LONG).show();
                     doLogout();
                 }
@@ -62,7 +63,8 @@ public abstract class BaseActivity extends BaseProjectActivity {
         } catch (DecodeException de) {
             DebugUtil.e("token error -> " + de.getMessage(), de);
             if (!(currentActivity instanceof MainActivity) &&
-                    !(currentActivity instanceof ForgetPasswordActivity)) {
+                !(currentActivity instanceof ForgetPasswordActivity) &&
+                !(currentActivity instanceof SplashActivity)) {
                 Toast.makeText(this, getString(R.string.error_bad_token), Toast.LENGTH_LONG).show();
                 doLogout();
             }

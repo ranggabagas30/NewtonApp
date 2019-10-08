@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CoTon</string>
+    <string name="copyright">Copyright Reserved Pramadhan</string>
     <string name="konfirmasi">Confirm</string>
     <string name="home">Home</string>
     <string name="problem_tidak_ditemukan">Problem tidak ditemukan</string>
@@ -74,6 +75,7 @@
     <string name="progress_send_complain">Sending complain and verifying</string>
     <string name="progress_update_complain">Updating complain</string>
     <string name="progress_tracking">Please wait</string>
+
     <string name="label_scan_qr_code">Scan QR code</string>
     <string name="label_id_customer">ID Customer</string>
     <string name="label_note">Note :</string>

@@ -184,10 +184,10 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                                             }
 
                                             if (response.getStatus() == 1) {
-                                                proccedLoginSuccess(response);
+                                                onSuccessLogin(response);
 
                                             } else {
-                                                proceedLoginFailed(response);
+                                                onFailedLogin(response);
                                             }
                                         }, error -> {
                                             hideDialog();
@@ -203,7 +203,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         }
     }
 
-    private void proccedLoginSuccess(VerificationResponseModel response) {
+    private void onSuccessLogin(VerificationResponseModel response) {
 
         if (BuildConfig.DEBUG) Toast.makeText(this, getString(R.string.success_message_login), Toast.LENGTH_SHORT).show();
 
@@ -219,7 +219,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         finish();
     }
 
-    private void proceedLoginFailed(VerificationResponseModel response) {
+    private void onFailedLogin(VerificationResponseModel response) {
         Toast.makeText(this, "Login failed\n" + response.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
