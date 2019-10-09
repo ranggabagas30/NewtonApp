@@ -16,7 +16,7 @@ public class BaseAPIConfig {
     private static final String API_BASE_URL = BuildConfig.DEBUG ? BuildConfig.BASE_API_DEV : BuildConfig.BASE_API_PROD;
 
     private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BASIC);
+            .setLevel(HttpLoggingInterceptor.Level.BODY);
 
     private static OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
 
