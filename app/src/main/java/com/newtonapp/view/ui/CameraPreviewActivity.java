@@ -1,20 +1,23 @@
 package com.newtonapp.view.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.newtonapp.R;
 import com.newtonapp.utility.barcodescanning.BarcodeScanningProcessor;
 import com.newtonapp.utility.barcodescanning.CameraSource;
 import com.newtonapp.utility.barcodescanning.CameraSourcePreview;
 import com.newtonapp.utility.barcodescanning.GraphicOverlay;
+import com.newtonapp.utility.barcodescanning.ScannerOverlay;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +27,9 @@ public class CameraPreviewActivity extends AppCompatActivity {
 
     private CameraSourcePreview cameraSourcePreview;
     private GraphicOverlay graphicOverlay;
+    private ScannerOverlay scannerOverlay;
+    private FrameLayout framePreview;
+    private View frameOverlay;
 
     private static final String TAG = CameraPreviewActivity.class.getSimpleName();
     private static final int PERMISSION_REQUEST = 1;
@@ -38,6 +44,8 @@ public class CameraPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera_preview);
         cameraSourcePreview = findViewById(R.id.camera_layout_preview);
         graphicOverlay = findViewById(R.id.camera_layout_overlay);
+        scannerOverlay = findViewById(R.id.camera_layout_frame_overlay);
+        scannerOverlay.setVisibility(View.VISIBLE);
 
         if (cameraSourcePreview == null) {
             Log.d(TAG, "Preview is null");
