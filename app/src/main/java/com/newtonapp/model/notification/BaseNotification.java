@@ -46,7 +46,7 @@ public class BaseNotification {
                 .setContentTitle(getTitle())
                 .setContentText(getMessage())
                 .setContentIntent(getPendingIntent())
-                .setSmallIcon(R.drawable.ic_logo2)
+                .setSmallIcon(R.mipmap.ic_launcher_newton)
                 .setTicker(getMessage())
                 .setAutoCancel(true)
                 .setDefaults(getNotifPattern());

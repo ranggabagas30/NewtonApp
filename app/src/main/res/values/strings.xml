@@ -83,6 +83,7 @@
     <string name="progress_send_complain">Sending complain and verifying</string>
     <string name="progress_update_complain">Updating complain</string>
 
+    <string name="label_scan_instruction">Scan QR code to get printer id</string>
     <string name="label_scan_qr_code">Scan QR code</string>
     <string name="label_id_customer">ID Customer</string>
     <string name="label_note">Note :</string>

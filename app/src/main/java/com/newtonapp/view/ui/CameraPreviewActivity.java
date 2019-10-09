@@ -6,9 +6,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -28,8 +28,7 @@ public class CameraPreviewActivity extends AppCompatActivity {
     private CameraSourcePreview cameraSourcePreview;
     private GraphicOverlay graphicOverlay;
     private ScannerOverlay scannerOverlay;
-    private FrameLayout framePreview;
-    private View frameOverlay;
+    private AppCompatImageButton btnBack;
 
     private static final String TAG = CameraPreviewActivity.class.getSimpleName();
     private static final int PERMISSION_REQUEST = 1;
@@ -42,10 +41,13 @@ public class CameraPreviewActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate camera preview....");
 
         setContentView(R.layout.activity_camera_preview);
+        btnBack = findViewById(R.id.camera_btn_back);
         cameraSourcePreview = findViewById(R.id.camera_layout_preview);
         graphicOverlay = findViewById(R.id.camera_layout_overlay);
         scannerOverlay = findViewById(R.id.camera_layout_frame_overlay);
         scannerOverlay.setVisibility(View.VISIBLE);
+
+        btnBack.setOnClickListener(view -> finish());
 
         if (cameraSourcePreview == null) {
             Log.d(TAG, "Preview is null");

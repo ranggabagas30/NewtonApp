@@ -10,6 +10,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.widget.RelativeLayout;
 
 import androidx.core.content.ContextCompat;
@@ -17,13 +18,16 @@ import androidx.core.content.ContextCompat;
 import com.newtonapp.R;
 
 public class ScannerOverlay extends RelativeLayout {
-    private float left, top, endY;
+    private int parentLeft, parentTop, parentRight, parentBottom;
+    private float left, top, right, bottom, endY;
     private int rectWidth, rectHeight;
     private int cornerRadius;
     private int frames;
     private boolean revAnimation;
     private int lineColor, lineWidth;
-    private Canvas temp;
+    private int cornerLineColor, cornerLineThickness;
+    private float cornerLineLength;
+    private String textInstruction;
 
     public ScannerOverlay(Context context) {
         super(context);
@@ -41,10 +45,13 @@ public class ScannerOverlay extends RelativeLayout {
                 0, 0);
         rectWidth = a.getInteger(R.styleable.ScannerOverlay_square_width, getResources().getInteger(R.integer.scanner_rect_width));
         rectHeight = a.getInteger(R.styleable.ScannerOverlay_square_height, getResources().getInteger(R.integer.scanner_rect_height));
+        frames = a.getInteger(R.styleable.ScannerOverlay_scanner_line_speed, getResources().getInteger(R.integer.scanner_line_speed));
+        lineColor = a.getColor(R.styleable.ScannerOverlay_scanner_line_color, ContextCompat.getColor(context, R.color.scanner_line_color));
+        lineWidth = a.getInteger(R.styleable.ScannerOverlay_scanner_line_width, getResources().getInteger(R.integer.scanner_line_width));
         cornerRadius = a.getInteger(R.styleable.ScannerOverlay_square_corner_radius, getResources().getInteger(R.integer.scanner_rect_corner_radius));
-        lineColor = a.getColor(R.styleable.ScannerOverlay_line_color, ContextCompat.getColor(context, R.color.scanner_line));
-        lineWidth = a.getInteger(R.styleable.ScannerOverlay_line_width, getResources().getInteger(R.integer.line_width));
-        frames = a.getInteger(R.styleable.ScannerOverlay_line_speed, getResources().getInteger(R.integer.line_width));
+        cornerLineColor = a.getColor(R.styleable.ScannerOverlay_corner_line_color, ContextCompat.getColor(context, R.color.corner_line_color));
+        cornerLineLength = a.getInteger(R.styleable.ScannerOverlay_corner_line_length, -1);
+        cornerLineThickness = a.getInteger(R.styleable.ScannerOverlay_corner_line_thickness, getResources().getInteger(R.integer.corner_line_thickness));
     }
 
     @Override
@@ -54,19 +61,30 @@ public class ScannerOverlay extends RelativeLayout {
 
     @Override
     public void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        parentLeft = left;
+        parentTop = top;
+        parentRight = right;
+        parentBottom = bottom;
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         left = (w - dpToPx(rectWidth)) / 2;
         top = (h - dpToPx(rectHeight)) / 2;
+        right = left + dpToPx(rectWidth);
+        bottom = top + dpToPx(rectHeight);
         endY = top;
+        if (cornerLineLength == -1) cornerLineLength = (float) dpToPx(rectWidth) * .1f;
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
     public int dpToPx(int dp) {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    public int spToPx(int sp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, getResources().getDisplayMetrics());
     }
 
     @Override
@@ -85,7 +103,7 @@ public class ScannerOverlay extends RelativeLayout {
 
         // init
         Bitmap bitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
-        temp = new Canvas(bitmap);
+        Canvas temp = new Canvas(bitmap);
 
         Paint p = new Paint();
         Paint framePaint = new Paint();
@@ -102,6 +120,26 @@ public class ScannerOverlay extends RelativeLayout {
         RectF rect = new RectF(left, top, dpToPx(rectWidth) + left, dpToPx(rectHeight) + top);
         temp.drawRoundRect(rect, (float) cornerRadius, (float) cornerRadius, transparentPaint);
         canvas.drawBitmap(bitmap, 0, 0, p);
+
+        Paint cornerLinePaint = new Paint();
+        cornerLinePaint.setColor(cornerLineColor);
+        cornerLinePaint.setStrokeWidth(Float.valueOf(cornerLineThickness));
+
+        // top left
+        canvas.drawLine(left, top, left + cornerLineLength, top, cornerLinePaint);
+        canvas.drawLine(left, top, left, top + cornerLineLength, cornerLinePaint);
+
+        // top right
+        canvas.drawLine(right, top, right - cornerLineLength, top, cornerLinePaint);
+        canvas.drawLine(right, top, right, top + cornerLineLength, cornerLinePaint);
+
+        // bottom right
+        canvas.drawLine(right, bottom, right, bottom - cornerLineLength, cornerLinePaint);
+        canvas.drawLine(right, bottom, right - cornerLineLength, bottom, cornerLinePaint);
+
+        // bottom left
+        canvas.drawLine(left, bottom, left, bottom - cornerLineLength, cornerLinePaint);
+        canvas.drawLine(left, bottom, left + cornerLineLength, bottom, cornerLinePaint);
 
         // draw horizontal line
         Paint line = new Paint();
@@ -122,6 +160,7 @@ public class ScannerOverlay extends RelativeLayout {
             endY += frames;
         }
         canvas.drawLine(left, endY, left + dpToPx(rectWidth), endY, line);
+
         invalidate();
     }
 }
