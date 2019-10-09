@@ -28,6 +28,7 @@ public class Constants {
     public static final String FLAG_SOLVED = "3";
     public static final String FLAG_HOLD = "4";
     public static final String FLAG_CLOSED = "5";
+    public static final String FLAG_REPORT = "7";
 
     public static final String NOTIF_TYPE_NEW_OUTSTANDING = "NOTIF_TYPE_NEW_OUTSTANDING";
 

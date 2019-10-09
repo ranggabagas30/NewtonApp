@@ -209,11 +209,10 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
         token = response.getToken();
         saveToken(token);
-
+        sendFirebaseToken();
         boolean isFirstTime = getFirstTimeUserFlag();
         if (isFirstTime) {
             setFirstTimeUserFlag(false);
-            sendFirebaseToken();
             navigateTo(this, OnboardingScreenActivity.class);
         } else navigateTo(this, DashboardActivity.class);
         finish();
@@ -244,6 +243,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             return;
         }
 
+        DebugUtil.d("deviceid: " + deviceId);
         FirebaseTokenSendingRequestModel formBody = new FirebaseTokenSendingRequestModel();
         formBody.setUsername(username);
         formBody.setWebtoken(token);
@@ -278,6 +278,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     }
 
     private void sendErrorLog(String username, String imei, String webtoken, String errorMessage, String errorDateTime, String errorDescription) {
+        DebugUtil.e("ERROR: " + errorMessage + "\n" + errorDescription + "\n" + errorDateTime);
         ErrorLoggingRequestModel formBody = new ErrorLoggingRequestModel();
         formBody.setUsername(username);
         formBody.setImei(imei);

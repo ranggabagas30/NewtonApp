@@ -1,29 +1,17 @@
 package com.newtonapp.data.network.pojo.request;
 
 import com.google.gson.annotations.SerializedName;
-import com.newtonapp.utility.Constants;
 
-public class ReportsRequestModel {
-
-	@SerializedName("flag")
-	private String flag = Constants.FLAG_REPORT;
+public class LogoutRequestModel{
 
 	@SerializedName("action")
-	private String action = "report";
+	private String action = "logout";
 
 	@SerializedName("category")
 	private String category = "technician";
 
 	@SerializedName("token")
 	private String token;
-
-	public void setFlag(String flag){
-		this.flag = flag;
-	}
-
-	public String getFlag(){
-		return flag;
-	}
 
 	public void setAction(String action){
 		this.action = action;
@@ -52,9 +40,8 @@ public class ReportsRequestModel {
 	@Override
  	public String toString(){
 		return 
-			"ReportsRequestModel{" +
-			"flag = '" + flag + '\'' + 
-			",action = '" + action + '\'' + 
+			"LogoutRequestModel{" + 
+			"action = '" + action + '\'' + 
 			",category = '" + category + '\'' + 
 			",token = '" + token + '\'' + 
 			"}";

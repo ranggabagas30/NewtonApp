@@ -10,11 +10,16 @@ import android.widget.Toast;
 import com.auth0.android.jwt.DecodeException;
 import com.auth0.android.jwt.JWT;
 import com.newtonapp.R;
+import com.newtonapp.data.network.APIHelper;
+import com.newtonapp.data.network.pojo.request.LogoutRequestModel;
 import com.newtonapp.utility.CommonUtil;
 import com.newtonapp.utility.DebugUtil;
+import com.newtonapp.utility.NetworkUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public abstract class BaseActivity extends BaseProjectActivity {
 
@@ -72,6 +77,37 @@ public abstract class BaseActivity extends BaseProjectActivity {
     }
 
     protected void doLogout() {
+        showMessageDialog(getString(R.string.progress_logout));
+        LogoutRequestModel formBody = new LogoutRequestModel();
+        formBody.setToken(loginToken.toString());
+        compositeDisposable.add(
+                APIHelper.logout(formBody)
+                         .observeOn(AndroidSchedulers.mainThread())
+                         .subscribeOn(Schedulers.io())
+                         .subscribe(
+                                 response -> {
+                                     if (response == null) {
+                                         hideDialog();
+                                         throw new NullPointerException(getString(R.string.error_null_response));
+                                     }
+
+                                     if (response.getStatus() == 1) {
+                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                                         onSuccessLogout();
+                                     } else {
+                                         hideDialog();
+                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
+                                     }
+                                 }, error -> {
+                                     hideDialog();
+                                     String errorMessage = NetworkUtil.handleApiError(error);
+                                     Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                                 }
+                         )
+        );
+    }
+
+    private void onSuccessLogout() {
         loginToken = null;
         clearToken();
         navigateTo(this, MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

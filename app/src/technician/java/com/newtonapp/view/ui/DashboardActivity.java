@@ -91,6 +91,9 @@ public class DashboardActivity extends BaseActivity {
                     // confirm assignment
                     doLogout();
                 })
+                .setNegativeButton(getString(android.R.string.cancel), ((dialogInterface, i) -> {
+
+                }))
                 .show();
     }
 }

@@ -25,7 +25,6 @@
         <include
             layout="@layout/layout_body_failed"
             android:visibility="gone"/>
-
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

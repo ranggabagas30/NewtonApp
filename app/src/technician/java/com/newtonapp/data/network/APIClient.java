@@ -5,8 +5,10 @@ import com.newtonapp.data.network.pojo.request.ErrorLoggingRequestModel;
 import com.newtonapp.data.network.pojo.request.FirebaseTokenSendingRequestModel;
 import com.newtonapp.data.network.pojo.request.HoldRequestModel;
 import com.newtonapp.data.network.pojo.request.KunjunganRequestModel;
+import com.newtonapp.data.network.pojo.request.LogoutRequestModel;
 import com.newtonapp.data.network.pojo.request.OutstandingRequestModel;
 import com.newtonapp.data.network.pojo.request.ProductHistoryRequestModel;
+import com.newtonapp.data.network.pojo.request.RememberPasswordRequestModel;
 import com.newtonapp.data.network.pojo.request.ReportsRequestModel;
 import com.newtonapp.data.network.pojo.request.SolvedRequestModel;
 import com.newtonapp.data.network.pojo.request.TakeJobRequestModel;
@@ -16,8 +18,10 @@ import com.newtonapp.data.network.pojo.response.ApprovalResponseModel;
 import com.newtonapp.data.network.pojo.response.FirebaseTokenSendingResponseModel;
 import com.newtonapp.data.network.pojo.response.HoldResponseModel;
 import com.newtonapp.data.network.pojo.response.KunjunganResponseModel;
+import com.newtonapp.data.network.pojo.response.LogoutResponseModel;
 import com.newtonapp.data.network.pojo.response.OutstandingResponseModel;
 import com.newtonapp.data.network.pojo.response.ProductHistoryResponseModel;
+import com.newtonapp.data.network.pojo.response.RememberPasswordResponseModel;
 import com.newtonapp.data.network.pojo.response.ReportsResponseModel;
 import com.newtonapp.data.network.pojo.response.SolvedResponseModel;
 import com.newtonapp.data.network.pojo.response.TakingJobResponseModel;
@@ -31,6 +35,14 @@ import retrofit2.http.POST;
 
 public interface APIClient {
 
+    // forget password
+    @POST("remember.php")
+    Single<RememberPasswordResponseModel> postRememberPassword(@Body RememberPasswordRequestModel requestBody);
+
+    // technician verification
+    @POST("api_verify.php")
+    Single<VerificationResponseModel> postTechnicianVerification(@Body VerificationRequestModel requestBody);
+
     // firebase token sending
     @POST("api_firebase.php")
     Single<FirebaseTokenSendingResponseModel> postFirebaseTokenSending(@Body FirebaseTokenSendingRequestModel requestBody);
@@ -38,10 +50,6 @@ public interface APIClient {
     // error logging
     @POST("api_firebase.php")
     Completable postErrorLogging(@Body ErrorLoggingRequestModel requestBody);
-
-    // technician verification
-    @POST("api_verify.php")
-    Single<VerificationResponseModel> postTechnicianVerification(@Body VerificationRequestModel requestBody);
 
     // retrieve outstanding job list
     @POST("teknisi.php")
@@ -77,4 +85,7 @@ public interface APIClient {
 
     @POST("teknisi.php")
     Single<TrackingResponseModel> postTrack(@Body TrackingRequestModel requestBody);
+
+    @POST("teknisi.php")
+    Single<LogoutResponseModel> postLogout(@Body LogoutRequestModel requestBody);
 }
