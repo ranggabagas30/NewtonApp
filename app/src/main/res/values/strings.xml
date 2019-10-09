@@ -41,6 +41,7 @@
     <string name="error_null_firebase_token">ERROR: firebase token is null</string>
     <string name="error_imei_not_found">IMEI not found</string>
     <string name="error_read_phone_state_not_allowed">Permission read phone state not allowed</string>
+    <string name="error_access_camera_not_allowed">Unable scan qrcode without allowed camera permission</string>
     <string name="error_blank_fields">Please fill the empty fields</string>
     <string name="error_incorrect_data">Please input correct data</string>
     <string name="error_null_response">ERROR: server not responding</string>
@@ -56,6 +57,7 @@
 
     <!-- warning messages-->
     <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
+    <string name="warning_message_rationale_camera">Please granted camera for QRcode scanning</string>
 
     <!-- success messages-->
     <string name="success_message_firebase_token_sent">Firebase token sent successfully</string>
@@ -79,4 +81,7 @@
     <string name="label_scan_qr_code">Scan QR code</string>
     <string name="label_id_customer">ID Customer</string>
     <string name="label_note">Note :</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -70,6 +70,7 @@ public class SolvingActivity extends BaseActivity {
     private String solvingNote;
     private String solvingOption;
     private String[] arrSolvingOptions;
+    private boolean isOpeningCamera = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,8 @@ public class SolvingActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        checkOnGoingProblemAvailbility();
+        if (!isOpeningCamera) checkOnGoingProblemAvailbility();
+        else isOpeningCamera = false;
     }
 
     @Override
@@ -188,6 +190,7 @@ public class SolvingActivity extends BaseActivity {
             if(event.getAction() == MotionEvent.ACTION_UP) {
                 if(event.getRawX() >= (etIdBarcode.getRight() - etIdBarcode.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                     // your action here
+                    isOpeningCamera = true;
                     Intent openCameraIntent = new Intent(this, CameraPreviewActivity.class);
                     startActivityForResult(openCameraIntent, Constants.RC_SCAN_BARCODE);
                     return true;
@@ -258,6 +261,7 @@ public class SolvingActivity extends BaseActivity {
                 etNote.setText("");
                 Solving solving = problem.getSolving();
                 if (solving != null) {
+                    //int posSolvingOption = 0;
                     int posSolvingOption = CommonUtil.getIndex(solving.getSolvingOption(), arrSolvingOptions);
                     spSolvingOption.setSelection(posSolvingOption);
                     if (!TextUtils.isEmpty(problem.getSolving().getSolvingNote()))

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ff00"
+    android:keepScreenOn="true">
+
+    <com.newtonapp.utility.barcodescanning.CameraSourcePreview
+        android:id="@+id/reader.layout.preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <com.newtonapp.utility.barcodescanning.GraphicOverlay
+            android:id="@+id/reader.v.graphic.overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.newtonapp.utility.barcodescanning.CameraSourcePreview>
+
+    <com.newtonapp.utility.barcodescanning.ScannerOverlay
+        android:id="@+id/reader.layout.scan.overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:line_color="#7323DC"
+        app:line_speed="6"
+        app:line_width="5"
+        app:square_height="250"
+        app:square_width="250"
+        android:visibility="visible"/>
+</RelativeLayout>

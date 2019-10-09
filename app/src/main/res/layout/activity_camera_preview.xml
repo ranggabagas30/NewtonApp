@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:keepScreenOn="true"
+    android:orientation="vertical"
     tools:context=".view.ui.CameraPreviewActivity">
 
-    <com.newtonapp.utility.barcodescanning.CameraSourcePreview
-        android:id="@+id/camera.layout.preview"
+    <FrameLayout
+        android:id="@+id/camera.layout.container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        android:visibility="visible" />
 
-        <com.newtonapp.utility.barcodescanning.GraphicOverlay
-            android:id="@+id/camera.layout.overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </com.newtonapp.utility.barcodescanning.CameraSourcePreview>
-
-</RelativeLayout>
+</LinearLayout>

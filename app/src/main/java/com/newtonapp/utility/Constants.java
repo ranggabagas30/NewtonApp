@@ -6,11 +6,15 @@ public class Constants {
     public static final int RC_SCAN_BARCODE = 101;
     public static final int RC_ALL_PERMISSIONS = 0;
     public static final int RC_READ_PHONE_STATE = 1;
+    public static final int RC_CAMERA = 2;
 
     public static final int REQUEST_STATUS_FAILED = 0;
     public static final int REQUEST_STATUS_SUCCESS = 1;
 
     public static final String EXTRA_STATUS_COMPLAIN = "EXTRA_STATUS_COMPLAIN";
+    public static final String EXTRA_AUTO_FOCUS = "EXTRA_AUTO_FOCUS";
+    public static final String EXTRA_USE_FLASH = "EXTRA_USE_FLASH";
+    public static final String EXTRA_USE_SCAN_OVERLAY = "EXTRA_USE_SCAN_OVERLAY";
 
     public static final String CLAIM_USERNAME = "uname";
     public static final String CLAIM_KDCAB = "kdcab";

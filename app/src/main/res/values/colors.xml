@@ -26,4 +26,8 @@
 
     <color name="status_solved">#4CAF50</color>
     <color name="status_hold">#F32C2C</color>
+
+    <!-- qrcode settings -->
+    <color name="scanner_line">#00ceff</color>
+    <color name="qrcode_paint_color">@android:color/white</color>
 </resources>
