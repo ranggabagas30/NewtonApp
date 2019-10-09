@@ -1,23 +1,37 @@
 package com.newtonapp.data.network;
 
 import com.newtonapp.data.network.pojo.request.ApprovalRequestModel;
+import com.newtonapp.data.network.pojo.request.ErrorLoggingRequestModel;
+import com.newtonapp.data.network.pojo.request.FirebaseTokenSendingRequestModel;
 import com.newtonapp.data.network.pojo.request.HoldRequestModel;
 import com.newtonapp.data.network.pojo.request.KunjunganRequestModel;
 import com.newtonapp.data.network.pojo.request.OutstandingRequestModel;
 import com.newtonapp.data.network.pojo.request.SolvedRequestModel;
 import com.newtonapp.data.network.pojo.request.TakeJobRequestModel;
+import com.newtonapp.data.network.pojo.request.TrackingRequestModel;
 import com.newtonapp.data.network.pojo.request.VerificationRequestModel;
 import com.newtonapp.data.network.pojo.response.ApprovalResponseModel;
+import com.newtonapp.data.network.pojo.response.FirebaseTokenSendingResponseModel;
 import com.newtonapp.data.network.pojo.response.HoldResponseModel;
 import com.newtonapp.data.network.pojo.response.KunjunganResponseModel;
 import com.newtonapp.data.network.pojo.response.OutstandingResponseModel;
 import com.newtonapp.data.network.pojo.response.SolvedResponseModel;
 import com.newtonapp.data.network.pojo.response.TakingJobResponseModel;
+import com.newtonapp.data.network.pojo.response.TrackingResponseModel;
 import com.newtonapp.data.network.pojo.response.VerificationResponseModel;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class APIHelper {
+
+    public static Single<FirebaseTokenSendingResponseModel> sendFirebaseToken(FirebaseTokenSendingRequestModel formBody) {
+        return BaseAPIConfig.createService(APIClient.class).postFirebaseTokenSending(formBody);
+    }
+
+    public static Completable sendErrorLog(ErrorLoggingRequestModel formBody) {
+        return BaseAPIConfig.createService(APIClient.class).postErrorLogging(formBody);
+    }
 
     public static Single<VerificationResponseModel> requestLogin(VerificationRequestModel loginBody) {
         return BaseAPIConfig.createService(APIClient.class).postTechnicianVerification(loginBody);
@@ -45,5 +59,9 @@ public class APIHelper {
 
     public static Single<ApprovalResponseModel> approve(ApprovalRequestModel formBody) {
         return BaseAPIConfig.createService(APIClient.class).postApproval(formBody);
+    }
+
+    public static Single<TrackingResponseModel> track(TrackingRequestModel formBody) {
+        return BaseAPIConfig.createService(APIClient.class).postTrack(formBody);
     }
 }

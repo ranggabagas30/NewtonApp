@@ -14,7 +14,7 @@ public class Problem {
 	private String note;
 
 	@SerializedName("reason")
-	private Object reason;
+	private String reason;
 
 	@SerializedName("status_complain")
 	private String statusComplain;
@@ -28,6 +28,7 @@ public class Problem {
 	@SerializedName("waktu_comp")
 	private String waktuComp;
 
+	@SerializedName("solving")
 	private Solving solving;
 
 	public String getIdProblem() {
@@ -54,11 +55,11 @@ public class Problem {
 		return note;
 	}
 
-	public void setReason(Object reason){
+	public void setReason(String reason){
 		this.reason = reason;
 	}
 
-	public Object getReason(){
+	public String getReason(){
 		return reason;
 	}
 

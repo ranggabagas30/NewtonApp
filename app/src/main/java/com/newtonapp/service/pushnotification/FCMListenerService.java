@@ -4,11 +4,11 @@ import android.os.Bundle;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.newtonapp.utility.CommonUtil;
+import com.newtonapp.R;
 import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NotificationUtil;
-import com.newtonapp.utility.PermissionUtil;
+import com.pixplicity.easyprefs.library.Prefs;
 
 public class FCMListenerService extends FirebaseMessagingService {
     @Override
@@ -85,16 +85,11 @@ public class FCMListenerService extends FirebaseMessagingService {
          *
          * */
         DebugUtil.d("NEW TOKEN : " + token);
-        if (PermissionUtil.hasPermission(this, PermissionUtil.READ_PHONE_STATE_PERMISSION)) {
-            String imei = CommonUtil.getIMEI(getApplicationContext());
-            sendRegistrationToServer(token, imei);
-        }
+        saveFirebaseToken(token);
     }
 
-    private void sendRegistrationToServer(String deviceId, String token) {
-        DebugUtil.d("send registration to server");
-        DebugUtil.d("device_id: " + deviceId);
-        DebugUtil.d("token: " + token);
+    private void saveFirebaseToken(String token) {
+        Prefs.putString(getString(R.string.key_firebase_token), token);
     }
 
     private void handleNotification(Bundle bundleMessage) {

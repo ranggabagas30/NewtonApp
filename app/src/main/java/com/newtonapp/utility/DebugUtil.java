@@ -14,6 +14,7 @@ public class DebugUtil {
         /* Protect from instantiations */
     }
 
+
     private static boolean isDebuggable() {
 		return BuildConfig.DEBUG;
     }
@@ -42,9 +43,6 @@ public class DebugUtil {
     }
 
     public static void e(String message, Throwable throwable) {
-        if (!isDebuggable())
-            return;
-
         // Throwable instance must be created before any methods
         getMethodNames(new Throwable().getStackTrace());
         //Crashlytics.log(Log.ERROR, className, createLog(message));

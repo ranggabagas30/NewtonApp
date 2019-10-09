@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.newtonapp.R;
 import com.newtonapp.view.ui.OutstandingActivity;
 
 public class NewOutstandingNotification extends BaseNotification {
@@ -27,12 +26,4 @@ public class NewOutstandingNotification extends BaseNotification {
         return bundle.getString("message");
     }
 
-    @Override
-    protected String getTitle() {
-        return context.getString(R.string.app_name);
-    }
-
-    private String getOrderCode(){
-        return bundle.getString("order_code");
-    }
 }

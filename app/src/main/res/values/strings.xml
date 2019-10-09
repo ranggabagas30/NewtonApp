@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CoTon</string>
+    <string name="copyright">Copyright Reserved Pramadhan</string>
     <string name="konfirmasi">Confirm</string>
     <string name="home">Home</string>
     <string name="problem_tidak_ditemukan">Problem tidak ditemukan</string>
@@ -32,10 +33,14 @@
     <!-- prefs key-->
     <string name="key_first_time_user">key_first_time_user</string>
     <string name="key_token">key_token</string>
-    <string name="key_app_fcm_reg_id">key_app_fcm_reg_id</string>
+    <string name="key_firebase_token">key_firebase_token</string>
     <string name="key_ongoing_problem">key_ongoing_problem</string>
 
     <!-- error messages-->
+    <string name="error_failed_sending_firebase_token">ERROR: failed sending firebase token</string>
+    <string name="error_null_firebase_token">ERROR: firebase token is null</string>
+    <string name="error_imei_not_found">IMEI not found</string>
+    <string name="error_read_phone_state_not_allowed">Permission read phone state not allowed</string>
     <string name="error_blank_fields">Please fill the empty fields</string>
     <string name="error_incorrect_data">Please input correct data</string>
     <string name="error_null_response">ERROR: server not responding</string>
@@ -53,6 +58,7 @@
     <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
 
     <!-- success messages-->
+    <string name="success_message_firebase_token_sent">Firebase token sent successfully</string>
     <string name="success_message_login">Login successful</string>
     <string name="success_message_empty_data_item">No item</string>
     <string name="success_message_approved">Thanks for your approval</string>
@@ -61,6 +67,7 @@
     <string name="progress_login">Verifying account</string>
     <string name="progress_loading">Loading data please wait</string>
     <string name="progress_taking_outstanding_job">Sending request taking job</string>
+    <string name="progress_getting_latest_tracking">Getting latest tracking progress</string>
     <string name="progress_verifying_kunjungan">Verifying</string>
     <string name="progress_solved">Please wait</string>
     <string name="progress_hold">Please wait</string>
@@ -68,6 +75,7 @@
     <string name="progress_send_complain">Sending complain and verifying</string>
     <string name="progress_update_complain">Updating complain</string>
     <string name="progress_tracking">Please wait</string>
+
     <string name="label_scan_qr_code">Scan QR code</string>
     <string name="label_id_customer">ID Customer</string>
     <string name="label_note">Note :</string>
