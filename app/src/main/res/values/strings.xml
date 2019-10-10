@@ -53,6 +53,7 @@
     <string name="error_unable_taking_job">Unable taking job. Please finish the on-going job</string>
     <string name="error_empty_otp">Please insert customer OTP</string>
     <string name="error_empty_rate">Please rate us</string>
+    <string name="error_empty_report_detail">No report detail found</string>
 
     <!-- warning messages-->
     <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
@@ -87,4 +88,5 @@
     <string name="label_scan_qr_code">Scan QR code</string>
     <string name="label_id_customer">ID Customer</string>
     <string name="label_note">Note :</string>
+    <string name="label_note_available">N/A</string>
 </resources>

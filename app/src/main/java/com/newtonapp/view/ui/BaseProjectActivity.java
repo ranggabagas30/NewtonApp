@@ -28,15 +28,15 @@ public abstract class BaseProjectActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void navigateTo(Activity activity, Class targetActivity, String bundleKey, Bundle data) {
+    public void navigateTo(Activity activity, Class targetActivity, String keyData, String data) {
         Intent intent = new Intent(activity, targetActivity);
-        intent.putExtra(bundleKey, data);
+        intent.putExtra(keyData, data);
         startActivity(intent);
     }
 
-    public void navigateTo(Activity activity, Class targetActivity, int mode) {
+    public void navigateTo(Activity activity, Class targetActivity, int launchMode) {
         Intent intent = new Intent(activity, targetActivity);
-        intent.setFlags(mode);
+        intent.setFlags(launchMode);
         startActivity(intent);
     }
 

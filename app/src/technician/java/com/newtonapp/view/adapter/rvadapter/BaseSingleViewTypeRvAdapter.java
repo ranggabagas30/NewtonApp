@@ -14,14 +14,13 @@ import java.util.List;
 
 public abstract class BaseSingleViewTypeRvAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    @NonNull
     private int itemLayoutRes;
 
     @NonNull
     private ArrayList<T> data;
     private OnItemClickListener<T> onItemClickListener;
 
-    public BaseSingleViewTypeRvAdapter(@NonNull ArrayList<T> data, @NonNull int itemLayoutRes) {
+    public BaseSingleViewTypeRvAdapter(@NonNull ArrayList<T> data, int itemLayoutRes) {
         this.data = data;
         this.itemLayoutRes = itemLayoutRes;
     }

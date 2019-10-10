@@ -1,8 +1,6 @@
 package com.newtonapp.view.adapter.rvadapter;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -13,42 +11,20 @@ import com.newtonapp.model.rvmodel.ReportRvModel;
 
 import java.util.ArrayList;
 
-public class ReportRvAdapter extends RecyclerView.Adapter<ReportRvAdapter.ViewHolder> {
+public class ReportRvAdapter extends BaseSingleViewTypeRvAdapter<ReportRvModel, ReportRvAdapter.ViewHolder> {
 
-    private ArrayList<ReportRvModel> reportList;
-    private OnClickListener onClickListener;
-
-    public ReportRvAdapter(ArrayList<ReportRvModel> reportList) {
-        this.reportList = reportList;
-    }
-
-    public void setData(ArrayList<ReportRvModel> reportList) {
-        this.reportList = reportList;
-    }
-
-    public void setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-        notifyDataSetChanged();
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View reportItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_report, parent, false);
-        return new ViewHolder(reportItemView);
+    public ReportRvAdapter(ArrayList<ReportRvModel> data, int itemLayoutRes) {
+        super(data, itemLayoutRes);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ReportRvModel report = reportList.get(position);
+    public ViewHolder onCreateViewHolder(@NonNull View itemView) {
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull ReportRvModel report) {
         holder.setReport(report);
-        holder.setOnClickListener(onClickListener);
-    }
-
-    @Override
-    public int getItemCount() {
-        if (reportList == null) return 0;
-        else return reportList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +33,6 @@ public class ReportRvAdapter extends RecyclerView.Adapter<ReportRvAdapter.ViewHo
         AppCompatTextView tvReportIDPrinter;
         AppCompatTextView tvReportIDCustomer;
         AppCompatTextView tvReportStatus;
-        OnClickListener onClickListener;
         ReportRvModel report;
 
         public ViewHolder(@NonNull View itemView) {
@@ -66,35 +41,28 @@ public class ReportRvAdapter extends RecyclerView.Adapter<ReportRvAdapter.ViewHo
             tvReportIDPrinter = itemView.findViewById(R.id.report_tv_idprinter);
             tvReportIDCustomer = itemView.findViewById(R.id.report_tv_idcustomer);
             tvReportStatus = itemView.findViewById(R.id.report_tv_status);
-            itemView.setOnClickListener(view -> onClickListener.onClick(report));
         }
 
         private void setReport(ReportRvModel report) {
             this.report = report;
-            notifyDataSetChanged();
+            updateView();
         }
 
-        private void notifyDataSetChanged() {
-            tvReportDate.setText(report.getIssueddate());
+        private void updateView() {
+            tvReportDate.setText(report.getIdcustomer());
             tvReportIDPrinter.setText(report.getIdprinter());
             tvReportIDCustomer.setText(report.getIdcustomer());
             tvReportStatus.setText(report.getStatus());
             tvReportStatus.setTextColor(getStatusColor());
         }
 
-        private void setOnClickListener(OnClickListener onClickListener) {
-            this.onClickListener = onClickListener;
-        }
-
         private int getStatusColor() {
-            int statusColor = R.color.status_hold;
+            int statusColor = R.color.status_unknown;
             if (report.getStatus().equalsIgnoreCase(itemView.getContext().getString(R.string.status_solved)))
                 statusColor = R.color.status_solved;
+            else if (report.getStatus().equalsIgnoreCase(itemView.getContext().getString(R.string.status_hold)))
+                statusColor = R.color.status_hold;
             return itemView.getContext().getResources().getColor(statusColor);
         }
-    }
-
-    public interface OnClickListener {
-        void onClick(ReportRvModel report);
     }
 }

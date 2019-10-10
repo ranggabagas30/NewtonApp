@@ -11,15 +11,19 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.newtonapp.R;
+import com.newtonapp.data.database.entity.Customer;
 import com.newtonapp.data.network.APIHelper;
 import com.newtonapp.data.network.pojo.request.ReportsRequestModel;
 import com.newtonapp.data.network.pojo.response.ReportsResponseModel;
 import com.newtonapp.model.rvmodel.ReportRvModel;
+import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.NetworkUtil;
 import com.newtonapp.view.adapter.rvadapter.ReportRvAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -30,7 +34,7 @@ public class ReportActivity extends BaseActivity {
     private LinearLayout llFailedBody;
     private RecyclerView rvReportList;
     private ReportRvAdapter rvReportAdapter;
-    private ArrayList<ReportRvModel> reports = new ArrayList<>();
+    private ArrayList<ReportRvModel> reports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +67,13 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void initRecyclerView() {
-        //prePopulateReportList();
-        rvReportAdapter = new ReportRvAdapter(reports);
-        rvReportAdapter.setOnClickListener(report -> {
-            // go to report detail
-            navigateTo(this, ReportDetailActivity.class);
+        reports = new ArrayList<>();
+        rvReportAdapter = new ReportRvAdapter(reports, R.layout.item_report);
+        rvReportAdapter.setOnItemClickListener(report -> {
+                String reportData = new Gson().toJson(report);
+                navigateTo(this, ReportDetailActivity.class, Constants.EXTRA_REPORT_DETAIL, reportData);
         });
+
         rvReportList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rvReportList.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         rvReportList.setAdapter(rvReportAdapter);
@@ -108,16 +113,17 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void onSuccessDownloadReports(ReportsResponseModel response) {
+        if (response.getData() == null || response.getData().isEmpty()) {
+            showFailed();
+            return;
+        }
 
-    }
-
-    private void prePopulateReportList() {
-        ReportRvModel report1 = new ReportRvModel("C123123123", "SN1231313", "21-09-2019", "SOLVED");
-        ReportRvModel report2 = new ReportRvModel("C123412314", "SN123141231","01-09-2019", "HOLD");
-        ReportRvModel report3 = new ReportRvModel("C3412324", "SN12124123", "09-03-2019", "SOLVED");
-        reports.add(report1);
-        reports.add(report2);
-        reports.add(report3);
+        reports.clear();
+        List<Customer> customers = response.getData();
+        for (Customer customer : customers) {
+            reports.add(new ReportRvModel(customer));
+        }
+        rvReportAdapter.setData(reports);
     }
 
     private void showFailed() {

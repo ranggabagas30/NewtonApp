@@ -1,48 +1,105 @@
 package com.newtonapp.model.rvmodel;
 
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+
+import com.newtonapp.data.database.entity.Customer;
+
 public class ReportRvModel {
 
-    private String idcustomer;
-    private String idprinter;
-    private String issueddate;
-    private String status;
+    private Customer customer;
+    private String empty = "N/A";
 
-    public ReportRvModel(String idcustomer, String idprinter, String issueddate, String status) {
-        this.idcustomer = idcustomer;
-        this.idprinter = idprinter;
-        this.issueddate = issueddate;
-        this.status = status;
+    public ReportRvModel(@NonNull Customer customer) {
+        this.customer = customer;
     }
 
     public String getIdcustomer() {
-        return idcustomer;
+        if (!TextUtils.isEmpty(customer.getIdCust()))
+            return customer.getIdCust();
+        return empty;
     }
 
-    public void setIdcustomer(String idcustomer) {
-        this.idcustomer = idcustomer;
+    public void setIdcustomer(@NonNull String idcustomer) {
+        customer.setIdCust(idcustomer);
     }
 
     public String getIdprinter() {
-        return idprinter;
+        if (customer.getProblems() != null && !customer.getProblems().isEmpty()) {
+            if (customer.getProblems().get(0) != null) {
+                if (!TextUtils.isEmpty(customer.getProblems().get(0).getIdProduk()))
+                    return customer.getProblems().get(0).getIdProduk();
+            }
+        }
+        return empty;
     }
 
-    public void setIdprinter(String idprinter) {
-        this.idprinter = idprinter;
+    public void setIdprinter(@NonNull String idprinter) {
+        if (customer.getProblems() != null && !customer.getProblems().isEmpty()) {
+            if (customer.getProblems().get(0) != null) {
+                customer.getProblems().get(0).setIdProduk(idprinter);
+            }
+        }
     }
 
     public String getIssueddate() {
-        return issueddate;
+        if (customer.getProblems() != null && !customer.getProblems().isEmpty()) {
+            if (customer.getProblems().get(0) != null) {
+                if (!TextUtils.isEmpty(customer.getProblems().get(0).getWaktuComp())) {
+                    return customer.getProblems().get(0).getWaktuComp();
+                }
+            }
+        }
+        return empty;
     }
 
     public void setIssueddate(String issueddate) {
-        this.issueddate = issueddate;
+        if (customer.getProblems() != null && !customer.getProblems().isEmpty()) {
+            if (customer.getProblems().get(0) != null) {
+                customer.getProblems().get(0).setWaktuComp(issueddate);
+            }
+        }
     }
 
     public String getStatus() {
-        return status;
+        if (customer.getProblems() != null && !customer.getProblems().isEmpty()) {
+            if (customer.getProblems().get(0) != null) {
+                if (!TextUtils.isEmpty(customer.getProblems().get(0).getStatusComplain())) {
+                    return customer.getProblems().get(0).getStatusComplain();
+                }
+            }
+        }
+        return empty;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        if (customer.getProblems() != null && !customer.getProblems().isEmpty()) {
+            if (customer.getProblems().get(0) != null) {
+                customer.getProblems().get(0).setStatusComplain(status);
+            }
+        }
+    }
+
+    public String getSolvingOption() {
+        if (customer.getProblems() != null && !customer.getProblems().isEmpty()) {
+            if (customer.getProblems().get(0) != null && customer.getProblems().get(0).getSolving() != null) {
+                if (!TextUtils.isEmpty(customer.getProblems().get(0).getSolving().getSolvingOption())) {
+                    return customer.getProblems().get(0).getSolving().getSolvingOption();
+                }
+            }
+        }
+        return empty;
+    }
+
+    public String getSolvingReason() {
+        if (customer.getProblems() != null && !customer.getProblems().isEmpty()) {
+            if (customer.getProblems().get(0) != null && customer.getProblems().get(0).getSolving() != null) {
+                if (!TextUtils.isEmpty(customer.getProblems().get(0).getSolving().getSolvingNote())) {
+                    return customer.getProblems().get(0).getSolving().getSolvingNote();
+                }
+            }
+        }
+        return empty;
     }
 }

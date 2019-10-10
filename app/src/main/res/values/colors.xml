@@ -26,6 +26,7 @@
 
     <color name="status_solved">#4CAF50</color>
     <color name="status_hold">#F32C2C</color>
+    <color name="status_unknown">@android:color/black</color>
 
     <color name="scanner_line_color">#B80606</color>
     <color name="frame_color_1">#44000000</color>

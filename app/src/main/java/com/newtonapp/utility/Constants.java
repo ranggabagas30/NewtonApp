@@ -2,6 +2,8 @@ package com.newtonapp.utility;
 
 public class Constants {
     public static final String EXTRA_INTENT_RESULT_SCAN = "EXTRA_INTENT_RESULT_SCAN";
+    public static final String EXTRA_STATUS_COMPLAIN = "EXTRA_STATUS_COMPLAIN";
+    public static final String EXTRA_REPORT_DETAIL = "EXTRA_REPORT_DETAIL";
 
     public static final int RC_SCAN_BARCODE = 101;
     public static final int RC_ALL_PERMISSIONS = 0;
@@ -10,7 +12,6 @@ public class Constants {
     public static final int REQUEST_STATUS_FAILED = 0;
     public static final int REQUEST_STATUS_SUCCESS = 1;
 
-    public static final String EXTRA_STATUS_COMPLAIN = "EXTRA_STATUS_COMPLAIN";
 
     public static final String CLAIM_USERNAME = "uname";
     public static final String CLAIM_KDCAB = "kdcab";
