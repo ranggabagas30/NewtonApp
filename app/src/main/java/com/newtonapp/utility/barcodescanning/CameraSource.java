@@ -31,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import com.google.android.gms.common.images.Size;
+import com.newtonapp.utility.DebugUtil;
 
 import java.io.IOException;
 import java.lang.Thread.State;
@@ -84,9 +85,9 @@ public class CameraSource {
 
     // These values may be requested by the caller.  Due to hardware limitations, we may need to
     // select close, but not exactly the same values for these.
-    private final float requestedFps = 20.0f;
-    private final int requestedPreviewWidth = 720;
-    private final int requestedPreviewHeight = 540;
+    private final float requestedFps = 30.0f;
+    private final int requestedPreviewWidth = 1080;
+    private final int requestedPreviewHeight = 720;
     private final boolean requestedAutoFocus = true;
 
     // These instances need to be held onto to avoid GC of their underlying resources.  Even though
@@ -364,6 +365,7 @@ public class CameraSource {
      * @return the selected preview and picture size pair
      */
     private static SizePair selectSizePair(Camera camera, int desiredWidth, int desiredHeight) {
+        DebugUtil.d("-> select size pair: ");
         List<SizePair> validPreviewSizes = generateValidPreviewSizeList(camera);
 
         // The method for selecting the best size is to minimize the sum of the differences between
@@ -376,12 +378,16 @@ public class CameraSource {
             Size size = sizePair.previewSize();
             int diff =
                     Math.abs(size.getWidth() - desiredWidth) + Math.abs(size.getHeight() - desiredHeight);
+            DebugUtil.d("preview (width, height): (" + size.getWidth() + ", " + size.getHeight() +")");
+            DebugUtil.d("desired (width, height): (" + desiredWidth + ", " + desiredHeight + ")");
+            DebugUtil.d("diff: " + diff);
             if (diff < minDiff) {
                 selectedPair = sizePair;
                 minDiff = diff;
             }
         }
 
+        DebugUtil.d("selected (width, height): (" + selectedPair.previewSize().getWidth() + ", " + selectedPair.previewSize().getHeight() + ")");
         return selectedPair;
     }
 
@@ -424,6 +430,7 @@ public class CameraSource {
      * preview images may be distorted on some devices.
      */
     private static List<SizePair> generateValidPreviewSizeList(Camera camera) {
+        DebugUtil.d("-> generate valid preview size list: ");
         Camera.Parameters parameters = camera.getParameters();
         List<Camera.Size> supportedPreviewSizes =
                 parameters.getSupportedPreviewSizes();
@@ -433,15 +440,19 @@ public class CameraSource {
         for (Camera.Size previewSize : supportedPreviewSizes) {
             float previewAspectRatio = (float) previewSize.width / (float) previewSize.height;
 
+            DebugUtil.d("preview (width, height, ratio) = (" + previewSize.width + ", " + previewSize.height + ", " + previewAspectRatio + ")");
             // By looping through the picture sizes in order, we favor the higher resolutions.
             // We choose the highest resolution in order to support taking the full resolution
             // picture later.
             for (Camera.Size pictureSize : supportedPictureSizes) {
                 float pictureAspectRatio = (float) pictureSize.width / (float) pictureSize.height;
+                DebugUtil.d("-picture (width, height, ratio) = (" + pictureSize.width + ", " + pictureSize.height + ", " + pictureAspectRatio +")");
                 if (Math.abs(previewAspectRatio - pictureAspectRatio) < ASPECT_RATIO_TOLERANCE) {
+                    DebugUtil.d("- (" + Math.abs(previewAspectRatio - pictureAspectRatio) + ", " + ASPECT_RATIO_TOLERANCE + ") -> valid");
                     validPreviewSizes.add(new SizePair(previewSize, pictureSize));
                     break;
                 }
+                DebugUtil.d("- (" + Math.abs(previewAspectRatio - pictureAspectRatio) + ", " + ASPECT_RATIO_TOLERANCE + ")");
             }
         }
 

@@ -5,10 +5,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -17,7 +16,6 @@ import com.newtonapp.utility.barcodescanning.BarcodeScanningProcessor;
 import com.newtonapp.utility.barcodescanning.CameraSource;
 import com.newtonapp.utility.barcodescanning.CameraSourcePreview;
 import com.newtonapp.utility.barcodescanning.GraphicOverlay;
-import com.newtonapp.utility.barcodescanning.ScannerOverlay;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,10 +23,10 @@ import java.util.List;
 
 public class CameraPreviewActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
     private CameraSourcePreview cameraSourcePreview;
     private GraphicOverlay graphicOverlay;
-    private ScannerOverlay scannerOverlay;
-    private AppCompatImageButton btnBack;
+    //private ScannerOverlay scannerOverlay;
 
     private static final String TAG = CameraPreviewActivity.class.getSimpleName();
     private static final int PERMISSION_REQUEST = 1;
@@ -37,17 +35,19 @@ public class CameraPreviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate camera preview....");
-
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_preview);
-        btnBack = findViewById(R.id.camera_btn_back);
+        toolbar = findViewById(R.id.header_layout_toolbar);
         cameraSourcePreview = findViewById(R.id.camera_layout_preview);
         graphicOverlay = findViewById(R.id.camera_layout_overlay);
-        scannerOverlay = findViewById(R.id.camera_layout_frame_overlay);
-        scannerOverlay.setVisibility(View.VISIBLE);
+        /*scannerOverlay = findViewById(R.id.camera_layout_frame_overlay);
+        scannerOverlay.setVisibility(View.VISIBLE);*/
 
-        btnBack.setOnClickListener(view -> finish());
+        toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.label_scan_instruction));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (cameraSourcePreview == null) {
             Log.d(TAG, "Preview is null");
@@ -67,6 +67,12 @@ public class CameraPreviewActivity extends AppCompatActivity {
             Log.d(TAG, "get runtime permissions first");
             getRuntimePermissions();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     @Override
