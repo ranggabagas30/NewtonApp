@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +17,7 @@ import com.newtonapp.utility.barcodescanning.BarcodeScanningProcessor;
 import com.newtonapp.utility.barcodescanning.CameraSource;
 import com.newtonapp.utility.barcodescanning.CameraSourcePreview;
 import com.newtonapp.utility.barcodescanning.GraphicOverlay;
+import com.newtonapp.utility.barcodescanning.ScannerOverlay;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class CameraPreviewActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private CameraSourcePreview cameraSourcePreview;
     private GraphicOverlay graphicOverlay;
-    //private ScannerOverlay scannerOverlay;
+    private ScannerOverlay scannerOverlay;
 
     private static final String TAG = CameraPreviewActivity.class.getSimpleName();
     private static final int PERMISSION_REQUEST = 1;
@@ -41,8 +43,8 @@ public class CameraPreviewActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.header_layout_toolbar);
         cameraSourcePreview = findViewById(R.id.camera_layout_preview);
         graphicOverlay = findViewById(R.id.camera_layout_overlay);
-        /*scannerOverlay = findViewById(R.id.camera_layout_frame_overlay);
-        scannerOverlay.setVisibility(View.VISIBLE);*/
+        scannerOverlay = findViewById(R.id.camera_layout_frame_overlay);
+        scannerOverlay.setVisibility(View.VISIBLE);
 
         toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         setSupportActionBar(toolbar);
