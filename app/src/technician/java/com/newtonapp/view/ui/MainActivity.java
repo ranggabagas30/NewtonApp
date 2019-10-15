@@ -278,7 +278,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     }
 
     private void sendErrorLog(String username, String imei, String webtoken, String errorMessage, String errorDateTime, String errorDescription) {
-        DebugUtil.e("ERROR: " + errorMessage + "\n" + errorDescription + "\n" + errorDateTime);
+        String errorString = "ERROR: " + errorMessage + "\n" + errorDescription + "\n" + errorDateTime;
+        if (BuildConfig.DEBUG) Toast.makeText(this, errorString, Toast.LENGTH_LONG).show();
+        DebugUtil.e(errorString);
         ErrorLoggingRequestModel formBody = new ErrorLoggingRequestModel();
         formBody.setUsername(username);
         formBody.setImei(imei);

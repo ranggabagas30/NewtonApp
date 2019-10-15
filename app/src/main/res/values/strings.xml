@@ -34,6 +34,7 @@
     <string name="key_first_time_user">key_first_time_user</string>
     <string name="key_token">key_token</string>
     <string name="key_firebase_token">key_firebase_token</string>
+    <string name="key_firebase_message_payload">key_firebase_message_payload</string>
     <string name="key_ongoing_problem">key_ongoing_problem</string>
 
     <!-- error messages-->

@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 
 import com.github.siyamed.shapeimageview.CircularImageView;
+import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
 import com.newtonapp.utility.Constants;
 
@@ -54,6 +55,11 @@ public class DashboardActivity extends BaseActivity {
     }
 
     private void setListener() {
+
+        if (BuildConfig.DEBUG) {
+            ivProfile.setOnClickListener(view -> navigateTo(this, DebugActivity.class));
+        }
+
         // main menu listener
         cvOutstanding.setOnClickListener(view -> navigateTo(this, OutstandingActivity.class));
         cvSolving.setOnClickListener(view -> navigateTo(this, SolvingActivity.class));

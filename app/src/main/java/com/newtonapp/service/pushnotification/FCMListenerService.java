@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
 import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.DebugUtil;
@@ -11,6 +12,8 @@ import com.newtonapp.utility.NotificationUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
 public class FCMListenerService extends FirebaseMessagingService {
+    StringBuilder fcmCompiled = new StringBuilder();
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -35,10 +38,20 @@ public class FCMListenerService extends FirebaseMessagingService {
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        DebugUtil.d("From : " + remoteMessage.getFrom());
-        DebugUtil.d("To: " + remoteMessage.getTo());
-        DebugUtil.d("sent time: " + remoteMessage.getSentTime());
-        DebugUtil.d("ttl : " + remoteMessage.getTtl());
+        String from = "From : " + remoteMessage.getFrom();
+        String to   = "To: " + remoteMessage.getTo();
+        String sentTime = "sent time: " + remoteMessage.getSentTime();
+        String ttl = "ttl : " + remoteMessage.getTtl();
+
+        fcmCompiled.append(from).append("\n");
+        fcmCompiled.append(to).append("\n");
+        fcmCompiled.append(sentTime).append("\n");
+        fcmCompiled.append(ttl).append("\n");
+
+        DebugUtil.d(from);
+        DebugUtil.d(to);
+        DebugUtil.d(sentTime);
+        DebugUtil.d(ttl);
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
@@ -67,6 +80,14 @@ public class FCMListenerService extends FirebaseMessagingService {
             DebugUtil.d("Message Body : " + messageBody);
             DebugUtil.d("Message data : " + messageData);
 
+            fcmCompiled.append("Message Id : " + messageId).append("\n");
+            fcmCompiled.append("Message collapse key : " + messageCollapseKey).append("\n");
+            fcmCompiled.append("Message type : " + messageType).append("\n");
+            fcmCompiled.append("Message channel id :  " + messageChannelId).append("\n");
+            fcmCompiled.append("Message title : " + messageTitle).append("\n");
+            fcmCompiled.append("Message Body : " + messageBody).append("\n");
+            fcmCompiled.append("Message data : " + messageData).append("\n");
+
             Bundle bundle = new Bundle();
             bundle.putString("type", Constants.NOTIF_TYPE_NEW_OUTSTANDING);
             bundle.putString("message", messageBody);
@@ -93,11 +114,20 @@ public class FCMListenerService extends FirebaseMessagingService {
     }
 
     private void handleNotification(Bundle bundleMessage) {
+        String type = bundleMessage.getString("type");
+        String message = bundleMessage.getString("message");
+
+        fcmCompiled.append("type: " + type).append("\n");
+        fcmCompiled.append("message payload: " + message).append("\n");
+
+
+        if (BuildConfig.DEBUG) {
+            Prefs.putString(getString(R.string.key_firebase_message_payload), fcmCompiled.toString());
+        }
         NotificationUtil.getNotification(this, bundleMessage).sendNotification();
     }
 
     private void handleDataMessage(RemoteMessage remoteMessage) {
-
         String type = remoteMessage.getData().get("type");
         String message = remoteMessage.getData().get("message");
         DebugUtil.d("Message data payload : " + remoteMessage.getData());
