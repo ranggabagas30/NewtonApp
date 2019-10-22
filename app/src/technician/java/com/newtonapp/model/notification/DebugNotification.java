@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.newtonapp.view.ui.DebugActivity;
 
-public class DebugNotification extends BaseNotification {
+public class DebugNotification extends BaseNotificationLegacy {
 
     public DebugNotification(Context context, Bundle bundle, String CHANNEL_ID, int PRIORITY, int NOTIFICATION_ID) {
         super(context, bundle, CHANNEL_ID, PRIORITY, NOTIFICATION_ID);
