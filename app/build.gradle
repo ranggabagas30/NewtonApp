@@ -1,18 +1,32 @@
 apply plugin: 'com.android.application'
 
-android {
-    compileSdkVersion 28
-    defaultConfig {
+// Manifest version information!
+def minAPIlevel = rootProject.ext.minSdkVersion
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
 
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
         applicationId "com.newtonapp.customer"
-        minSdkVersion 19
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode minAPIlevel * 1000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        setProperty("archivesBaseName", "newtonapp-customer-" + "-v" + "(" + versionName + ")")
+        setProperty("archivesBaseName", "customer" + "-v" + versionName)
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('release.keystore.jks')
+            storePassword "newton"
+            keyAlias "newtonappkeystore"
+            keyPassword "newton"
+        }
     }
 
     lintOptions {
@@ -28,11 +42,36 @@ android {
             }
         }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 renameAPK(variant)
             }
+        }
+    }
+
+    flavorDimensions "user_role"
+
+    productFlavors {
+        customer {
+            applicationId 'com.newtonapp.customer'
+            dimension "user_role"
+            buildConfigField("String", "BASE_API_DEV", '"https://dev.pramadhan.com/api/"')
+            buildConfigField("String", "BASE_API_PROD", '"http://newton-app.com/api/"')
+            //buildConfigField("String", "BASE_API_PROD", '"http://149.129.254.64:80/newton/api/"')
+        }
+        technician {
+            applicationId 'com.newtonapp.technician'
+            dimension "user_role"
+            buildConfigField("String", "BASE_API_DEV", '"https://dev.pramadhan.com/api/"')
+            buildConfigField("String", "BASE_API_PROD", '"http://newton-app.com/api/"')
+            versionMajor = 1
+            versionMinor = 0
+            versionPatch = 0
+            versionCode minAPIlevel * 1000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
+            versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+            setProperty("archivesBaseName", "technician" + "-v" + versionName)
         }
     }
 
@@ -61,6 +100,7 @@ dependencies {
     // firebase integration
     implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation 'com.google.firebase:firebase-ml-vision:18.0.1'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
 
     // Room components
     implementation 'androidx.room:room-runtime:2.2.0-alpha02'
@@ -73,25 +113,39 @@ dependencies {
     // permissions
     implementation 'pub.devrel:easypermissions:3.0.0'
 
+    // JWT
+    implementation 'com.auth0.android:jwtdecode:1.3.0'
+
     // Networking
     // Retrofit http://square.github.io/retrofit
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0' // interceptor
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'  // // retrofit2 rxjava2 adapter
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    // // retrofit2 rxjava2 adapter
 
     // reactive
+    // rxAndroid 2.0 to subscribe on AndroidSchedulers class
     // https://github.com/ReactiveX/RxAndroid
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1' // rxAndroid 2.0 to subscribe on AndroidSchedulers class
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10' // rxJava2
 
-    // bindview
-    /*implementation 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'*/
+    // custom shape imageview
+    implementation 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
 
-    // customView
+    // svg support
+    implementation 'com.pixplicity.sharp:library:1.1.0'
+    implementation 'com.caverock:androidsvg-aar:1.4'
+
+    // tableView
     implementation 'com.evrencoskun.library:tableview:0.8.8'
-    implementation 'com.github.sangcomz:StickyTimeLine:v0.0.20' //StickyTimeLine v0.0.20 and above only supports projects that have been migrated to androidx.
+
+    // timelineView
+    //StickyTimeLine v0.0.20 and above only supports projects that have been migrated to androidx.
+    implementation 'com.github.sangcomz:StickyTimeLine:v0.0.20'
+
+    // RatingBar view
+    implementation 'me.zhanghai.android.materialratingbar:library:1.3.2'
 
     // persistent
     implementation 'com.pixplicity.easyprefs:library:1.9.0'

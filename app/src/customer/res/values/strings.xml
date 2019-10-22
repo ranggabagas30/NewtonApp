@@ -1,0 +1,11 @@
+<resources>
+    <!-- screens -->
+    <string name="screen_verification">Verification</string>
+    <string name="screen_tracking">Tracking</string>
+    <string name="label_view_problem_tracking">View problem tracking</string>
+    <string name="label_submit_complain">Submit complain</string>
+    <string name="label_update_complain">Update complain</string>
+
+    <!-- error messages -->
+    <string name="error_blank_customer_id">Please input your id first</string>
+</resources>

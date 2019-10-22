@@ -8,4 +8,57 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Base.Widget.Newton.AppBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    </style>
+
+    <style name="AppTheme.AppBar" parent="Base.Widget.Newton.AppBar">
+    </style>
+
+    <style name="AppTheme.PopUp" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="Base.Widget.Newton.EditText.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.EditText.Dark.SingleLine" parent="Base.Widget.Newton.EditText.Dark">
+        <item name="android:maxLines">1</item>
+        <item name="android:minLines">1</item>
+    </style>
+
+    <style name="AppTheme.EditText.SingleLine." parent="Widget.AppCompat.EditText">
+        <item name="android:maxLines">1</item>
+        <item name="android:minLines">1</item>
+    </style>
+
+    <style name="Base.AccentButton" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.AccentButton.PrimaryDark" parent="Base.AccentButton">
+        <item name="colorButtonNormal">@color/selector_btn_color_colorprimarydark</item>
+    </style>
+
+    <style name="AppTheme.AccentButton.BlueDark" parent="Base.AccentButton">
+        <item name="colorButtonNormal">@color/selector_btn_color_bluedark</item>
+    </style>
+
+    <style name="AppTheme.AccentButton.OrangeDark" parent="Base.AccentButton">
+        <item name="colorButtonNormal">@color/selector_btn_color_orangedark</item>
+    </style>
+
+    <style name="AppTheme.CardView" parent="android:Widget.TextView">
+        <item name="android:foreground">@drawable/selector_bg_card</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+
+    <style name="AppTheme.CardView.DashboardMenu" parent="AppTheme.CardView">
+        <item name="android:layout_margin">5dp</item>
+    </style>
 </resources>

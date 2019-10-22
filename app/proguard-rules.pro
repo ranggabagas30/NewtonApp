@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#siyamed custom shape imageview
+-dontwarn android.support.v7.**
+-keep class android.support.v7.** { ; }
+-keep interface android.support.v7.* { ; }
+-keepattributes *Annotation,Signature
+-dontwarn com.github.siyamed.**
+-keep class com.github.siyamed.shapeimageview.**{ *; }

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.newtonapp.view.ui.ReportDetailActivity">
+
+    <include
+        layout="@layout/layout_header_toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/header.layout.toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="25dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/reportdetail.iv.pic.report"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.3"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/image_no_available"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <LinearLayout
+                android:id="@+id/reportdetail.layout.problem.brief"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/reportdetail.iv.pic.report"
+                tools:layout_editor_absoluteX="25dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Problem Info"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.customerid.label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="Customer" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.customerid.doubledot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.09"
+                        android:text=":" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.customerid.value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.58"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.printerid.label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="SN" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.printerid.doubledot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.09"
+                        android:text=":" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.printerid.value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.58"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.technicianid.label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="Teknisi" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.technicianid.doubledot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.09"
+                        android:text=":" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.technicianid.value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.58"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@android:color/darker_gray"
+                    android:visibility="invisible" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Detail"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.reportdate.label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="Tgl report" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.reportdate.doubledot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.09"
+                        android:text=":" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.reportdate.value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.58"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.reporttime.label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="Waktu" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.reporttime.doubledot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.09"
+                        android:text=":" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.reporttime.value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.58"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.contractnumber.label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="Kontrak No." />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.contractnumber.doubledot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.09"
+                        android:text=":" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.contractnumber.value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.58"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.product.label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="Produksi" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.product.doubledot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.09"
+                        android:text=":" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.product.value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.58"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.solvingoption.label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="Aktivitas" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.solvingoption.doubledot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.09"
+                        android:text=":" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.solvingoption.value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.58"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.solvingnote.label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:text="Result" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.solvingnote.doubledot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.09"
+                        android:text=":" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reportdetail.tv.solvingnote.value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.58"
+                        android:gravity="center" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

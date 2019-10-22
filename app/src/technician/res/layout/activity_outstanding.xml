@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.newtonapp.view.ui.OutstandingActivity">
+
+    <include layout="@layout/layout_header_toolbar" />
+
+    <FrameLayout
+        android:id="@+id/outstanding.layout.body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header.layout.toolbar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/outstanding.rv.tasklist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_outstanding_task"
+            tools:itemCount="3"/>
+
+        <include layout="@layout/layout_body_failed" android:visibility="gone" />
+
+    </FrameLayout>
+
+
+</RelativeLayout>

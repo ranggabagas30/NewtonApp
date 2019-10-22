@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.newtonapp.view.ui.SolvingActivity">
+
+    <include
+        layout="@layout/layout_header_toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/solving.layout.body.kunjungan"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/header.layout.toolbar">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/solving.et.idcustomer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textCapCharacters"
+            android:drawableEnd="@drawable/ic_perm_identity_black_24dp"
+            style="@style/AppTheme.EditText.SingleLine."
+            android:hint="ID Customer"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/solving.et.idbarcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:inputType="text|textCapCharacters"
+            android:drawableEnd="@drawable/ic_camera_alt_black_24dp"
+            style="@style/AppTheme.EditText.SingleLine."
+            android:hint="Scan barcode"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/solving.btn.verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Verify"
+            android:theme="@style/AppTheme.AccentButton.PrimaryDark"
+            style="@style/AppTheme.ButtonPrimaryDark"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/solving.layout.body.solving"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/solving.layout.body.kunjungan">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/solving.sp.options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/solving_options" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/solving.et.note"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:inputType="textMultiLine"
+            android:gravity="start"
+            android:hint="Note : " />
+
+        <LinearLayout
+            android:id="@+id/solving.layout.update_tracking"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/solving.btn.solved"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginEnd="5dp"
+                android:text="Solved"
+                android:theme="@style/AppTheme.AccentButton.BlueDark"
+                style="@style/AppTheme.ButtonBlueDark"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/solving.btn.hold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginStart="5dp"
+                android:text="Hold"
+                android:theme="@style/AppTheme.AccentButton.OrangeDark"
+                style="@style/AppTheme.ButtonOrangeDark"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

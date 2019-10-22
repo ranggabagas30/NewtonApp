@@ -1,8 +1,12 @@
 <resources>
-    <string name="app_name">NewtonApp</string>
+    <string name="app_name">newton Ezy</string>
+    <string name="copyright">Copyright Reserved Pramadhan</string>
     <string name="konfirmasi">Confirm</string>
     <string name="home">Home</string>
     <string name="problem_tidak_ditemukan">Problem tidak ditemukan</string>
+    <string name="menu_outstanding">Outstanding</string>
+    <string name="menu_solving">Solving</string>
+    <string name="menu_report">Report</string>
 
     <string-array name="problems">
         <item>Verification complain</item>
@@ -25,4 +29,65 @@
         <item>@drawable/ic_solving_active_24dp</item>
         <item>@drawable/ic_waiting_approval_active_24dp</item>
     </integer-array>
+
+    <!-- prefs key-->
+    <string name="key_first_time_user">key_first_time_user</string>
+    <string name="key_token">key_token</string>
+    <string name="key_firebase_token">key_firebase_token</string>
+    <string name="key_firebase_message_payload">key_firebase_message_payload</string>
+    <string name="key_ongoing_problem">key_ongoing_problem</string>
+
+    <!-- error messages-->
+    <string name="error_failed_sending_firebase_token">ERROR: failed sending firebase token</string>
+    <string name="error_null_firebase_token">ERROR: firebase token is null</string>
+    <string name="error_imei_not_found">IMEI not found</string>
+    <string name="error_read_phone_state_not_allowed">Permission read phone state not allowed</string>
+    <string name="error_blank_fields">Please fill the empty fields</string>
+    <string name="error_incorrect_data">Please input correct data</string>
+    <string name="error_null_response">ERROR: server not responding</string>
+    <string name="error_bad_token">Session ended. Token bad format.\nPlease login again</string>
+    <string name="error_session_not_valid">Invalid session. Automatically logout</string>
+    <string name="error_failed_refresh_data">Couldn\'t refresh data</string>
+    <string name="error_no_internet_connection">No internet connection</string>
+    <string name="error_problem_not_found">Problem not found, please do re-login again</string>
+    <string name="error_no_ongoing_problem">There is no ongoing problem</string>
+    <string name="error_unable_taking_job">Unable taking job. Please finish the on-going job</string>
+    <string name="error_empty_otp">Please insert customer OTP</string>
+    <string name="error_empty_rate">Please rate us</string>
+    <string name="error_empty_report_detail">No report detail found</string>
+
+    <!-- warning messages-->
+    <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
+
+    <!-- success messages-->
+    <string name="success_message_firebase_token_sent">Firebase token sent successfully</string>
+    <string name="success_message_login">Login successful</string>
+    <string name="success_message_empty_data_item">No item</string>
+    <string name="success_message_approved">Thanks for your approval</string>
+    <string name="success_message_request_forget_password">Request remember password sent successfully. Waiting for approval</string>
+
+    <!-- progress messages-->
+    <!-- technician -->
+    <string name="progress_send_request_forget_password">Sending request</string>
+    <string name="progress_login">Verifying account</string>
+    <string name="progress_loading">Loading data please wait</string>
+    <string name="progress_taking_outstanding_job">Sending request taking job</string>
+    <string name="progress_getting_latest_tracking">Getting latest tracking progress</string>
+    <string name="progress_verifying_kunjungan">Verifying</string>
+    <string name="progress_solved">Please wait</string>
+    <string name="progress_hold">Please wait</string>
+    <string name="progress_approve">Approving please wait</string>
+    <string name="progress_getting_reports">Downloading reports</string>
+    <string name="progress_tracking">Please wait</string>
+    <string name="progress_logout">Sigining out</string>
+
+    <!--customer -->
+    <string name="progress_send_complain">Sending complain and verifying</string>
+    <string name="progress_update_complain">Updating complain</string>
+
+    <string name="label_scan_instruction">Scan QR code to get printer id</string>
+    <string name="label_scan_qr_code">Scan QR code</string>
+    <string name="label_id_customer">ID Customer</string>
+    <string name="label_note">Note :</string>
+    <string name="label_note_available">N/A</string>
 </resources>

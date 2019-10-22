@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.newtonapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:name=".NewtonApplication"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".view.ui.DebugActivity"></activity>
+        <activity android:name=".view.ui.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".view.ui.ForgetPasswordActivity" />
+        <activity android:name=".view.ui.ReportDetailActivity" />
+        <activity android:name=".view.ui.ReportActivity" />
+        <activity
+            android:name=".view.ui.ApprovalActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".view.ui.ProductHistoryActivity" />
+        <activity
+            android:name=".view.ui.OnboardingScreenActivity"
+            android:parentActivityName=".view.ui.DashboardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.ui.DashboardActivity" />
+        </activity>
+        <activity android:name=".view.ui.SolvingActivity" />
+        <activity android:name=".view.ui.OutstandingActivity" />
+        <activity android:name=".view.ui.DashboardActivity" />
+        <activity android:name=".view.ui.MainActivity" />
+    </application>
+
+</manifest>

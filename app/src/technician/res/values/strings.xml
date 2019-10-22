@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">icare newton</string>
+
+    <!-- screens -->
+    <string name="screen_forget_password">Forget Password</string>
+    <string name="screen_dashboard">Dashboard</string>
+    <string name="screen_outstanding_list">Outstanding List</string>
+    <string name="screen_solving">Solving</string>
+    <string name="screen_approval">Approval</string>
+    <string name="screen_historical_usage">Historical Usage</string>
+    <string name="screen_report_list">Report List</string>
+    <string name="screen_report_detail">Report Detail</string>
+    <string name="screen_debug">Debug Page</string>
+
+    <string name="status_solved">SOLVED</string>
+    <string name="status_hold">HOLD</string>
+
+    <string name="category">technician</string>
+    <string name="flag_retrieve_outstanding_joblist">1</string>
+    <string name="flag_taking_outstanding_joblist">2</string>
+    <string name="flag_kunjungan_solvingin">3</string>
+    <string name="flag_finishing_solving_ok">4</string>
+    <string name="flag_hold_solving">5</string>
+    <string name="flag_retrieve_report_joblist">6</string>
+    <string name="flag_retrieve_history_product">7</string>
+
+    <string name="key_idproblem_under_solving">key_idproblem_under_solving</string>
+
+    <string-array name="solving_options">
+        <item>service</item>
+        <item>maintenance</item>
+        <item>ganti sparepart</item>
+        <item>replacement</item>
+    </string-array>
+</resources>

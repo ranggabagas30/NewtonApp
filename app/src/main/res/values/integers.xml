@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="scanner_rect_width">230</integer>
+    <integer name="scanner_rect_height">230</integer>
+    <integer name="scanner_rect_corner_radius">0</integer>
+    <integer name="scanner_line_width">4</integer>
+    <integer name="scanner_line_speed">5</integer>
+    <integer name="corner_line_length">10</integer>
+    <integer name="corner_line_thickness">4</integer>
+</resources>
