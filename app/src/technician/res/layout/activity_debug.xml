@@ -13,10 +13,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/debug.layout.firebase"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/header.layout.toolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/header.layout.toolbar">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/debug.tv.firebase"
@@ -45,4 +44,42 @@
             android:hint="Firebase message payload"
             app:layout_constraintTop_toBottomOf="@+id/debug.et.firebasetoken" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/debug.layout.camera.test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/debug.layout.firebase">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/debug.tv.camera.label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Camera Test"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/debug.tv.camera.result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="RESULT"
+            app:layout_constraintTop_toBottomOf="@+id/debug.tv.camera.label" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/debug.btn.camera.open"
+            android:theme="@style/AppTheme.AccentButton.PrimaryDark"
+            style="@style/AppTheme.ButtonPrimaryDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Open Camera"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/debug.tv.camera.result" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
