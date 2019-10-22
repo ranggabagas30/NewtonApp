@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Base.Widget.Newton.AppBar.V21" parent="Base.Widget.Newton.AppBar">
-        <item name="android:elevation">21dp</item>
+        <item name="android:elevation">4dp</item>
     </style>
 
     <style name="AppTheme.AppBar" parent="Base.Widget.Newton.AppBar.V21">
@@ -21,6 +21,7 @@
     </style>
 
     <style name="Base.Widget.Newton.Button.Dark.V21" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:padding">10dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:elevation">4dp</item>
     </style>
