@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.newtonapp.view.ui.OutstandingActivity;
 
-public class NewOutstandingNotification extends BaseNotification {
+public class NewOutstandingNotification extends BaseNotificationLegacy {
 
 
     public NewOutstandingNotification(Context context, Bundle bundle, String CHANNEL_ID, int PRIORITY, int NOTIFICATION_ID) {

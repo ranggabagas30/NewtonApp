@@ -6,6 +6,7 @@ import android.content.ContextWrapper;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.newtonapp.model.notification.DefaultNotificationChannel;
+import com.newtonapp.model.notification.HighNotificationChannel;
 import com.newtonapp.utility.DebugUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -33,14 +34,16 @@ public class NewtonApplication extends Application implements ActivityLifecycleH
 
                 }).addOnFailureListener(Throwable::printStackTrace);
 
-        // Create default notification channel
+        // Create notification channels
         DefaultNotificationChannel defaultNotificationChannel = new DefaultNotificationChannel();
         defaultNotificationChannel.createNotificationChannel(this);
+
+        HighNotificationChannel highNotificationChannel = new HighNotificationChannel();
+        highNotificationChannel.createNotificationChannel(this);
 
         // Register activity lifecycle callbacks
         registerActivityLifecycleCallbacks(new ActivityLifecycleHandler(this));
     }
-
 
     @Override
     public void onTerminate() {

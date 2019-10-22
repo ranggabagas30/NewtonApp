@@ -10,18 +10,17 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-public class DefaultNotificationChannel extends BaseNotificationChannel {
+public class HighNotificationChannel extends BaseNotificationChannel {
 
-    public static String CHANNEL_ID = "DEFAULT_CHANNEL_ID";
-    private CharSequence CHANNEL_NAME = "Default Notification";
-    private String CHANNEL_DESC = "Not-disturb notification mode (silence)";
-    private int CHANNEL_IMPORTANCE_LEVEL = NotificationManager.IMPORTANCE_DEFAULT; // for Android OS 8.0 and above
-    public static int CHANNEL_PRIORITY_LEVEL = NotificationCompat.PRIORITY_DEFAULT; // for Android OS 7.0 and lower
+    public static String CHANNEL_ID = "HIGH_CHANNEL_ID";
+    private CharSequence CHANNEL_NAME = "HIGH NOTIFICATION";
+    private String CHANNEL_DESC = "High level priority notification";
+    private int CHANNEL_IMPORTANCE_LEVEL = NotificationManager.IMPORTANCE_HIGH; // for Android OS 8.0 and above
+    public static int CHANNEL_PRIORITY_LEVEL = NotificationCompat.PRIORITY_HIGH; // for Android OS 7.0 and lower
     private NotificationChannel channel;
 
     @Override
     public void createNotificationChannel(Context context) {
-
         if (channel == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, CHANNEL_IMPORTANCE_LEVEL);
             channel.setDescription(CHANNEL_DESC);
@@ -30,6 +29,7 @@ public class DefaultNotificationChannel extends BaseNotificationChannel {
                             .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
                             .setLegacyStreamType(AudioManager.STREAM_NOTIFICATION)
                             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
+            channel.setVibrationPattern(new long[]{100, 100, 100, 100});
 
             // register notification channel. You cannot change after this
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
