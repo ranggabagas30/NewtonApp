@@ -64,7 +64,8 @@ android {
         technician {
             applicationId 'com.newtonapp.technician'
             dimension "user_role"
-            buildConfigField("String", "BASE_API_DEV", '"https://dev.pramadhan.com/api/"')
+            //buildConfigField("String", "BASE_API_DEV", '"https://dev.pramadhan.com/api/"')
+            buildConfigField("String", "BASE_API_DEV", '"http://newton-app.com/api/"')
             buildConfigField("String", "BASE_API_PROD", '"http://newton-app.com/api/"')
             versionMajor = 1
             versionMinor = 0
