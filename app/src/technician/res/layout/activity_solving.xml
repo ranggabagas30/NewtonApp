@@ -35,14 +35,14 @@
             android:inputType="text|textCapCharacters"
             android:drawableEnd="@drawable/ic_camera_alt_black_24dp"
             style="@style/AppTheme.EditText.SingleLine."
-            android:hint="Scan barcode"/>
+            android:hint="Scan barcode" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/solving.btn.verify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Verify"
+            android:text="Checkin"
             android:theme="@style/AppTheme.AccentButton.PrimaryDark"
             style="@style/AppTheme.ButtonPrimaryDark"/>
     </LinearLayout>

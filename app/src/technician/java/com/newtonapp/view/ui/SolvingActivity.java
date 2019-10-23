@@ -132,7 +132,7 @@ public class SolvingActivity extends BaseActivity {
         ArrayAdapter<String> spSolvingOptionsAdapter = new ArrayAdapter<>(this, R.layout.item_spinner, arrSolvingOptions);
         spSolvingOption.setAdapter(spSolvingOptionsAdapter);
 
-        setBlockMode();
+        setKunjunganMode();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -147,11 +147,13 @@ public class SolvingActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 idCustomer = editable.toString();
+                setKunjunganMode();
             }
         });
         etIdBarcode.addTextChangedListener(new TextWatcher() {
@@ -162,12 +164,12 @@ public class SolvingActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 idPrinter = editable.toString();
+                setKunjunganMode();
             }
         });
 
@@ -241,9 +243,11 @@ public class SolvingActivity extends BaseActivity {
                                          onSuccessTracking(response);
                                      } else {
                                          Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
+                                         setBlockMode();
                                      }
                                  }, error -> {
                                      hideDialog();
+                                     setBlockMode();
                                      String errorMessage = NetworkUtil.handleApiError(error);
                                      Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
                                  }
@@ -283,7 +287,7 @@ public class SolvingActivity extends BaseActivity {
                             setSolvingMode();
                             break;
                         default:
-                            Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
+                            //Toast.makeText(this, getString(R.string.success_message_no_ongoing_problem), Toast.LENGTH_LONG).show();
                             break;
                     }
 
@@ -292,13 +296,17 @@ public class SolvingActivity extends BaseActivity {
             }
         }
 
-        Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, getString(R.string.success_message_no_ongoing_problem), Toast.LENGTH_LONG).show();
     }
 
     // verifikasi sebagai kunjungan
     private void onVerify() {
         if (!TextUtils.isEmpty(idCustomer) && !TextUtils.isEmpty(idPrinter)) {
-            verify();
+            if (customer != null &&
+                    idCustomer.equalsIgnoreCase(customer.getIdCust()) &&
+                    idPrinter.equalsIgnoreCase(customer.getProblems().get(0).getIdProblem())) {
+                verify();
+            } else Toast.makeText(this, getString(R.string.error_problem_not_found), Toast.LENGTH_SHORT).show();
         } else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
     }
 
@@ -430,23 +438,15 @@ public class SolvingActivity extends BaseActivity {
     }
 
     private void onSuccessVerifyKunjungan(Customer customer) {
-        customer.getProblems().get(0).setStatusComplain(Constants.FLAG_KUNJUNGAN);
-        setOngoingCustomerProblem(customer);
         setSolvingMode();
     }
 
     private void onSuccessSolved(Customer customer, Solving solving) {
-        customer.getProblems().get(0).setSolving(solving);
-        customer.getProblems().get(0).setStatusComplain(Constants.FLAG_SOLVED);
-        setOngoingCustomerProblem(customer);
         navigateTo(this, ApprovalActivity.class);
         finish();
     }
 
     private void onSuccessHold(Customer customer, Solving solving) {
-        customer.getProblems().get(0).setSolving(solving);
-        customer.getProblems().get(0).setStatusComplain(Constants.FLAG_HOLD);
-        setOngoingCustomerProblem(customer);
         finish(); // back to main menu
     }
 
@@ -457,6 +457,11 @@ public class SolvingActivity extends BaseActivity {
                 !TextUtils.isEmpty(solvingNote);
     }
 
+    private boolean isKunjunganFieldFilled() {
+        return !TextUtils.isEmpty(idCustomer) &&
+                !TextUtils.isEmpty(idPrinter);
+    }
+
     private void setBlockMode() {
         llSolvingBodySolving.setVisibility(View.GONE);
         notifyDisabledInputKunjungan();
@@ -465,6 +470,7 @@ public class SolvingActivity extends BaseActivity {
     private void setKunjunganMode() {
         llSolvingBodySolving.setVisibility(View.GONE);
         notifyEnabledInputKunjungan();
+        if (!isKunjunganFieldFilled()) btnVerify.setEnabled(false);
     }
 
     private void setSolvingMode() {
@@ -474,13 +480,13 @@ public class SolvingActivity extends BaseActivity {
 
     private void notifyEnabledInputKunjungan() {
         etIdCustomer.setEnabled(true);
-        etIdBarcode.setEnabled(true);
+        //etIdBarcode.setEnabled(true);
         btnVerify.setEnabled(true);
     }
 
     private void notifyDisabledInputKunjungan() {
         etIdCustomer.setEnabled(false);
-        etIdBarcode.setEnabled(false);
+        //etIdBarcode.setEnabled(false);
         btnVerify.setEnabled(false);
     }
 }
