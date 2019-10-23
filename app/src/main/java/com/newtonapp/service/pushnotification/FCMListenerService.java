@@ -6,7 +6,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
-import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NotificationUtil;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -88,10 +87,12 @@ public class FCMListenerService extends FirebaseMessagingService {
             fcmCompiled.append("Message Body : " + messageBody).append("\n");
             fcmCompiled.append("Message data : " + messageData).append("\n");
 
-            Bundle bundle = new Bundle();
-            bundle.putString("type", Constants.NOTIF_TYPE_NEW_OUTSTANDING);
-            bundle.putString("message", messageBody);
-            handleNotification(bundle);
+            NotificationUtil.notify(this, remoteMessage);
+
+            /*Bundle bundle = new Bundle();
+            bundle.putString("type", remoteMessage.getData().get("type"));
+            bundle.putString("message", remoteMessage.getData().get("message"));
+            handleNotification(bundle);*/
         }
     }
 
@@ -124,7 +125,7 @@ public class FCMListenerService extends FirebaseMessagingService {
         if (BuildConfig.DEBUG) {
             Prefs.putString(getString(R.string.key_firebase_message_payload), fcmCompiled.toString());
         }
-        NotificationUtil.getNotification(this, bundleMessage).sendNotification();
+        //NotificationUtil.getNotification(this, bundleMessage).sendNotification();
     }
 
     private void handleDataMessage(RemoteMessage remoteMessage) {
