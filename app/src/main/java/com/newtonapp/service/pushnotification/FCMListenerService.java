@@ -1,17 +1,19 @@
 package com.newtonapp.service.pushnotification;
 
-import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
+import com.newtonapp.model.notification.MessagePayload;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NotificationUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
 public class FCMListenerService extends FirebaseMessagingService {
-    StringBuilder fcmCompiled = new StringBuilder();
+    StringBuilder fcmCompiled;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -42,6 +44,7 @@ public class FCMListenerService extends FirebaseMessagingService {
         String sentTime = "sent time: " + remoteMessage.getSentTime();
         String ttl = "ttl : " + remoteMessage.getTtl();
 
+        fcmCompiled = new StringBuilder();
         fcmCompiled.append(from).append("\n");
         fcmCompiled.append(to).append("\n");
         fcmCompiled.append(sentTime).append("\n");
@@ -87,13 +90,13 @@ public class FCMListenerService extends FirebaseMessagingService {
             fcmCompiled.append("Message Body : " + messageBody).append("\n");
             fcmCompiled.append("Message data : " + messageData).append("\n");
 
-            if (BuildConfig.DEBUG) Prefs.putString(getString(R.string.key_firebase_message_payload), messageBody);
-            NotificationUtil.notify(this, remoteMessage);
+            MessagePayload messagePayload = new Gson().fromJson(messageBody, MessagePayload.class);
 
-            /*Bundle bundle = new Bundle();
-            bundle.putString("type", remoteMessage.getData().get("type"));
-            bundle.putString("message", remoteMessage.getData().get("message"));
-            handleNotification(bundle);*/
+            try {
+                handleNotification(messagePayload);
+            } catch (NullPointerException e) {
+                DebugUtil.e("NOTIFICATION ERROR: " + e.getMessage(), e);
+            }
         }
     }
 
@@ -115,29 +118,44 @@ public class FCMListenerService extends FirebaseMessagingService {
         Prefs.putString(getString(R.string.key_firebase_token), token);
     }
 
-    private void handleNotification(Bundle bundleMessage) {
-        String type = bundleMessage.getString("type");
-        String message = bundleMessage.getString("message");
+    private void handleNotification(MessagePayload messagePayload) throws NullPointerException {
 
-        fcmCompiled.append("type: " + type).append("\n");
-        fcmCompiled.append("message payload: " + message).append("\n");
+        if (TextUtils.isEmpty(messagePayload.getAction()))
+            throw new NullPointerException("notification action is empty");
 
+        if (TextUtils.isEmpty(messagePayload.getMessage()))
+            throw new NullPointerException("notification message is empty");
 
         if (BuildConfig.DEBUG) {
             Prefs.putString(getString(R.string.key_firebase_message_payload), fcmCompiled.toString());
         }
-        //NotificationUtil.getNotification(this, bundleMessage).sendNotification();
+
+        NotificationUtil.notify(this, messagePayload);
     }
 
     private void handleDataMessage(RemoteMessage remoteMessage) {
-        String type = remoteMessage.getData().get("type");
+        String action = remoteMessage.getData().get("action");
+        String actionDestination = remoteMessage.getData().get("action_destination");
+        String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
-        DebugUtil.d("Message data payload : " + remoteMessage.getData());
 
-        Bundle extras = new Bundle();
-        extras.putString("type", type);
-        extras.putString("message", message);
+        fcmCompiled.append("Message payload: {").append("\n");
+        fcmCompiled.append("\taction: ").append(action).append(", \n");
+        fcmCompiled.append("\taction_destination: ").append(actionDestination).append(", \n");
+        fcmCompiled.append("\ttitle: ").append(title).append(", \n");
+        fcmCompiled.append("\tmessage: ").append(message).append("\n");
+        fcmCompiled.append("}");
 
-        handleNotification(extras);
+        MessagePayload messagePayload = new MessagePayload();
+        messagePayload.setAction(action);
+        messagePayload.setActionDestination(actionDestination);
+        messagePayload.setTitle(title);
+        messagePayload.setMessage(message);
+
+        try {
+            handleNotification(messagePayload);
+        } catch (NullPointerException e) {
+            DebugUtil.e("NOTIFICATION ERROR: " + e.getMessage(), e);
+        }
     }
 }

@@ -24,8 +24,8 @@
     <string name="flag_retrieve_report_joblist">6</string>
     <string name="flag_retrieve_history_product">7</string>
 
-    <string name="notification_assign_name">Technical assignment</string>
-    <string name="notification_debug_name">Debug notification</string>
+    <string name="notification_assignment">assignment</string>
+    <string name="notification_base">Debug notification</string>
 
     <string name="key_idproblem_under_solving">key_idproblem_under_solving</string>
 
