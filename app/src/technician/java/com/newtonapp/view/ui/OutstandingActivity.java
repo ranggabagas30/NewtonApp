@@ -19,9 +19,9 @@ import com.newtonapp.data.network.APIHelper;
 import com.newtonapp.data.network.pojo.request.OutstandingRequestModel;
 import com.newtonapp.data.network.pojo.request.TakeJobRequestModel;
 import com.newtonapp.data.network.pojo.request.TrackingRequestModel;
+import com.newtonapp.data.network.pojo.response.OutstandingResponseModel;
 import com.newtonapp.data.network.pojo.response.TrackingResponseModel;
 import com.newtonapp.model.rvmodel.OutstandingRvModelNew;
-import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NetworkUtil;
 import com.newtonapp.view.adapter.rvadapter.OutstandingRvAdapter;
@@ -96,16 +96,15 @@ public class OutstandingActivity extends BaseActivity {
                         .subscribeOn(Schedulers.io())
                         .subscribe(
                                 response -> {
+                                    hideDialog();
                                     if (response == null) {
-                                        hideDialog();
                                         throw new NullPointerException(getString(R.string.error_null_response));
                                     }
 
                                     if (response.getStatus() == 1) {
-                                        Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
                                         onSuccessTracking(response);
                                     } else {
-                                        hideDialog();
                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }, error -> {
@@ -118,8 +117,7 @@ public class OutstandingActivity extends BaseActivity {
     }
 
     private void onSuccessTracking(TrackingResponseModel response) {
-        Customer customer = response.getData().get(0);
-        if (customer != null && !customer.getProblems().get(0).getStatusComplain().equalsIgnoreCase(Constants.FLAG_OPEN)) {
+        if (response.getData() == null) { // tidak ada ongoing problem
             outstandingRvAdapter.setOnItemClickListener(data -> showUnableTakingOutstandingJob());
             rvOutstandingList.setAdapter(outstandingRvAdapter);
         }
@@ -143,7 +141,7 @@ public class OutstandingActivity extends BaseActivity {
     }
 
     private void downloadOutstandingJoblist() {
-        showMessageDialog(getString(R.string.progress_loading));
+        //showMessageDialog(getString(R.string.progress_loading));
         OutstandingRequestModel formBody = new OutstandingRequestModel();
         formBody.setToken(loginToken.toString());
         compositeDisposable.add(
@@ -158,12 +156,9 @@ public class OutstandingActivity extends BaseActivity {
                                     }
 
                                     if (response.getStatus() == 1) {
-                                        onSuccessDownloadOutstandinglist(response.getData());
+                                        onSuccessDownloadOutstandinglist(response);
                                     } else {
                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
-                                        if (response.getData() == null) {
-                                            setFailedBodyMode();
-                                        }
                                     }
                                 }, error -> {
                                     hideDialog();
@@ -174,20 +169,20 @@ public class OutstandingActivity extends BaseActivity {
         );
     }
 
-    private void onSuccessDownloadOutstandinglist(List<Customer> data) {
-        populateDataFromNetwork(data);
+    private void onSuccessDownloadOutstandinglist(OutstandingResponseModel response) {
+        if (response.getData() == null) {
+            setFailedBodyMode();
+            return;
+        }
+        populateDataFromNetwork(response.getData());
     }
 
     private void populateDataFromNetwork(List<Customer> data) {
-        if (data == null || data.isEmpty()) {
-            setFailedBodyMode();
-        } else {
-            outstandingList.clear();
-            for (Customer item : data) {
-                outstandingList.add(new OutstandingRvModelNew(item));
-            }
-            outstandingRvAdapter.setData(outstandingList);
+        outstandingList.clear();
+        for (Customer item : data) {
+            outstandingList.add(new OutstandingRvModelNew(item));
         }
+        outstandingRvAdapter.setData(outstandingList);
     }
 
     private void takingOutstandingJob(OutstandingRvModelNew outstanding) {
@@ -224,8 +219,9 @@ public class OutstandingActivity extends BaseActivity {
     }
 
     private void onSuccessTakingOutstandingJob(Customer customer) {
+        /** deprecated line
         customer.getProblems().get(0).setStatusComplain(Constants.FLAG_START_PROGRESS);
-        setOngoingCustomerProblem(customer);
+        setOngoingCustomerProblem(customer); **/
         navigateTo(this, SolvingActivity.class);
         finish();
     }

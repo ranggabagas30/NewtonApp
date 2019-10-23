@@ -12,23 +12,23 @@ public class NetworkUtil {
     public static String handleApiError(Throwable error) {
 
         final int API_STATUS_CODE_LOCAL_ERROR = 0;
-        String errorMessage = error.getLocalizedMessage();
+        String errorMessage;
         if (error instanceof HttpException) {
             switch (((HttpException) error).code()) {
                 case HttpsURLConnection.HTTP_UNAUTHORIZED:
-                    errorMessage = "Unauthorised User";
+                    errorMessage = "Unauthorized User";
                     break;
                 case HttpsURLConnection.HTTP_FORBIDDEN:
                     errorMessage = "Forbidden";
                     break;
                 case HttpsURLConnection.HTTP_INTERNAL_ERROR:
-                    errorMessage = "Internal Server Error";
+                    errorMessage = "Server problem (500 Internal Server Error)";
                     break;
                 case HttpsURLConnection.HTTP_BAD_REQUEST:
                     errorMessage = "Bad Request";
                     break;
                 case API_STATUS_CODE_LOCAL_ERROR:
-                    errorMessage = "No Internet Connection";
+                    errorMessage = "API status code local error";
                     break;
                 default:
                     errorMessage = error.getLocalizedMessage();
@@ -37,7 +37,7 @@ public class NetworkUtil {
         } else if (error instanceof JsonSyntaxException) {
             errorMessage = "Something Went Wrong API is not responding properly!";
         } else if (error instanceof UnknownHostException) {
-            errorMessage = "No internet connection";
+            errorMessage = "Slow or no internet connection";
         } else{
             errorMessage = error.getMessage();
         }

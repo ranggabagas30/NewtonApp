@@ -131,6 +131,8 @@ public class SolvingActivity extends BaseActivity {
         arrSolvingOptions = getResources().getStringArray(R.array.solving_options);
         ArrayAdapter<String> spSolvingOptionsAdapter = new ArrayAdapter<>(this, R.layout.item_spinner, arrSolvingOptions);
         spSolvingOption.setAdapter(spSolvingOptionsAdapter);
+
+        setBlockMode();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -229,21 +231,19 @@ public class SolvingActivity extends BaseActivity {
                          .subscribe(
                                  response -> {
                                      hideDialog();
-                                     setBlockMode();
                                      if (response == null) {
                                          throw new NullPointerException(getString(R.string.error_null_response));
                                      }
 
                                      DebugUtil.d("response: " + response.toString());
                                      if (response.getStatus() == 1) {
-                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                                         //Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
                                          onSuccessTracking(response);
                                      } else {
                                          Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                      }
                                  }, error -> {
                                      hideDialog();
-                                     setBlockMode();
                                      String errorMessage = NetworkUtil.handleApiError(error);
                                      Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
                                  }
@@ -252,45 +252,47 @@ public class SolvingActivity extends BaseActivity {
     }
 
     private void onSuccessTracking(TrackingResponseModel response) {
-        customer = response.getData().get(0);
-        if (customer != null) {
-            Problem problem = customer.getProblems().get(0);
-            if (problem != null) {
-                etIdCustomer.setText(customer.getIdCust());
-                etIdBarcode.setText(problem.getIdProduk());
-                etNote.setText("");
-                Solving solving = problem.getSolving();
-                if (solving != null) {
-                    int posSolvingOption = CommonUtil.getIndex(solving.getSolvingOption(), arrSolvingOptions);
-                    spSolvingOption.setSelection(posSolvingOption);
-                    if (!TextUtils.isEmpty(problem.getSolving().getSolvingNote()))
-                        etNote.setText(problem.getSolving().getSolvingNote());
-                }
+        if (response.getData() != null) {
+            customer = response.getData().get(0);
+            if (customer != null) {
+                Problem problem = customer.getProblems().get(0);
+                if (problem != null) {
+                    etIdCustomer.setText(customer.getIdCust());
+                    etIdBarcode.setText(problem.getIdProduk());
+                    etNote.setText("");
+                    Solving solving = problem.getSolving();
+                    if (solving != null) {
+                        int posSolvingOption = CommonUtil.getIndex(solving.getSolvingOption(), arrSolvingOptions);
+                        spSolvingOption.setSelection(posSolvingOption);
+                        if (!TextUtils.isEmpty(problem.getSolving().getSolvingNote()))
+                            etNote.setText(problem.getSolving().getSolvingNote());
+                    }
 
-                switch (problem.getStatusComplain()) {
-                    case Constants.FLAG_START_PROGRESS:
-                        setKunjunganMode();
-                        break;
-                    case Constants.FLAG_KUNJUNGAN:
-                        setSolvingMode();
-                        break;
-                    case Constants.FLAG_SOLVED:
-                        navigateTo(this, ApprovalActivity.class);
-                        finish();
-                        break;
-                    case Constants.FLAG_HOLD:
-                        setSolvingMode();
-                        break;
-                    default:
-                        Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
-                        //setBlockMode();
-                        break;
+                    switch (problem.getStatusComplain()) {
+                        case Constants.FLAG_START_PROGRESS:
+                            setKunjunganMode();
+                            break;
+                        case Constants.FLAG_KUNJUNGAN:
+                            setSolvingMode();
+                            break;
+                        case Constants.FLAG_SOLVED:
+                            navigateTo(this, ApprovalActivity.class);
+                            finish();
+                            break;
+                        case Constants.FLAG_HOLD:
+                            setSolvingMode();
+                            break;
+                        default:
+                            Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
+                            break;
+                    }
+
+                    return;
                 }
             }
-        } else {
-            Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
-            //setBlockMode();
         }
+
+        Toast.makeText(this, getString(R.string.error_no_ongoing_problem), Toast.LENGTH_LONG).show();
     }
 
     // verifikasi sebagai kunjungan

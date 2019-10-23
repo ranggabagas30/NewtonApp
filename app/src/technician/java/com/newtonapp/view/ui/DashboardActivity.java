@@ -57,6 +57,7 @@ public class DashboardActivity extends BaseActivity {
     private void setListener() {
 
         if (BuildConfig.DEBUG) {
+        //if (true) {
             ivProfile.setOnClickListener(view -> navigateTo(this, DebugActivity.class));
         }
 

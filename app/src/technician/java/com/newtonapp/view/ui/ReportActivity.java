@@ -98,9 +98,6 @@ public class ReportActivity extends BaseActivity {
                                          onSuccessDownloadReports(response);
                                      } else {
                                          Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
-                                         if (response.getData() == null) {
-                                             showFailed();
-                                         }
                                      }
 
                                  }, error -> {
@@ -113,13 +110,15 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void onSuccessDownloadReports(ReportsResponseModel response) {
-        if (response.getData() == null || response.getData().isEmpty()) {
+        if (response.getData() == null) {
             showFailed();
             return;
         }
+        populateDataReports(response.getData());
+    }
 
+    private void populateDataReports(List<Customer> customers) {
         reports.clear();
-        List<Customer> customers = response.getData();
         for (Customer customer : customers) {
             reports.add(new ReportRvModel(customer));
         }
