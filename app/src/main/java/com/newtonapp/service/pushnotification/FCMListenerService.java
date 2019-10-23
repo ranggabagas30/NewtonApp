@@ -87,6 +87,7 @@ public class FCMListenerService extends FirebaseMessagingService {
             fcmCompiled.append("Message Body : " + messageBody).append("\n");
             fcmCompiled.append("Message data : " + messageData).append("\n");
 
+            if (BuildConfig.DEBUG) Prefs.putString(getString(R.string.key_firebase_message_payload), messageBody);
             NotificationUtil.notify(this, remoteMessage);
 
             /*Bundle bundle = new Bundle();
