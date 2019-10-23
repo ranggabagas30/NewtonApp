@@ -13,22 +13,29 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".view.ui.DebugActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"></activity>
-        <activity android:name=".view.ui.SplashActivity">
+        <activity android:name=".view.ui.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.ui.ForgetPasswordActivity" />
-        <activity android:name=".view.ui.ReportDetailActivity" />
-        <activity android:name=".view.ui.ReportActivity" />
+        <activity android:name=".view.ui.ForgetPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.ui.ReportDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.ui.ReportActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.ui.ApprovalActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".view.ui.ProductHistoryActivity" />
+        <activity android:name=".view.ui.ProductHistoryActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.ui.OnboardingScreenActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".view.ui.DashboardActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -36,10 +43,14 @@
         </activity>
         <activity
             android:name=".view.ui.SolvingActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".view.ui.DashboardActivity"/>
-        <activity android:name=".view.ui.OutstandingActivity" />
-        <activity android:name=".view.ui.DashboardActivity" />
-        <activity android:name=".view.ui.MainActivity" />
+        <activity android:name=".view.ui.OutstandingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.ui.DashboardActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.ui.MainActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
