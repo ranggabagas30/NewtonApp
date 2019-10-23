@@ -130,6 +130,7 @@ dependencies {
     // https://github.com/ReactiveX/RxAndroid
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10' // rxJava2
+    implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0'
 
     // custom shape imageview
     implementation 'com.github.siyamed:android-shape-imageview:0.9.+@aar'

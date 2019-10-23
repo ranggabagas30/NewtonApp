@@ -2,7 +2,9 @@ package com.newtonapp;
 
 import android.app.Application;
 import android.content.ContextWrapper;
+import android.content.SharedPreferences;
 
+import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.newtonapp.model.notification.DefaultNotificationChannel;
@@ -11,6 +13,8 @@ import com.newtonapp.utility.DebugUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
 public class NewtonApplication extends Application implements ActivityLifecycleHandler.LifecycleListener {
+
+    public static RxSharedPreferences rxSharedPreferences;
 
     @Override
     public void onCreate() {
@@ -24,6 +28,9 @@ public class NewtonApplication extends Application implements ActivityLifecycleH
                 .setPrefsName(BuildConfig.APPLICATION_ID)
                 .setUseDefaultSharedPreference(true)
                 .build();
+
+        SharedPreferences preferences = Prefs.getPreferences();
+        rxSharedPreferences = RxSharedPreferences.create(preferences);
 
         // Initialization FCM
         FirebaseInstanceId.getInstance().getInstanceId()
