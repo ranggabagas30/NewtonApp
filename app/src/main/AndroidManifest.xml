@@ -12,7 +12,6 @@
         android:name=".NewtonApplication"
         android:allowBackup="true"
         android:supportsRtl="true"
-        android:icon="@mipmap/ic_launcher_20102019"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true">
 

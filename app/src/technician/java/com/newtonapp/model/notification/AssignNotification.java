@@ -17,7 +17,7 @@ public class AssignNotification extends BaseNotification {
     public AssignNotification(Context context, @NonNull String title, @NonNull String message) {
         super(
                 context,
-                R.drawable.ic_launcher_20102019,
+                R.drawable.ic_notification,
                 title,
                 message,
                 HighNotificationChannel.CHANNEL_ID,
