@@ -3,7 +3,6 @@
     <string name="copyright">Copyright Reserved Pramadhan</string>
     <string name="konfirmasi">Confirm</string>
     <string name="home">Home</string>
-    <string name="problem_tidak_ditemukan">Problem tidak ditemukan</string>
     <string name="menu_outstanding">Outstanding</string>
     <string name="menu_solving">Solving</string>
     <string name="menu_report">Report</string>
@@ -49,8 +48,7 @@
     <string name="error_session_not_valid">Invalid session. Automatically logout</string>
     <string name="error_failed_refresh_data">Couldn\'t refresh data</string>
     <string name="error_no_internet_connection">No internet connection</string>
-    <string name="error_problem_not_found">Problem not found, please do re-login again</string>
-    <string name="error_no_ongoing_problem">There is no ongoing problem</string>
+    <string name="error_problem_not_found">Problem not found. Make sure you input the right customer id and printer id</string>
     <string name="error_unable_taking_job">Unable taking job. Please finish the on-going job</string>
     <string name="error_empty_otp">Please insert customer OTP</string>
     <string name="error_empty_rate">Please rate us</string>
@@ -65,6 +63,7 @@
     <string name="success_message_empty_data_item">No item</string>
     <string name="success_message_approved">Thanks for your approval</string>
     <string name="success_message_request_forget_password">Request remember password sent successfully. Waiting for approval</string>
+    <string name="success_message_no_ongoing_problem">There is no ongoing problem</string>
 
     <!-- progress messages-->
     <!-- technician -->
