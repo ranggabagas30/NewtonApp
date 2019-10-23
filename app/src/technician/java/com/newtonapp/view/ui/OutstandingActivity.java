@@ -117,7 +117,7 @@ public class OutstandingActivity extends BaseActivity {
     }
 
     private void onSuccessTracking(TrackingResponseModel response) {
-        if (response.getData() == null) { // tidak ada ongoing problem
+        if (response.getData() != null) { // jika ada ongoing problem, tidak bisa mengambil job
             outstandingRvAdapter.setOnItemClickListener(data -> showUnableTakingOutstandingJob());
             rvOutstandingList.setAdapter(outstandingRvAdapter);
         }
