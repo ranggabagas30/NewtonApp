@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -36,6 +38,8 @@ public class OutstandingActivity extends BaseActivity {
 
     private static final String TAG = OutstandingActivity.class.getSimpleName();
     private Toolbar toolbar;
+    private AppCompatImageView ivFailedLogo;
+    private AppCompatTextView tvFailedMessage;
     private LinearLayout llFailedBody;
     private RecyclerView rvOutstandingList;
     private OutstandingRvAdapter outstandingRvAdapter;
@@ -69,6 +73,8 @@ public class OutstandingActivity extends BaseActivity {
     private void initView() {
         toolbar = findViewById(R.id.header_layout_toolbar);
         llFailedBody = findViewById(R.id.failed_layout_body);
+        ivFailedLogo = findViewById(R.id.body_iv_failed_logo);
+        tvFailedMessage = findViewById(R.id.body_tv_failed_text);
         rvOutstandingList = findViewById(R.id.outstanding_rv_tasklist);
 
         setSupportActionBar(toolbar);
@@ -171,7 +177,7 @@ public class OutstandingActivity extends BaseActivity {
 
     private void onSuccessDownloadOutstandinglist(OutstandingResponseModel response) {
         if (response.getData() == null) {
-            setFailedBodyMode();
+            showNoItemView();
             return;
         }
         populateDataFromNetwork(response.getData());
@@ -226,8 +232,40 @@ public class OutstandingActivity extends BaseActivity {
         finish();
     }
 
-    private void setFailedBodyMode() {
+    private void setNormalMode() {
+        llFailedBody.setVisibility(View.GONE);
+        rvOutstandingList.setVisibility(View.VISIBLE);
+
+        outstandingRvAdapter.setOnItemClickListener(this::showConfirmationDialog);
+        rvOutstandingList.setAdapter(outstandingRvAdapter);
+    }
+
+    private void showNoItemView() {
         llFailedBody.setVisibility(View.VISIBLE);
         rvOutstandingList.setVisibility(View.GONE);
+
+        ivFailedLogo.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty));
+        tvFailedMessage.setText(getString(R.string.success_message_empty_data_item));
+    }
+
+    private void showNoInternetConnectionView() {
+        llFailedBody.setVisibility(View.VISIBLE);
+        rvOutstandingList.setVisibility(View.VISIBLE);
+
+        ivFailedLogo.setImageDrawable(getResources().getDrawable(R.drawable.ic_network_unavailable));
+        tvFailedMessage.setText(getString(R.string.error_no_internet_connection));
+
+        outstandingRvAdapter.setOnItemClickListener(null);
+        rvOutstandingList.setAdapter(outstandingRvAdapter);
+    }
+
+    @Override
+    public void online() {
+        setNormalMode();
+    }
+
+    @Override
+    public void offline() {
+        showNoInternetConnectionView();
     }
 }

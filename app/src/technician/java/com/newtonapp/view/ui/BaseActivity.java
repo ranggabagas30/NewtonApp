@@ -29,6 +29,8 @@ public abstract class BaseActivity extends BaseProjectActivity {
     protected JWT loginToken;
     protected Activity currentActivity;
 
+    private boolean isAlreadyOnline = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,16 @@ public abstract class BaseActivity extends BaseProjectActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         obtainLoginInformation();
+
+        compositeDisposable.add(
+                NetworkUtil.checkInternetConnection(
+                        isConnectedToHost -> {
+                            if (isConnectedToHost)
+                                online();
+                            else offline();
+                        }
+                )
+        );
     }
 
     @Override
@@ -49,6 +61,17 @@ public abstract class BaseActivity extends BaseProjectActivity {
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.dispose();
+    }
+
+    protected void online() {
+        if (!isAlreadyOnline)
+            Toast.makeText(this, "Back online", Toast.LENGTH_SHORT).show();
+        isAlreadyOnline = true;
+    }
+
+    protected void offline() {
+        Toast.makeText(this, "You're offline", Toast.LENGTH_SHORT).show();
+        isAlreadyOnline = false;
     }
 
     protected void obtainLoginInformation() {
@@ -135,4 +158,5 @@ public abstract class BaseActivity extends BaseProjectActivity {
         // TODO: set current problem id change to Problem
         Prefs.putString(getString(R.string.key_ongoing_problem), idProblem);
     }
+
 }

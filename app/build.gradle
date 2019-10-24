@@ -57,16 +57,16 @@ android {
         customer {
             applicationId 'com.newtonapp.customer'
             dimension "user_role"
-            buildConfigField("String", "BASE_API_DEV", '"https://dev.pramadhan.com/api/"')
-            buildConfigField("String", "BASE_API_PROD", '"http://newton-app.com/api/"')
-            //buildConfigField("String", "BASE_API_PROD", '"http://149.129.254.64:80/newton/api/"')
+            buildConfigField("String", "HOST_DEV", '"https://dev.pramadhan.com/"')
+            buildConfigField("String", "HOST_PROD", '"http://newton-app.com/"')
+            //buildConfigField("String", "HOST_PROD", '"http://149.129.254.64:80/newton/api/"')
         }
         technician {
             applicationId 'com.newtonapp.technician'
             dimension "user_role"
-            //buildConfigField("String", "BASE_API_DEV", '"https://dev.pramadhan.com/api/"')
-            buildConfigField("String", "BASE_API_DEV", '"http://newton-app.com/api/"')
-            buildConfigField("String", "BASE_API_PROD", '"http://newton-app.com/api/"')
+            //buildConfigField("String", "HOST_DEV", '"https://dev.pramadhan.com/api/"')
+            buildConfigField("String", "HOST_DEV", '"http://newton-app.com/"')
+            buildConfigField("String", "HOST_PROD", '"http://newton-app.com/"')
             versionMajor = 1
             versionMinor = 0
             versionPatch = 0
@@ -122,8 +122,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0' // interceptor
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-    // // retrofit2 rxjava2 adapter
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0' // retrofit2 rxjava2 adapter
+    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.6'
 
     // reactive
     // rxAndroid 2.0 to subscribe on AndroidSchedulers class

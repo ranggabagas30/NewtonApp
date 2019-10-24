@@ -8,7 +8,7 @@
 
     <color name="color_control_highlight">@color/fifty_percent_transparency_grey_400</color>
     <color name="fifty_percent_transparency_grey_400">#80bdbdbd</color>
-
+    <color name="transparency_white">#C1FFFFFF</color>
     <!-- table view color -->
     <color name="selected_color">#C7C6C6</color>
     <color name="unselected_color">#FFFFFF</color>

@@ -1,13 +1,33 @@
 package com.newtonapp.utility;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
+import com.github.pwittchen.reactivenetwork.library.rx2.internet.observing.InternetObservingSettings;
 import com.google.gson.JsonSyntaxException;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+import com.newtonapp.data.network.BaseAPIConfig;
 
 import java.net.UnknownHostException;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 public class NetworkUtil {
+
+    public static Disposable checkInternetConnection(Consumer<Boolean> connectionSubscriber) {
+        InternetObservingSettings internetObservingSettings = InternetObservingSettings.builder()
+                .host(BaseAPIConfig.API_BASE_URL)
+                .build();
+
+        return ReactiveNetwork
+                .observeInternetConnectivity()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(connectionSubscriber);
+    }
 
     public static String handleApiError(Throwable error) {
 
@@ -45,4 +65,6 @@ public class NetworkUtil {
         DebugUtil.d("error (" + errorMessage + ")");
         return errorMessage;
     }
+
+
 }
