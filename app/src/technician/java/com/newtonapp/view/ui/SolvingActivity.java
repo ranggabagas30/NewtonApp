@@ -280,8 +280,8 @@ public class SolvingActivity extends BaseActivity {
                         case Constants.FLAG_HOLD: // problem status dihold
                             setSolvingMode();
                             etIdCustomer.setText(idCustomer);
-                            etIdBarcode.setText(idPrinter);
-                            etNote.setText(solvingNote);
+                            etIdPrinter.setText(idPrinter);
+                            etSolvingNote.setText(solvingNote);
                             break;
                         case Constants.FLAG_SOLVED: // sudah klik "solved", pindah ke "Finishing"
                             navigateTo(this, ApprovalActivity.class);
