@@ -261,30 +261,31 @@ public class SolvingActivity extends BaseActivity {
             if (customer != null) {
                 Problem problem = customer.getProblems().get(0);
                 if (problem != null) {
-                    etIdCustomer.setText(customer.getIdCust());
-                    etIdBarcode.setText(problem.getIdProduk());
-                    etNote.setText("");
+                    String idCustomer = customer.getIdCust();
+                    String idPrinter  = problem.getIdProduk();
+                    String solvingNote = "";
                     Solving solving = problem.getSolving();
                     if (solving != null) {
                         int posSolvingOption = CommonUtil.getIndex(solving.getSolvingOption(), arrSolvingOptions);
                         spSolvingOption.setSelection(posSolvingOption);
                         if (!TextUtils.isEmpty(problem.getSolving().getSolvingNote()))
-                            etNote.setText(problem.getSolving().getSolvingNote());
+                            solvingNote = problem.getSolving().getSolvingNote();
                     }
 
                     switch (problem.getStatusComplain()) {
-                        case Constants.FLAG_START_PROGRESS:
+                        case Constants.FLAG_START_PROGRESS: // sudah ambil job, perlu "checkin" / "kunjungan"
                             setKunjunganMode();
                             break;
-                        case Constants.FLAG_KUNJUNGAN:
+                        case Constants.FLAG_KUNJUNGAN: // sudah melakukan kunjungan, tinggal solving
+                        case Constants.FLAG_HOLD: // problem status dihold
                             setSolvingMode();
+                            etIdCustomer.setText(idCustomer);
+                            etIdBarcode.setText(idPrinter);
+                            etNote.setText(solvingNote);
                             break;
-                        case Constants.FLAG_SOLVED:
+                        case Constants.FLAG_SOLVED: // sudah klik "solved", pindah ke "Finishing"
                             navigateTo(this, ApprovalActivity.class);
                             finish();
-                            break;
-                        case Constants.FLAG_HOLD:
-                            setSolvingMode();
                             break;
                         default:
                             //Toast.makeText(this, getString(R.string.success_message_no_ongoing_problem), Toast.LENGTH_LONG).show();
