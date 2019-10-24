@@ -57,8 +57,8 @@ public class SolvingActivity extends BaseActivity {
     private Toolbar toolbar;
     private LinearLayout llSolvingBodyKunjungan, llSolvingBodySolving;
     private AppCompatEditText etIdCustomer;
-    private AppCompatEditText etIdBarcode;
-    private AppCompatEditText etNote;
+    private AppCompatEditText etIdPrinter;
+    private AppCompatEditText etSolvingNote;
     private AppCompatSpinner spSolvingOption;
     private AppCompatButton btnVerify;
     private AppCompatButton btnSolved;
@@ -108,7 +108,7 @@ public class SolvingActivity extends BaseActivity {
         Log.d(TAG, "resultCode : " + resultCode);
         Log.d(TAG, "data barcode : " + qrcodeValue);
         if (requestCode == Constants.RC_SCAN_BARCODE && resultCode == RESULT_OK) {
-            etIdBarcode.setText(qrcodeValue);
+            etIdPrinter.setText(qrcodeValue);
         }
     }
 
@@ -118,8 +118,8 @@ public class SolvingActivity extends BaseActivity {
         llSolvingBodySolving = findViewById(R.id.solving_layout_body_solving);
         spSolvingOption = findViewById(R.id.solving_sp_options);
         etIdCustomer = findViewById(R.id.solving_et_idcustomer);
-        etIdBarcode = findViewById(R.id.solving_et_idbarcode);
-        etNote = findViewById(R.id.solving_et_note);
+        etIdPrinter = findViewById(R.id.solving_et_idbarcode);
+        etSolvingNote = findViewById(R.id.solving_et_note);
         btnVerify = findViewById(R.id.solving_btn_verify);
         btnSolved = findViewById(R.id.solving_btn_solved);
         btnHold = findViewById(R.id.solving_btn_hold);
@@ -156,7 +156,7 @@ public class SolvingActivity extends BaseActivity {
                 setKunjunganMode();
             }
         });
-        etIdBarcode.addTextChangedListener(new TextWatcher() {
+        etIdPrinter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -185,14 +185,14 @@ public class SolvingActivity extends BaseActivity {
             }
         });
 
-        etIdBarcode.setOnTouchListener((view, event) -> {
+        etIdPrinter.setOnTouchListener((view, event) -> {
             final int DRAWABLE_LEFT = 0;
             final int DRAWABLE_TOP = 1;
             final int DRAWABLE_RIGHT = 2;
             final int DRAWABLE_BOTTOM = 3;
 
             if(event.getAction() == MotionEvent.ACTION_UP) {
-                if(event.getRawX() >= (etIdBarcode.getRight() - etIdBarcode.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                if(event.getRawX() >= (etIdPrinter.getRight() - etIdPrinter.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                     // your action here
                     isOpeningCamera = true;
                     Intent openCameraIntent = new Intent(this, CameraPreviewActivity.class);
@@ -203,7 +203,7 @@ public class SolvingActivity extends BaseActivity {
             return false;
         });
 
-        etNote.addTextChangedListener(new TextWatcher() {
+        etSolvingNote.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -262,14 +262,14 @@ public class SolvingActivity extends BaseActivity {
                 Problem problem = customer.getProblems().get(0);
                 if (problem != null) {
                     etIdCustomer.setText(customer.getIdCust());
-                    etIdBarcode.setText(problem.getIdProduk());
-                    etNote.setText("");
+                    etIdPrinter.setText(problem.getIdProduk());
+                    etSolvingNote.setText("");
                     Solving solving = problem.getSolving();
                     if (solving != null) {
                         int posSolvingOption = CommonUtil.getIndex(solving.getSolvingOption(), arrSolvingOptions);
                         spSolvingOption.setSelection(posSolvingOption);
                         if (!TextUtils.isEmpty(problem.getSolving().getSolvingNote()))
-                            etNote.setText(problem.getSolving().getSolvingNote());
+                            etSolvingNote.setText(problem.getSolving().getSolvingNote());
                     }
 
                     switch (problem.getStatusComplain()) {
@@ -480,13 +480,27 @@ public class SolvingActivity extends BaseActivity {
 
     private void notifyEnabledInputKunjungan() {
         etIdCustomer.setEnabled(true);
-        //etIdBarcode.setEnabled(true);
+        etIdPrinter.setEnabled(true);
         btnVerify.setEnabled(true);
+    }
+
+    private void notifyEnabledSolving() {
+        spSolvingOption.setEnabled(true);
+        etSolvingNote.setEnabled(true);
+        btnSolved.setEnabled(true);
+        btnHold.setEnabled(true);
     }
 
     private void notifyDisabledInputKunjungan() {
         etIdCustomer.setEnabled(false);
-        //etIdBarcode.setEnabled(false);
+        etIdPrinter.setEnabled(false);
         btnVerify.setEnabled(false);
+    }
+
+    private void notifyDisabledSolving() {
+        spSolvingOption.setEnabled(false);
+        etSolvingNote.setEnabled(false);
+        btnSolved.setEnabled(false);
+        btnHold.setEnabled(false);
     }
 }

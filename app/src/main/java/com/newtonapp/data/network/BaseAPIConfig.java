@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BaseAPIConfig {
 
     private static final String TAG = BaseAPIConfig.class.getSimpleName();
-    private static final String API_BASE_URL = BuildConfig.DEBUG ? BuildConfig.BASE_API_DEV : BuildConfig.BASE_API_PROD;
+    public static final String API_BASE_URL = BuildConfig.DEBUG ? BuildConfig.HOST_DEV : BuildConfig.HOST_PROD;
 
     private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -23,7 +23,7 @@ public class BaseAPIConfig {
     public static Gson gson = new GsonBuilder().setLenient().create();
 
     private static Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
-            .baseUrl(API_BASE_URL)
+            .baseUrl(API_BASE_URL + "api/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson));
 
