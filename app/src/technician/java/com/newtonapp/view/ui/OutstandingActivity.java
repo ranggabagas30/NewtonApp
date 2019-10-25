@@ -66,8 +66,19 @@ public class OutstandingActivity extends BaseActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        supportNavigateUpTo(this, DashboardActivity.class);
+        finish();
         return true;
+    }
+
+    @Override
+    public void online() {
+        if (outstandingList.isEmpty()) checkOnGoingProblemAvailbility();
+        showNormalMode();
+    }
+
+    @Override
+    public void offline() {
+        showNoInternetConnectionView();
     }
 
     private void initView() {
@@ -236,36 +247,30 @@ public class OutstandingActivity extends BaseActivity {
         llFailedBody.setVisibility(View.GONE);
         rvOutstandingList.setVisibility(View.VISIBLE);
 
+    }
+
+    private void setFailedMode() {
+        llFailedBody.setVisibility(View.VISIBLE);
+        rvOutstandingList.setVisibility(View.VISIBLE);
+    }
+
+    private void showNormalMode() {
+        setNormalMode();
         outstandingRvAdapter.setOnItemClickListener(this::showConfirmationDialog);
         rvOutstandingList.setAdapter(outstandingRvAdapter);
     }
 
     private void showNoItemView() {
-        llFailedBody.setVisibility(View.VISIBLE);
-        rvOutstandingList.setVisibility(View.GONE);
-
+        setFailedMode();
         ivFailedLogo.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty));
         tvFailedMessage.setText(getString(R.string.success_message_empty_data_item));
     }
 
     private void showNoInternetConnectionView() {
-        llFailedBody.setVisibility(View.VISIBLE);
-        rvOutstandingList.setVisibility(View.VISIBLE);
-
+        setFailedMode();
         ivFailedLogo.setImageDrawable(getResources().getDrawable(R.drawable.ic_network_unavailable));
         tvFailedMessage.setText(getString(R.string.error_no_internet_connection));
-
         outstandingRvAdapter.setOnItemClickListener(null);
         rvOutstandingList.setAdapter(outstandingRvAdapter);
-    }
-
-    @Override
-    public void online() {
-        setNormalMode();
-    }
-
-    @Override
-    public void offline() {
-        showNoInternetConnectionView();
     }
 }
