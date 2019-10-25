@@ -167,7 +167,7 @@ public class ApprovalActivity extends BaseActivity {
 
                                             if (response.getStatus() == 1) {
                                                 Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
-                                                onSuccessApproval(customer);
+                                                onSuccessApproval();
                                             } else {
                                                 Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                             }
@@ -182,7 +182,7 @@ public class ApprovalActivity extends BaseActivity {
         }
     }
 
-    private void onSuccessApproval(Customer customer) {
+    private void onSuccessApproval() {
         clearOngoingCustomerProblem();
         Toast.makeText(this, getString(R.string.success_message_approved), Toast.LENGTH_SHORT).show();
         finish();
