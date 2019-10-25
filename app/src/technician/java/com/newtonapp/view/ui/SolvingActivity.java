@@ -71,6 +71,13 @@ public class SolvingActivity extends BaseActivity {
     private String solvingOption;
     private String[] arrSolvingOptions;
     private boolean isOpeningCamera = false;
+    private VIEW_MODE CURRENT_MODE = VIEW_MODE.KUNJUNGAN_MODE;
+
+    enum VIEW_MODE {
+        BLOCK_MODE,
+        KUNJUNGAN_MODE,
+        SOLVING_MODE
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +101,7 @@ public class SolvingActivity extends BaseActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        supportNavigateUpTo(this, DashboardActivity.class);
+        finish();
         return true;
     }
 
@@ -132,7 +139,7 @@ public class SolvingActivity extends BaseActivity {
         ArrayAdapter<String> spSolvingOptionsAdapter = new ArrayAdapter<>(this, R.layout.item_spinner, arrSolvingOptions);
         spSolvingOption.setAdapter(spSolvingOptionsAdapter);
 
-        setKunjunganMode();
+        setMode();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -153,7 +160,7 @@ public class SolvingActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 idCustomer = editable.toString();
-                setKunjunganMode();
+                setMode();
             }
         });
         etIdPrinter.addTextChangedListener(new TextWatcher() {
@@ -169,7 +176,7 @@ public class SolvingActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 idPrinter = editable.toString();
-                setKunjunganMode();
+                setMode();
             }
         });
 
@@ -243,11 +250,13 @@ public class SolvingActivity extends BaseActivity {
                                          onSuccessTracking(response);
                                      } else {
                                          Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
-                                         setBlockMode();
+                                         CURRENT_MODE = VIEW_MODE.BLOCK_MODE;
+                                         setMode();
                                      }
                                  }, error -> {
                                      hideDialog();
-                                     setBlockMode();
+                                     CURRENT_MODE = VIEW_MODE.BLOCK_MODE;
+                                     setMode();
                                      String errorMessage = NetworkUtil.handleApiError(error);
                                      Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
                                  }
@@ -272,13 +281,14 @@ public class SolvingActivity extends BaseActivity {
                             solvingNote = problem.getSolving().getSolvingNote();
                     }
 
+                    DebugUtil.d("status complain: " + problem.getStatusComplain());
                     switch (problem.getStatusComplain()) {
                         case Constants.FLAG_START_PROGRESS: // sudah ambil job, perlu "checkin" / "kunjungan"
-                            setKunjunganMode();
+                            CURRENT_MODE = VIEW_MODE.KUNJUNGAN_MODE;
                             break;
                         case Constants.FLAG_KUNJUNGAN: // sudah melakukan kunjungan, tinggal solving
                         case Constants.FLAG_HOLD: // problem status dihold
-                            setSolvingMode();
+                            CURRENT_MODE = VIEW_MODE.SOLVING_MODE;
                             etIdCustomer.setText(idCustomer);
                             etIdPrinter.setText(idPrinter);
                             etSolvingNote.setText(solvingNote);
@@ -292,6 +302,7 @@ public class SolvingActivity extends BaseActivity {
                             break;
                     }
 
+                    setMode();
                     return;
                 }
             }
@@ -461,6 +472,15 @@ public class SolvingActivity extends BaseActivity {
     private boolean isKunjunganFieldFilled() {
         return !TextUtils.isEmpty(idCustomer) &&
                 !TextUtils.isEmpty(idPrinter);
+    }
+
+    private void setMode() {
+        switch (CURRENT_MODE) {
+            case BLOCK_MODE: setBlockMode(); break;
+            case KUNJUNGAN_MODE: setKunjunganMode(); break;
+            case SOLVING_MODE: setSolvingMode(); break;
+            default: setKunjunganMode(); break;
+        }
     }
 
     private void setBlockMode() {
