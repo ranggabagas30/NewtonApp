@@ -19,6 +19,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public abstract class BaseActivity extends BaseProjectActivity {
@@ -29,7 +30,9 @@ public abstract class BaseActivity extends BaseProjectActivity {
     protected JWT loginToken;
     protected Activity currentActivity;
 
+
     private boolean isAlreadyOnline = true;
+    private Disposable reactiveNetworkDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +43,27 @@ public abstract class BaseActivity extends BaseProjectActivity {
         progressDialog.setCancelable(false);
         obtainLoginInformation();
 
-        compositeDisposable.add(
-                NetworkUtil.checkInternetConnection(
-                        isConnectedToHost -> {
-                            if (isConnectedToHost)
-                                online();
-                            else offline();
-                        }
-                )
+        reactiveNetworkDisposable = NetworkUtil.checkInternetConnection(
+                isConnectedToHost -> {
+                    if (isConnectedToHost)
+                        online();
+                    else offline();
+                }
         );
+
+        compositeDisposable.add(reactiveNetworkDisposable);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         progressDialog.cancel();
+        compositeDisposable.remove(reactiveNetworkDisposable);
     }
 
     @Override
