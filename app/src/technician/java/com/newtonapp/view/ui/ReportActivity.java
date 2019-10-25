@@ -57,7 +57,7 @@ public class ReportActivity extends BaseActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        supportNavigateUpTo(this, DashboardActivity.class);
+        finish();
         return true;
     }
 
