@@ -4,6 +4,7 @@ import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.github.pwittchen.reactivenetwork.library.rx2.internet.observing.InternetObservingSettings;
 import com.google.gson.JsonSyntaxException;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+import com.newtonapp.BuildConfig;
 import com.newtonapp.data.network.BaseAPIConfig;
 
 import java.net.UnknownHostException;
@@ -52,7 +53,6 @@ public class NetworkUtil {
                     break;
                 default:
                     errorMessage = error.getLocalizedMessage();
-
             }
         } else if (error instanceof JsonSyntaxException) {
             errorMessage = "Something Went Wrong API is not responding properly!";
@@ -62,7 +62,8 @@ public class NetworkUtil {
             errorMessage = error.getMessage();
         }
 
-        DebugUtil.d("error (" + errorMessage + ")");
+        DebugUtil.e("ERROR: " + errorMessage, error);
+        if (!BuildConfig.DEBUG) errorMessage = "Couldn't retrieve data";
         return errorMessage;
     }
 
