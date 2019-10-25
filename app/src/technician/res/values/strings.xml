@@ -16,14 +16,6 @@
     <string name="status_solved">SOLVED</string>
     <string name="status_hold">HOLD</string>
 
-    <string name="flag_retrieve_outstanding_joblist">1</string>
-    <string name="flag_taking_outstanding_joblist">2</string>
-    <string name="flag_kunjungan_solvingin">3</string>
-    <string name="flag_finishing_solving_ok">4</string>
-    <string name="flag_hold_solving">5</string>
-    <string name="flag_retrieve_report_joblist">6</string>
-    <string name="flag_retrieve_history_product">7</string>
-
     <string name="notification_assignment">assignment</string>
     <string name="notification_base">Debug notification</string>
 
