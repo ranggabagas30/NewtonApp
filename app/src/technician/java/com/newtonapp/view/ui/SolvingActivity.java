@@ -281,6 +281,9 @@ public class SolvingActivity extends BaseActivity {
                             solvingNote = problem.getSolving().getSolvingNote();
                     }
 
+                    DebugUtil.d("id problem: " + customer.getProblems().get(0).getIdProblem());
+                    DebugUtil.d("id customer: " + customer.getIdCust());
+                    DebugUtil.d("id printer: " + customer.getProblems().get(0).getIdProduk());
                     DebugUtil.d("status complain: " + problem.getStatusComplain());
                     switch (problem.getStatusComplain()) {
                         case Constants.FLAG_START_PROGRESS: // sudah ambil job, perlu "checkin" / "kunjungan"
@@ -294,6 +297,7 @@ public class SolvingActivity extends BaseActivity {
                             etSolvingNote.setText(solvingNote);
                             break;
                         case Constants.FLAG_SOLVED: // sudah klik "solved", pindah ke "Finishing"
+                            setOngoingCustomerProblem(customer);
                             navigateTo(this, ApprovalActivity.class);
                             finish();
                             break;
@@ -315,8 +319,8 @@ public class SolvingActivity extends BaseActivity {
     private void onVerify() {
         if (!TextUtils.isEmpty(idCustomer) && !TextUtils.isEmpty(idPrinter)) {
             if (customer != null &&
-                    idCustomer.equalsIgnoreCase(customer.getIdCust()) &&
-                    idPrinter.equalsIgnoreCase(customer.getProblems().get(0).getIdProblem())) {
+                    idCustomer.equals(customer.getIdCust()) &&
+                    idPrinter.equals(customer.getProblems().get(0).getIdProduk())) {
                 verify();
             } else Toast.makeText(this, getString(R.string.error_problem_not_found), Toast.LENGTH_SHORT).show();
         } else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
