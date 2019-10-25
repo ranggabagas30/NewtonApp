@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +38,9 @@ public class ReportActivity extends BaseActivity {
     private ReportRvAdapter rvReportAdapter;
     private ArrayList<ReportRvModel> reports;
 
+    private AppCompatImageView ivFailedLogo;
+    private AppCompatTextView tvFailedMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +61,25 @@ public class ReportActivity extends BaseActivity {
         return true;
     }
 
+    @Override
+    protected void offline() {
+        super.offline();
+        //showNoInternetConnectionView();
+    }
+
+    @Override
+    protected void online() {
+        super.online();
+        if (reports.isEmpty()) downloadReports();
+        showNormalView();
+    }
+
     private void initView() {
         toolbar = findViewById(R.id.header_layout_toolbar);
         llFailedBody = findViewById(R.id.failed_layout_body);
         rvReportList = findViewById(R.id.report_rv_list);
+        ivFailedLogo = findViewById(R.id.body_iv_failed_logo);
+        tvFailedMessage = findViewById(R.id.body_tv_failed_text);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -111,7 +131,7 @@ public class ReportActivity extends BaseActivity {
 
     private void onSuccessDownloadReports(ReportsResponseModel response) {
         if (response.getData() == null) {
-            showFailed();
+            showNoItemView();
             return;
         }
         populateDataReports(response.getData());
@@ -125,7 +145,29 @@ public class ReportActivity extends BaseActivity {
         rvReportAdapter.setData(reports);
     }
 
-    private void showFailed() {
+    private void setNormalMode() {
+        llFailedBody.setVisibility(View.GONE);
+        rvReportList.setVisibility(View.VISIBLE);
+    }
+
+    private void setFailedMode() {
         llFailedBody.setVisibility(View.VISIBLE);
+        rvReportList.setVisibility(View.GONE);
+    }
+
+    private void showNormalView() {
+        setNormalMode();
+    }
+
+    private void showNoItemView() {
+        setFailedMode();
+        ivFailedLogo.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty));
+        tvFailedMessage.setText(getString(R.string.success_message_empty_data_item));
+    }
+
+    private void showNoInternetConnectionView() {
+        setFailedMode();
+        ivFailedLogo.setImageDrawable(getResources().getDrawable(R.drawable.ic_network_unavailable));
+        tvFailedMessage.setText(getString(R.string.error_no_internet_connection));
     }
 }

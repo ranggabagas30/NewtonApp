@@ -73,10 +73,10 @@ public class ReportRvModel {
         return empty;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         if (customer.getProblems() != null && !customer.getProblems().isEmpty()) {
             if (customer.getProblems().get(0) != null) {
-                customer.getProblems().get(0).setStatusComplain(status);
+                customer.getProblems().get(0).setStatusComplain(String.valueOf(status));
             }
         }
     }

@@ -46,7 +46,7 @@ public class ReportDetailActivity extends BaseActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        supportNavigateUpTo(this, ReportActivity.class);
+        finish();
         return true;
     }
 

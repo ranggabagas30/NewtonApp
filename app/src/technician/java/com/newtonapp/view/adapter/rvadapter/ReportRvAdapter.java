@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.newtonapp.R;
 import com.newtonapp.model.rvmodel.ReportRvModel;
+import com.newtonapp.utility.Constants;
 
 import java.util.ArrayList;
 
@@ -52,17 +53,25 @@ public class ReportRvAdapter extends BaseSingleViewTypeRvAdapter<ReportRvModel, 
             tvReportDate.setText(report.getIdcustomer());
             tvReportIDPrinter.setText(report.getIdprinter());
             tvReportIDCustomer.setText(report.getIdcustomer());
-            tvReportStatus.setText(report.getStatus());
+            tvReportStatus.setText(getStatusText());
             tvReportStatus.setTextColor(getStatusColor());
         }
 
         private int getStatusColor() {
             int statusColor = R.color.status_unknown;
-            if (report.getStatus().equalsIgnoreCase(itemView.getContext().getString(R.string.status_solved)))
-                statusColor = R.color.status_solved;
-            else if (report.getStatus().equalsIgnoreCase(itemView.getContext().getString(R.string.status_hold)))
-                statusColor = R.color.status_hold;
+            switch (report.getStatus()) {
+                case Constants.FLAG_SOLVED: statusColor = R.color.status_solved; break;
+                case Constants.FLAG_HOLD: statusColor = R.color.status_hold; break;
+            }
             return itemView.getContext().getResources().getColor(statusColor);
+        }
+
+        private String getStatusText() {
+            switch (report.getStatus()) {
+                case Constants.FLAG_SOLVED: return itemView.getContext().getString(R.string.status_solved);
+                case Constants.FLAG_HOLD: return itemView.getContext().getString(R.string.status_hold);
+                default: return "";
+            }
         }
     }
 }
