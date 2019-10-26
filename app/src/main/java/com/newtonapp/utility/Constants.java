@@ -12,7 +12,6 @@ public class Constants {
     public static final int REQUEST_STATUS_FAILED = 0;
     public static final int REQUEST_STATUS_SUCCESS = 1;
 
-
     public static final String CLAIM_USERNAME = "uname";
     public static final String CLAIM_KDCAB = "kdcab";
     public static final String CLAIM_IDTECHNICIAN = "idtek";
@@ -31,6 +30,8 @@ public class Constants {
     public static final String FLAG_CLOSED = "5";
     public static final String FLAG_REPORT = "7";
 
+    // ACK
+    public static final String ACK_CONTRACT_NOT_FOUND = "contract Not found ";
     public static final String NOTIF_TYPE_NEW_OUTSTANDING = "NOTIF_TYPE_NEW_OUTSTANDING";
 
     // dummy tech
