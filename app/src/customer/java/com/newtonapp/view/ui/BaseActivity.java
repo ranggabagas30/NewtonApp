@@ -12,8 +12,10 @@ import com.auth0.android.jwt.JWT;
 import com.newtonapp.R;
 import com.newtonapp.utility.CommonUtil;
 import com.newtonapp.utility.DebugUtil;
+import com.newtonapp.utility.NetworkUtil;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public abstract class BaseActivity extends BaseProjectActivity {
 
@@ -23,24 +25,49 @@ public abstract class BaseActivity extends BaseProjectActivity {
     protected Activity currentActivity;
     protected JWT loginToken;
 
+    private boolean isAlreadyOnline = true;
+    private Disposable reactiveNetworkDisposable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         compositeDisposable = new CompositeDisposable();
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+
+        reactiveNetworkDisposable = NetworkUtil.checkInternetConnection(
+                isConnectedToHost -> {
+                    if (isConnectedToHost)
+                        online();
+                    else offline();
+                }
+        );
+
+        compositeDisposable.add(reactiveNetworkDisposable);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         progressDialog.cancel();
+        compositeDisposable.remove(reactiveNetworkDisposable);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.dispose();
+    }
+
+    protected void online() {
+        if (!isAlreadyOnline)
+            Toast.makeText(this, "Back online", Toast.LENGTH_SHORT).show();
+        isAlreadyOnline = true;
+    }
+
+    protected void offline() {
+        Toast.makeText(this, "You're offline", Toast.LENGTH_SHORT).show();
+        isAlreadyOnline = false;
     }
 
     public void showMessageDialog(String message) {
