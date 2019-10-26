@@ -297,9 +297,7 @@ public class SolvingActivity extends BaseActivity {
                             etSolvingNote.setText(solvingNote);
                             break;
                         case Constants.FLAG_SOLVED: // sudah klik "solved", pindah ke "Finishing"
-                            setOngoingCustomerProblem(customer);
-                            navigateTo(this, ApprovalActivity.class);
-                            finish();
+                            finishing(customer);
                             break;
                         default:
                             //Toast.makeText(this, getString(R.string.success_message_no_ongoing_problem), Toast.LENGTH_LONG).show();
@@ -458,12 +456,18 @@ public class SolvingActivity extends BaseActivity {
     }
 
     private void onSuccessSolved(Customer customer, Solving solving) {
-        navigateTo(this, ApprovalActivity.class);
-        finish();
+        customer.getProblems().get(0).setSolving(solving);
+        finishing(customer);
     }
 
     private void onSuccessHold(Customer customer, Solving solving) {
         finish(); // back to main menu
+    }
+
+    private void finishing(Customer customer) {
+        setOngoingCustomerProblem(customer);
+        navigateTo(this, ApprovalActivity.class);
+        finish();
     }
 
     private boolean isValid() {
