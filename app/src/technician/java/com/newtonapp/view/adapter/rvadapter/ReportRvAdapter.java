@@ -60,7 +60,8 @@ public class ReportRvAdapter extends BaseSingleViewTypeRvAdapter<ReportRvModel, 
         private int getStatusColor() {
             int statusColor = R.color.status_unknown;
             switch (report.getStatus()) {
-                case Constants.FLAG_SOLVED: statusColor = R.color.status_solved; break;
+                case Constants.FLAG_SOLVED:
+                case Constants.FLAG_CLOSED: statusColor = R.color.status_solved; break;
                 case Constants.FLAG_HOLD: statusColor = R.color.status_hold; break;
             }
             return itemView.getContext().getResources().getColor(statusColor);
@@ -68,7 +69,8 @@ public class ReportRvAdapter extends BaseSingleViewTypeRvAdapter<ReportRvModel, 
 
         private String getStatusText() {
             switch (report.getStatus()) {
-                case Constants.FLAG_SOLVED: return itemView.getContext().getString(R.string.status_solved);
+                case Constants.FLAG_SOLVED:
+                case Constants.FLAG_CLOSED: return itemView.getContext().getString(R.string.status_solved);
                 case Constants.FLAG_HOLD: return itemView.getContext().getString(R.string.status_hold);
                 default: return "";
             }
