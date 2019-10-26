@@ -57,7 +57,7 @@ android {
         customer {
             applicationId 'com.newtonapp.customer'
             dimension "user_role"
-            buildConfigField("String", "HOST_DEV", '"https://dev.pramadhan.com/"')
+            buildConfigField("String", "HOST_DEV", '"http://newton-app.com/"')
             buildConfigField("String", "HOST_PROD", '"http://newton-app.com/"')
             //buildConfigField("String", "HOST_PROD", '"http://149.129.254.64:80/newton/api/"')
         }
