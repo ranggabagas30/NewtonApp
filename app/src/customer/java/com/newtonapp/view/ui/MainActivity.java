@@ -29,9 +29,8 @@ import com.newtonapp.data.network.pojo.response.ComplainResponseModel;
 import com.newtonapp.data.network.pojo.response.TrackResponseModel;
 import com.newtonapp.data.network.pojo.response.UpdateResponseModel;
 import com.newtonapp.utility.Constants;
+import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NetworkUtil;
-
-import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -53,7 +52,7 @@ public class MainActivity extends BaseActivity {
     private String idCustomer;
     private String idPrinter;
     private String note;
-    private String statusComplain = "0";
+    private String statusComplain = Constants.FLAG_OPEN;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -62,7 +61,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_verification);
         initView();
         setListener();
-        setTrackVerifyMode();
+        setVerifyMode();
         //setDefault();
     }
 
@@ -74,7 +73,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        checkOnGoingProblemAvailbility();
     }
 
     @Override
@@ -106,6 +104,8 @@ public class MainActivity extends BaseActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.screen_verification));
+
+        setBlockMode();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -195,7 +195,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkOnGoingProblemAvailbility() {
-        /*Customer customer = getOngoindCustomerProblem();
+        Customer customer = getOngoindCustomerProblem();
         if (customer != null) {
             Problem problem = customer.getProblems().get(0);
             if (problem != null) {
@@ -213,12 +213,16 @@ public class MainActivity extends BaseActivity {
             }
         } else {
             setComplainMode();
-        }*/
+        }
+    }
+
+    private boolean isVerificationFieldNotBlank() {
+        return !TextUtils.isEmpty(idCustomer) &&
+                !TextUtils.isEmpty(idPrinter);
     }
 
     private boolean isValid() {
-        return !TextUtils.isEmpty(idCustomer) &&
-                !TextUtils.isEmpty(idPrinter) &&
+        return  isVerificationFieldNotBlank()&&
                 !TextUtils.isEmpty(note);
     }
 
@@ -233,7 +237,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onTrackVerify() {
-        if (!TextUtils.isEmpty(idCustomer) && !TextUtils.isEmpty(idPrinter)) trackVerify();
+        if (isVerificationFieldNotBlank()) trackVerify();
         else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
     }
 
@@ -253,12 +257,15 @@ public class MainActivity extends BaseActivity {
                                          throw new NullPointerException(getString(R.string.error_null_response));
                                      }
 
-                                     if (response.getStatus() == 1 && !TextUtils.isEmpty(response.getData().getStatusComplain())) {
+                                     DebugUtil.d("verification response: " + response.toString());
+                                     if (response.getStatus() == 1) {
                                          Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
                                          onSuccessTrackVerify(response);
                                      } else {
                                          Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
-                                         setComplainMode();
+                                         if (response.getAck().equalsIgnoreCase(Constants.ACK_CONTRACT_NOT_FOUND)) {
+                                             setComplainMode();
+                                         }
                                      }
                                  }, error -> {
                                      hideDialog();
@@ -281,7 +288,7 @@ public class MainActivity extends BaseActivity {
                         .subscribeOn(Schedulers.io())
                         .subscribe(
                                 response -> {
-                                    setTrackVerifyMode();
+                                    setVerifyMode();
                                     hideDialog();
                                     if (response == null) {
                                         throw new NullPointerException(getString(R.string.error_null_response));
@@ -314,7 +321,7 @@ public class MainActivity extends BaseActivity {
                         .subscribeOn(Schedulers.io())
                         .subscribe(
                                 response -> {
-                                    setTrackVerifyMode();
+                                    setVerifyMode();
                                     hideDialog();
                                     if (response == null) {
                                         throw new NullPointerException(getString(R.string.error_null_response));
@@ -340,20 +347,24 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(this, ProblemTrackingActivity.class);
         intent.putExtra(Constants.EXTRA_STATUS_COMPLAIN, currentStatusComplain);
         startActivity(intent);
-        setTrackVerifyMode();
+        setVerifyMode();
     }
 
     private void onSuccessTrackVerify(TrackResponseModel response) {
         // open, update is eligible
         saveToken(response.getToken());
         obtainToken(this);
-        etNote.setText(response.getData().getNote());
 
         statusComplain = response.getData().getStatusComplain();
-        if (Constants.FLAG_OPEN.equals(response.getData().getStatusComplain()))
-            setUpdateMode();
-        else if (Integer.parseInt(response.getData().getStatusComplain()) > Integer.parseInt(Constants.FLAG_OPEN)) {
-            setTrackingMode();
+        if (!TextUtils.isEmpty(statusComplain)) {
+            etNote.setText(response.getData().getNote());
+            if (Constants.FLAG_OPEN.equals(statusComplain))
+                setUpdateMode();
+            else if (Integer.parseInt(statusComplain) > Integer.parseInt(Constants.FLAG_OPEN)) {
+                setTrackingMode();
+            }
+        } else {
+            setComplainMode();
         }
     }
 
@@ -362,7 +373,7 @@ public class MainActivity extends BaseActivity {
         saveToken(response.getToken());
         obtainToken(this);
 
-        Customer customer = new Customer();
+        /*Customer customer = new Customer();
         customer.setIdCust(idCustomer);
 
         ArrayList<Problem> problems = new ArrayList<>();
@@ -376,9 +387,7 @@ public class MainActivity extends BaseActivity {
         problems.add(problem);
 
         customer.setProblems(problems);
-
-        setOngoingCustomerProblem(customer);
-        //setUpdateMode();
+        setOngoingCustomerProblem(customer);*/
     }
 
     private void onSuccessUpdate(UpdateResponseModel response) {
@@ -387,8 +396,13 @@ public class MainActivity extends BaseActivity {
         obtainToken(this);
     }
 
-    private void setTrackVerifyMode() {
-        statusComplain = "0";
+    private void setBlockMode() {
+        notifyVerifyDisabled();
+        notifyNoteDisabled();
+    }
+
+    private void setVerifyMode() {
+        statusComplain = Constants.FLAG_OPEN;
         etIdCustomer.setText("");
         etIdPrinter.setText("");
         etNote.setText("");
