@@ -40,22 +40,22 @@ public class NetworkUtil {
                     errorMessage = "Unauthorized User";
                     break;
                 case HttpsURLConnection.HTTP_FORBIDDEN:
-                    errorMessage = "Forbidden";
+                    errorMessage = "Forbidden (Code: 404)";
                     break;
                 case HttpsURLConnection.HTTP_INTERNAL_ERROR:
-                    errorMessage = "Server problem (500 Internal Server Error)";
+                    errorMessage = "Server Problem (Code: 500)";
                     break;
                 case HttpsURLConnection.HTTP_BAD_REQUEST:
-                    errorMessage = "Bad Request";
+                    errorMessage = "Bad Request (Code: 400)";
                     break;
                 case API_STATUS_CODE_LOCAL_ERROR:
-                    errorMessage = "API status code local error";
+                    errorMessage = "API status code local error (Code: 0)";
                     break;
                 default:
                     errorMessage = error.getLocalizedMessage();
             }
         } else if (error instanceof JsonSyntaxException) {
-            errorMessage = "Something Went Wrong API is not responding properly!";
+            errorMessage = "Something Went Wrong API is not responding properly! (Code: 666)";
         } else if (error instanceof UnknownHostException) {
             errorMessage = "Slow or no internet connection";
         } else{

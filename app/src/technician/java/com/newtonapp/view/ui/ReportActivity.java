@@ -64,14 +64,16 @@ public class ReportActivity extends BaseActivity {
     @Override
     protected void offline() {
         super.offline();
-        //showNoInternetConnectionView();
     }
 
     @Override
     protected void online() {
         super.online();
-        if (reports.isEmpty()) downloadReports();
-        showNormalView();
+        if (reports.isEmpty()) {
+            showNoItemView();
+            downloadReports();
+        }
+        else showNormalView();
     }
 
     private void initView() {

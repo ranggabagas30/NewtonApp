@@ -72,8 +72,11 @@ public class OutstandingActivity extends BaseActivity {
 
     @Override
     public void online() {
-        if (outstandingList.isEmpty()) checkOnGoingProblemAvailbility();
-        showNormalMode();
+        if (outstandingList.isEmpty()) {
+            showNoItemView();
+            checkOnGoingProblemAvailbility();
+        }
+        else showNormalMode();
     }
 
     @Override
@@ -187,11 +190,9 @@ public class OutstandingActivity extends BaseActivity {
     }
 
     private void onSuccessDownloadOutstandinglist(OutstandingResponseModel response) {
-        if (response.getData() == null) {
-            showNoItemView();
-            return;
+        if (response.getData() != null) {
+            populateDataFromNetwork(response.getData());
         }
-        populateDataFromNetwork(response.getData());
     }
 
     private void populateDataFromNetwork(List<Customer> data) {
