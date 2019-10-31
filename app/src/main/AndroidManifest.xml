@@ -15,7 +15,8 @@
         android:hardwareAccelerated="true">
 
         <activity android:name=".view.ui.CameraPreviewActivity"></activity>
-
+        <activity android:name=".view.ui.DebugActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"></activity>
         <service
             android:name=".service.pushnotification.FCMListenerService"
             android:exported="false">
