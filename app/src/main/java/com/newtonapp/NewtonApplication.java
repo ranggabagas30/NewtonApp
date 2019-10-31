@@ -9,6 +9,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.newtonapp.model.notification.DefaultNotificationChannel;
 import com.newtonapp.model.notification.HighNotificationChannel;
+import com.newtonapp.utility.CrashlyticsWrapperUtil;
 import com.newtonapp.utility.DebugUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -20,6 +21,9 @@ public class NewtonApplication extends Application implements ActivityLifecycleH
     public void onCreate() {
         super.onCreate();
         FirebaseApp.initializeApp(this);
+
+        // Crashlytics
+        CrashlyticsWrapperUtil.setup(this);
 
         // Initialize the Prefs class
         new Prefs.Builder()
