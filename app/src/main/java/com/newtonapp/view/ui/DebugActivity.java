@@ -11,11 +11,14 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.crashlytics.android.Crashlytics;
 import com.f2prateek.rx.preferences2.Preference;
 import com.newtonapp.NewtonApplication;
 import com.newtonapp.R;
-import com.newtonapp.model.notification.AssignNotification;
+import com.newtonapp.model.notification.MessagePayload;
 import com.newtonapp.utility.Constants;
+import com.newtonapp.utility.DebugUtil;
+import com.newtonapp.utility.NotificationUtil;
 
 public class DebugActivity extends BaseActivity {
 
@@ -28,6 +31,7 @@ public class DebugActivity extends BaseActivity {
     private AppCompatTextView tvCameraResult;
     private AppCompatButton btnOpenCamera;
     private AppCompatButton btnNotify;
+    private AppCompatButton btnGenerateCrash;
 
     private Preference<String> spFirebaseToken;
     private Preference<String> spFirebaseMessagePayload;
@@ -36,12 +40,8 @@ public class DebugActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
-
         initView();
         setListener();
-
-        //etFirebaseToken.setText(Prefs.getString(getString(R.string.key_firebase_token), null));
-        //etFirebaseMessagePayload.setText(Prefs.getString(getString(R.string.key_firebase_message_payload), null));
     }
 
     @Override
@@ -78,6 +78,7 @@ public class DebugActivity extends BaseActivity {
         tvCameraResult = findViewById(R.id.debug_tv_camera_result);
         btnOpenCamera = findViewById(R.id.debug_btn_camera_open);
         btnNotify = findViewById(R.id.debug_btn_notification_notify);
+        btnGenerateCrash = findViewById(R.id.debug_btn_crash);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.screen_debug));
@@ -111,7 +112,16 @@ public class DebugActivity extends BaseActivity {
         btnNotify.setOnClickListener(view -> {
             String title = etNotificationTitle.getText().toString();
             String message = etNotificationMessage.getText().toString();
-            new AssignNotification(this, title, message).show(AssignNotification.ASSIGN_NOTIFICATION_ID);
+            MessagePayload messagePayload = new MessagePayload();
+            messagePayload.setAction("Debug");
+            messagePayload.setTitle(title);
+            messagePayload.setMessage(message);
+            NotificationUtil.notify(this, messagePayload);
+        });
+        btnGenerateCrash.setOnClickListener(view -> {
+            Crashlytics.setString(getString(R.string.error_crash_test), "on click 'Generate Crash'");
+            Crashlytics.getInstance().crash();
+            DebugUtil.e("Debug crash");
         });
     }
 }

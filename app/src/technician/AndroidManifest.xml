@@ -11,8 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.ui.DebugActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"></activity>
         <activity android:name=".view.ui.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>

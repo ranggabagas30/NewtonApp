@@ -3,9 +3,12 @@ package com.newtonapp.model.notification;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import com.newtonapp.view.ui.MainActivity;
 
 public class BaseNotification {
 
@@ -21,6 +24,8 @@ public class BaseNotification {
                 .setSmallIcon(resIconDrawable)
                 .setContentTitle(title)
                 .setContentText(message)
+                .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0))
+                .setAutoCancel(true)
                 .setPriority(priorityLevel)
                 .setCategory(category);
     }

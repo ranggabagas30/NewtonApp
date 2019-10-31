@@ -14,13 +14,11 @@ public class DebugUtil {
         /* Protect from instantiations */
     }
 
-
     private static boolean isDebuggable() {
 		return BuildConfig.DEBUG;
     }
 
     private static String createLog( String log ) {
-
         StringBuffer buffer = new StringBuffer();
         buffer.append("[");
         buffer.append(methodName);
@@ -28,7 +26,6 @@ public class DebugUtil {
         buffer.append(lineNumber);
         buffer.append("]");
         buffer.append(log);
-
         return buffer.toString();
     }
 
