@@ -6,6 +6,7 @@
     <string name="menu_outstanding">Outstanding</string>
     <string name="menu_solving">Solving</string>
     <string name="menu_report">Report</string>
+    <string name="screen_debug">Debug Page</string>
 
     <string-array name="problems">
         <item>Verification complain</item>
@@ -53,7 +54,7 @@
     <string name="error_empty_otp">Please insert customer OTP</string>
     <string name="error_empty_rate">Please rate us</string>
     <string name="error_empty_report_detail">No report detail found</string>
-
+    <string name="error_crash_test">crash_test</string>
     <!-- warning messages-->
     <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
 
