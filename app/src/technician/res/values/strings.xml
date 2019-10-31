@@ -11,7 +11,6 @@
     <string name="screen_historical_usage">Historical Usage</string>
     <string name="screen_report_list">Report List</string>
     <string name="screen_report_detail">Report Detail</string>
-    <string name="screen_debug">Debug Page</string>
 
     <string name="status_solved">SOLVED</string>
     <string name="status_hold">HOLD</string>

@@ -8,6 +8,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,9 +20,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 
+import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
-import com.newtonapp.data.database.entity.Customer;
-import com.newtonapp.data.database.entity.Problem;
 import com.newtonapp.data.network.APIHelper;
 import com.newtonapp.data.network.pojo.request.ComplainRequestModel;
 import com.newtonapp.data.network.pojo.request.TrackRequestModel;
@@ -62,7 +63,27 @@ public class MainActivity extends BaseActivity {
         initView();
         setListener();
         setVerifyMode();
-        //setDefault();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (BuildConfig.DEBUG) {
+            getMenuInflater().inflate(R.menu.verification_menu, menu);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (BuildConfig.DEBUG) {
+            switch (item.getItemId()) {
+                case R.id.verification_menu_debug:
+                    navigateTo(this, DebugActivity.class);
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -78,13 +99,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         String qrcodeValue = data != null ? data.getStringExtra(Constants.EXTRA_INTENT_RESULT_SCAN) : null;
-
         Log.d(TAG, "requestCode : " + requestCode);
         Log.d(TAG, "resultCode : " + resultCode);
         Log.d(TAG, "data barcode : " + qrcodeValue);
-
         if (requestCode == Constants.RC_SCAN_BARCODE && resultCode == RESULT_OK) {
             etIdPrinter.setText(qrcodeValue);
             onTrackVerify();
@@ -101,10 +119,8 @@ public class MainActivity extends BaseActivity {
         btnSendComplain = findViewById(R.id.verification_btn_submit);
         btnUpdateComplain = findViewById(R.id.verification_btn_update);
         btnTracking = findViewById(R.id.verification_btn_tracking);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.screen_verification));
-
         setBlockMode();
     }
 
@@ -188,32 +204,6 @@ public class MainActivity extends BaseActivity {
         });
 
         btnTracking.setOnClickListener(view -> trackComplain());
-    }
-    private void setDefault() {
-        etIdCustomer.setText(Constants.idcustomer);
-        etIdPrinter.setText(Constants.idprinter);
-    }
-
-    private void checkOnGoingProblemAvailbility() {
-        Customer customer = getOngoindCustomerProblem();
-        if (customer != null) {
-            Problem problem = customer.getProblems().get(0);
-            if (problem != null) {
-                etIdCustomer.setText(customer.getIdCust());
-                etIdPrinter.setText(loginToken.getClaim(Constants.CLAIM_SN).asString());
-                etNote.setText(problem.getNote());
-                switch (problem.getStatusComplain()) {
-                    case Constants.FLAG_OPEN:
-                        setUpdateMode();
-                        break;
-                    default:
-                        setTrackingMode();
-                        break;
-                }
-            }
-        } else {
-            setComplainMode();
-        }
     }
 
     private boolean isVerificationFieldNotBlank() {
@@ -351,10 +341,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onSuccessTrackVerify(TrackResponseModel response) {
-        // open, update is eligible
         saveToken(response.getToken());
         obtainToken(this);
-
         statusComplain = response.getData().getStatusComplain();
         if (!TextUtils.isEmpty(statusComplain)) {
             etNote.setText(response.getData().getNote());
@@ -369,29 +357,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onSuccessComplain(ComplainResponseModel response) {
-
         saveToken(response.getToken());
         obtainToken(this);
-
-        /*Customer customer = new Customer();
-        customer.setIdCust(idCustomer);
-
-        ArrayList<Problem> problems = new ArrayList<>();
-        Problem problem = new Problem();
-        problem.setIdProblem(response.getData().getIdProblem());
-        problem.setIdProduk(loginToken.getClaim(Constants.CLAIM_SN).asString());
-        problem.setNote(note);
-        problem.setStatusComplain(response.getData().getStatusComplain());
-        problem.setOtp(loginToken.getClaim(Constants.CLAIM_OTP).asString());
-        problem.setWaktuComp(response.getData().getWaktuComp());
-        problems.add(problem);
-
-        customer.setProblems(problems);
-        setOngoingCustomerProblem(customer);*/
     }
 
     private void onSuccessUpdate(UpdateResponseModel response) {
-        // update pref
         saveToken(response.getToken());
         obtainToken(this);
     }
