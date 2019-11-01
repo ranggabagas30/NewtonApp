@@ -20,6 +20,15 @@ public class ApprovalRequestModel {
 	@SerializedName("token")
 	private String token;
 
+	@SerializedName("rate")
+	private String rate;
+
+	@SerializedName("otp")
+	private String otp;
+
+	@SerializedName("cust")
+	private String idcust;
+
 	public void setProb(String prob){
 		this.prob = prob;
 	}
@@ -60,6 +69,30 @@ public class ApprovalRequestModel {
 		return token;
 	}
 
+	public String getRate() {
+		return rate;
+	}
+
+	public void setRate(String rate) {
+		this.rate = rate;
+	}
+
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+	public String getIdcust() {
+		return idcust;
+	}
+
+	public void setIdcust(String idcust) {
+		this.idcust = idcust;
+	}
+
 	@Override
  	public String toString(){
 		return 
@@ -68,7 +101,10 @@ public class ApprovalRequestModel {
 			",flag = '" + flag + '\'' + 
 			",action = '" + action + '\'' + 
 			",category = '" + category + '\'' + 
-			",token = '" + token + '\'' + 
+			",token = '" + token + '\'' +
+			",rate = '" + rate + '\'' +
+			",otp = '" + otp + '\'' +
+			",idcust = '" + idcust + '\'' +
 			"}";
 		}
 }

@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import com.google.gson.Gson;
 import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
 import com.newtonapp.data.network.APIHelper;
@@ -186,7 +187,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
                                             if (response.getStatus() == 1) {
                                                 onSuccessLogin(response);
-
                                             } else {
                                                 onFailedLogin(response);
                                             }
@@ -208,8 +208,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
         if (BuildConfig.DEBUG) Toast.makeText(this, getString(R.string.success_message_login), Toast.LENGTH_SHORT).show();
 
+        // save token
         token = response.getToken();
         saveToken(token);
+
+        // saver profile
+        saveProfile(new Gson().toJson(response.getProfile()));
+
         sendFirebaseToken();
         boolean isFirstTime = getFirstTimeUserFlag();
         if (isFirstTime) {

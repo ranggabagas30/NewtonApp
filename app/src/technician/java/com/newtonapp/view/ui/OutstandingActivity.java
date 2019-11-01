@@ -72,11 +72,10 @@ public class OutstandingActivity extends BaseActivity {
 
     @Override
     public void online() {
-        if (outstandingList.isEmpty()) {
-            showNoItemView();
+        showNormalMode();
+        if (outstandingList.isEmpty()) { // re-download outstanding list if currently empty
             checkOnGoingProblemAvailbility();
         }
-        else showNormalMode();
     }
 
     @Override
@@ -122,7 +121,6 @@ public class OutstandingActivity extends BaseActivity {
                                     }
 
                                     if (response.getStatus() == 1) {
-                                        //Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
                                         onSuccessTracking(response);
                                     } else {
                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
@@ -190,12 +188,13 @@ public class OutstandingActivity extends BaseActivity {
     }
 
     private void onSuccessDownloadOutstandinglist(OutstandingResponseModel response) {
-        if (response.getData() != null) {
+        if (response.getData() != null) { // data outstanding list
             populateDataFromNetwork(response.getData());
-        }
+        } else showNoItemView();
     }
 
     private void populateDataFromNetwork(List<Customer> data) {
+        showNormalMode();
         outstandingList.clear();
         for (Customer item : data) {
             outstandingList.add(new OutstandingRvModelNew(item));

@@ -51,6 +51,11 @@ public class ReportActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public Activity onCreateGetCurrentActivity() {
         return this;
     }
@@ -64,16 +69,15 @@ public class ReportActivity extends BaseActivity {
     @Override
     protected void offline() {
         super.offline();
+        if (reports.isEmpty()) showNoItemView();
     }
 
     @Override
     protected void online() {
         super.online();
         if (reports.isEmpty()) {
-            showNoItemView();
             downloadReports();
         }
-        else showNormalView();
     }
 
     private void initView() {
@@ -140,6 +144,7 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void populateDataReports(List<Customer> customers) {
+        showNormalView();
         reports.clear();
         for (Customer customer : customers) {
             reports.add(new ReportRvModel(customer));
@@ -149,12 +154,10 @@ public class ReportActivity extends BaseActivity {
 
     private void setNormalMode() {
         llFailedBody.setVisibility(View.GONE);
-        rvReportList.setVisibility(View.VISIBLE);
     }
 
     private void setFailedMode() {
         llFailedBody.setVisibility(View.VISIBLE);
-        rvReportList.setVisibility(View.GONE);
     }
 
     private void showNormalView() {

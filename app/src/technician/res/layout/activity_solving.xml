@@ -25,23 +25,50 @@
             android:inputType="text|textCapCharacters"
             android:drawableEnd="@drawable/ic_perm_identity_black_24dp"
             style="@style/AppTheme.EditText.SingleLine."
-            android:hint="ID Customer"/>
+            android:hint="@string/label_id_customer"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/solving.et.idbarcode"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:inputType="text|textCapCharacters"
-            android:drawableEnd="@drawable/ic_camera_alt_black_24dp"
-            style="@style/AppTheme.EditText.SingleLine."
-            android:hint="Scan barcode" />
+            android:layout_marginTop="20dp">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/solving.et.idprinter"
+                style="@style/AppTheme.EditText.SingleLine."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/shape_rect_transparent_24dp"
+                android:enabled="false"
+                android:inputType="text|textCapCharacters"
+                android:hint="@string/label_scan_qr_code"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/solving.tv.scan.instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/label_scan_instruction"
+                android:textSize="12dp"
+                app:layout_constraintTop_toBottomOf="@+id/solving.et.idprinter" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/solving.imgbtn.camera"
+                android:contentDescription="@string/warning_message_open_camera_for_scanning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/solving.et.idprinter"
+                app:layout_constraintBottom_toBottomOf="@id/solving.et.idprinter"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_camera_alt_black_24dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/solving.btn.verify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="Checkin"
             android:theme="@style/AppTheme.AccentButton.PrimaryDark"
             style="@style/AppTheme.ButtonPrimaryDark"/>

@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 
@@ -63,6 +63,7 @@ public class SolvingActivity extends BaseActivity {
     private AppCompatButton btnVerify;
     private AppCompatButton btnSolved;
     private AppCompatButton btnHold;
+    private AppCompatImageButton imgBtnScan;
 
     private Customer customer;
     private String idCustomer;
@@ -125,11 +126,12 @@ public class SolvingActivity extends BaseActivity {
         llSolvingBodySolving = findViewById(R.id.solving_layout_body_solving);
         spSolvingOption = findViewById(R.id.solving_sp_options);
         etIdCustomer = findViewById(R.id.solving_et_idcustomer);
-        etIdPrinter = findViewById(R.id.solving_et_idbarcode);
+        etIdPrinter = findViewById(R.id.solving_et_idprinter);
         etSolvingNote = findViewById(R.id.solving_et_note);
         btnVerify = findViewById(R.id.solving_btn_verify);
         btnSolved = findViewById(R.id.solving_btn_solved);
         btnHold = findViewById(R.id.solving_btn_hold);
+        imgBtnScan = findViewById(R.id.solving_imgbtn_camera);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -147,6 +149,7 @@ public class SolvingActivity extends BaseActivity {
         btnVerify.setOnClickListener(view -> onVerify());
         btnSolved.setOnClickListener(view -> onSolved());
         btnHold.setOnClickListener(view -> onHold());
+        imgBtnScan.setOnClickListener(view -> onOpenCameraStarScanning());
         etIdCustomer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -192,7 +195,7 @@ public class SolvingActivity extends BaseActivity {
             }
         });
 
-        etIdPrinter.setOnTouchListener((view, event) -> {
+        /*etIdPrinter.setOnTouchListener((view, event) -> {
             final int DRAWABLE_LEFT = 0;
             final int DRAWABLE_TOP = 1;
             final int DRAWABLE_RIGHT = 2;
@@ -208,7 +211,7 @@ public class SolvingActivity extends BaseActivity {
                 }
             }
             return false;
-        });
+        });*/
 
         etSolvingNote.addTextChangedListener(new TextWatcher() {
             @Override
@@ -336,6 +339,12 @@ public class SolvingActivity extends BaseActivity {
             hold(idCustomer, idPrinter, solvingOption, solvingNote);
         }
         else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
+    }
+
+    private void onOpenCameraStarScanning() {
+        isOpeningCamera = true;
+        Intent openCameraIntent = new Intent(this, CameraPreviewActivity.class);
+        startActivityForResult(openCameraIntent, Constants.RC_SCAN_BARCODE);
     }
 
     private void verify() {
@@ -509,7 +518,7 @@ public class SolvingActivity extends BaseActivity {
 
     private void notifyEnabledInputKunjungan() {
         etIdCustomer.setEnabled(true);
-        etIdPrinter.setEnabled(true);
+        //etIdPrinter.setEnabled(true);
         btnVerify.setEnabled(true);
     }
 
@@ -522,7 +531,7 @@ public class SolvingActivity extends BaseActivity {
 
     private void notifyDisabledInputKunjungan() {
         etIdCustomer.setEnabled(false);
-        etIdPrinter.setEnabled(false);
+        //etIdPrinter.setEnabled(false);
         btnVerify.setEnabled(false);
     }
 

@@ -37,9 +37,14 @@ public class CommonUtil {
         Claim catClaim   = jwtTokenDecrypt.getClaim(Constants.CLAIM_CATEGORY);
         Claim iatClaim   = jwtTokenDecrypt.getClaim(Constants.CLAIM_ISSUED_AT);
         Claim nbfClaim   = jwtTokenDecrypt.getClaim(Constants.CLAIM_NOT_BEFORE);
+        Claim otp        = jwtTokenDecrypt.getClaim(Constants.CLAIM_OTP);
+        Claim sn         = jwtTokenDecrypt.getClaim(Constants.CLAIM_SN);
+
         Log.d(TAG, "token -> " + jwtTokenDecrypt.toString());
         Log.d(TAG, "{\n" +
                         "\tuname: " + unameClaim.asString() + ",\n" +
+                        "\tsn: " + sn.asString() + ",\n" +
+                        "\totp: " + otp.asString() + ",\n" +
                         "\tkdcab: " + kdcabClaim.asString() + ",\n" +
                         "\tidtek: " + idtekClaim.asString() + ",\n" +
                         "\tcat: " + catClaim.asString() + ",\n" +

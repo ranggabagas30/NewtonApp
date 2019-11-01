@@ -10,9 +10,12 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
 import com.github.siyamed.shapeimageview.CircularImageView;
+import com.google.gson.Gson;
 import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
+import com.newtonapp.data.network.pojo.response.VerificationResponseModel;
 import com.newtonapp.utility.Constants;
 
 public class DashboardActivity extends BaseActivity {
@@ -71,23 +74,22 @@ public class DashboardActivity extends BaseActivity {
     }
 
     private void loadData() {
-        techName = loginToken.getClaim(Constants.CLAIM_USERNAME).asString();
-        techUsername = loginToken.getClaim(Constants.CLAIM_IDTECHNICIAN).asString();
-        setName(techName);
-        setIdTecnisian(techUsername);
-        setProfileImage();
-    }
-
-    private void setName(String name) {
-        tvName.setText(name);
-    }
-
-    private void setIdTecnisian(String idTecnisian) {
-        tvIdtechnisian.setText(idTecnisian);
-    }
-
-    private void setProfileImage() {
-
+        compositeDisposable.add(
+                loadProfile().asObservable().subscribe(
+                        profileJson -> {
+                            VerificationResponseModel.Profile profile = new Gson().fromJson(profileJson, VerificationResponseModel.Profile.class);
+                            String profileUrl = profile.getPic();
+                            String profileName = profile.getName();
+                            tvName.setText(profileName);
+                            tvIdtechnisian.setText(loginToken.getClaim(Constants.CLAIM_IDTECHNICIAN).asString());
+                            Glide.with(this)
+                                    .load(profileUrl)
+                                    .centerCrop()
+                                    .placeholder(R.drawable.blank_profile)
+                                    .into(ivProfile);
+                        }
+                )
+        );
     }
 
     private void showConfirmationDialog() {

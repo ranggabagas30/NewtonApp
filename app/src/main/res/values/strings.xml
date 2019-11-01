@@ -55,8 +55,11 @@
     <string name="error_empty_rate">Please rate us</string>
     <string name="error_empty_report_detail">No report detail found</string>
     <string name="error_crash_test">crash_test</string>
+    <string name="error_otp_null">Lakukan scan id printer ulang untuk mendapatkan OTP</string>
+
     <!-- warning messages-->
     <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
+    <string name="warning_message_open_camera_for_scanning">Click here for scanning</string>
 
     <!-- success messages-->
     <string name="success_message_firebase_token_sent">Firebase token sent successfully</string>
@@ -86,8 +89,8 @@
     <string name="progress_update_complain">Updating complain</string>
 
     <string name="label_scan_instruction">Scan QR code to get printer id</string>
-    <string name="label_scan_qr_code">Scan QR code</string>
-    <string name="label_id_customer">ID Customer</string>
+    <string name="label_scan_qr_code">Printer ID</string>
+    <string name="label_id_customer">Customer ID</string>
     <string name="label_note">Note :</string>
     <string name="label_note_available">N/A</string>
 </resources>

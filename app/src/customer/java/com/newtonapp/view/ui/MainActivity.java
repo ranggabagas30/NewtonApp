@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -18,6 +17,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.newtonapp.BuildConfig;
@@ -33,6 +35,9 @@ import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NetworkUtil;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,17 +48,28 @@ public class MainActivity extends BaseActivity {
     private Toolbar toolbar;
     private LinearLayout llVerification;
     private LinearLayout llNote;
+    private LinearLayout llFailedBody;
     private AppCompatEditText etIdCustomer;
     private AppCompatEditText etIdPrinter;
     private AppCompatEditText etNote;
     private AppCompatButton btnSendComplain;
     private AppCompatButton btnUpdateComplain;
     private AppCompatButton btnTracking;
+    private AppCompatImageButton imgBtnScan;
+    private AppCompatImageView ivFailedLogo;
+    private AppCompatTextView tvFailedMessage;
+    private AppCompatTextView tvOTP;
 
     private String idCustomer;
     private String idPrinter;
     private String note;
     private String statusComplain = Constants.FLAG_OPEN;
+    private String otp;
+    private String OTP_CURRENT_LABEL;
+
+    private static final String LABEL_OTP_HIDDEN = "Lihat kode OTP";
+    private static final String LABEL_OTP_VISIBLE = "Kode OTP ";
+    private static final int OTP_VISIBLE_COUNT_DOWN = 4; // seconds;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -63,6 +79,18 @@ public class MainActivity extends BaseActivity {
         initView();
         setListener();
         setVerifyMode();
+    }
+
+    @Override
+    protected void online() {
+        super.online();
+        setOnlineMode();
+    }
+
+    @Override
+    protected void offline() {
+        super.offline();
+        setOfflineMode();
     }
 
     @Override
@@ -111,42 +139,34 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         toolbar = findViewById(R.id.header_layout_toolbar);
+        tvOTP = findViewById(R.id.verification_tv_otp);
         llVerification = findViewById(R.id.verification_layout_verify);
         llNote = findViewById(R.id.verification_layout_note);
+        llFailedBody = findViewById(R.id.failed_layout_body);
         etIdCustomer = findViewById(R.id.verification_et_idcustomer);
         etIdPrinter = findViewById(R.id.verification_et_idprinter);
         etNote = findViewById(R.id.verification_et_note);
         btnSendComplain = findViewById(R.id.verification_btn_submit);
         btnUpdateComplain = findViewById(R.id.verification_btn_update);
         btnTracking = findViewById(R.id.verification_btn_tracking);
+        imgBtnScan = findViewById(R.id.verification_imgbtn_camera);
+        ivFailedLogo = findViewById(R.id.body_iv_failed_logo);
+        tvFailedMessage = findViewById(R.id.body_tv_failed_text);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.screen_verification));
         setBlockMode();
+
+        OTP_CURRENT_LABEL = LABEL_OTP_HIDDEN;
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
-        etIdPrinter.setOnTouchListener((view, event) -> {
-            final int DRAWABLE_LEFT = 0;
-            final int DRAWABLE_TOP = 1;
-            final int DRAWABLE_RIGHT = 2;
-            final int DRAWABLE_BOTTOM = 3;
 
-            if(event.getAction() == MotionEvent.ACTION_UP) {
-                if(event.getRawX() >= (etIdPrinter.getRight() - etIdPrinter.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                    // your action here
-                    if (TextUtils.isEmpty(idCustomer)) {
-                        Toast.makeText(this, getString(R.string.error_blank_customer_id), Toast.LENGTH_LONG).show();
-                        return false;
-                    }
+        /*tvOTP.setOnClickListener(view -> {
+            if (TextUtils.isEmpty(otp)) { // OTP kosong, harus scan lagi
 
-                    Intent openCameraIntent = new Intent(this, CameraPreviewActivity.class);
-                    startActivityForResult(openCameraIntent, Constants.RC_SCAN_BARCODE);
-                    return true;
-                }
             }
-            return false;
-        });
+        });*/
         etIdCustomer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -202,8 +222,8 @@ public class MainActivity extends BaseActivity {
         btnUpdateComplain.setOnClickListener(view -> {
             onUpdate();
         });
-
         btnTracking.setOnClickListener(view -> trackComplain());
+        imgBtnScan.setOnClickListener(view -> onOpeningCameraStartScanning());
     }
 
     private boolean isVerificationFieldNotBlank() {
@@ -231,6 +251,15 @@ public class MainActivity extends BaseActivity {
         else Toast.makeText(this, getString(R.string.error_blank_fields), Toast.LENGTH_LONG).show();
     }
 
+    private void onOpeningCameraStartScanning() {
+        if (TextUtils.isEmpty(idCustomer)) {
+            Toast.makeText(this, getString(R.string.error_blank_customer_id), Toast.LENGTH_LONG).show();
+            return;
+        }
+        Intent openCameraIntent = new Intent(this, CameraPreviewActivity.class);
+        startActivityForResult(openCameraIntent, Constants.RC_SCAN_BARCODE);
+    }
+
     private void trackVerify() {
         showMessageDialog(getString(R.string.progress_tracking));
         TrackRequestModel formBody = new TrackRequestModel();
@@ -252,7 +281,7 @@ public class MainActivity extends BaseActivity {
                                          Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
                                          onSuccessTrackVerify(response);
                                      } else {
-                                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
+                                         //Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                          if (response.getAck().equalsIgnoreCase(Constants.ACK_CONTRACT_NOT_FOUND)) {
                                              setComplainMode();
                                          }
@@ -343,6 +372,7 @@ public class MainActivity extends BaseActivity {
     private void onSuccessTrackVerify(TrackResponseModel response) {
         saveToken(response.getToken());
         obtainToken(this);
+        otp = loginToken.getClaim(Constants.CLAIM_OTP).asString();
         statusComplain = response.getData().getStatusComplain();
         if (!TextUtils.isEmpty(statusComplain)) {
             etNote.setText(response.getData().getNote());
@@ -364,6 +394,42 @@ public class MainActivity extends BaseActivity {
     private void onSuccessUpdate(UpdateResponseModel response) {
         saveToken(response.getToken());
         obtainToken(this);
+    }
+
+    private void startOTPCountDown() {
+        compositeDisposable.add(
+                Completable.timer(OTP_VISIBLE_COUNT_DOWN, TimeUnit.SECONDS)
+                            .subscribe(
+                                    () -> {
+                                        // otp visible time out, hide it
+
+                                    }
+                            )
+        );
+    }
+
+    private void setFailedMode() {
+        llFailedBody.setVisibility(View.VISIBLE);
+        llFailedBody.setOnTouchListener((view, motionEvent) -> {
+            return true;
+        });
+    }
+
+    private void setNormalMode() {
+        llFailedBody.setVisibility(View.GONE);
+        llFailedBody.setOnTouchListener((view, motionEvent) -> {
+            return false;
+        });
+    }
+
+    private void setOfflineMode() {
+        setFailedMode();
+        ivFailedLogo.setImageDrawable(getResources().getDrawable(R.drawable.ic_network_unavailable));
+        tvFailedMessage.setText(getString(R.string.error_no_internet_connection));
+    }
+
+    private void setOnlineMode() {
+        setNormalMode();
     }
 
     private void setBlockMode() {
@@ -412,12 +478,12 @@ public class MainActivity extends BaseActivity {
 
     private void notifyVerifyEnabled() {
         etIdCustomer.setEnabled(true);
-        etIdPrinter.setEnabled(true);
+        //etIdPrinter.setEnabled(true);
     }
 
     private void notifyVerifyDisabled() {
         etIdCustomer.setEnabled(false);
-        etIdPrinter.setEnabled(false);
+        //etIdPrinter.setEnabled(false);
     }
 
     private void notifyNoteEnabled() {

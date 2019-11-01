@@ -152,6 +152,9 @@ public class ApprovalActivity extends BaseActivity {
             if (problem != null) {
                 showMessageDialog(getString(R.string.progress_approve));
                 ApprovalRequestModel formBody = new ApprovalRequestModel();
+                formBody.setIdcust(customer.getIdCust());
+                formBody.setRate(problemRate);
+                formBody.setOtp(customerOTP);
                 formBody.setProb(problem.getIdProblem());
                 formBody.setToken(loginToken.toString());
                 compositeDisposable.add(

@@ -58,9 +58,7 @@ public class DebugActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         String qrcodeValue = data != null ? data.getStringExtra(Constants.EXTRA_INTENT_RESULT_SCAN) : null;
-
         Log.d(TAG, "requestCode : " + requestCode);
         Log.d(TAG, "resultCode : " + resultCode);
         Log.d(TAG, "data barcode : " + qrcodeValue);

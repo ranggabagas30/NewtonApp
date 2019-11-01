@@ -14,11 +14,13 @@
 
     <string name="status_solved">SOLVED</string>
     <string name="status_hold">HOLD</string>
+    <string name="status_closed">CLOSED</string>
 
     <string name="notification_assignment">assignment</string>
     <string name="notification_base">Debug notification</string>
 
     <string name="key_idproblem_under_solving">key_idproblem_under_solving</string>
+    <string name="key_profile">key_profile</string>
 
     <string-array name="solving_options">
         <item>service</item>

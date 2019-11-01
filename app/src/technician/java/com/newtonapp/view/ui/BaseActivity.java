@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.auth0.android.jwt.DecodeException;
 import com.auth0.android.jwt.JWT;
+import com.f2prateek.rx.preferences2.Preference;
+import com.newtonapp.NewtonApplication;
 import com.newtonapp.R;
 import com.newtonapp.data.network.APIHelper;
 import com.newtonapp.data.network.pojo.request.LogoutRequestModel;
@@ -166,6 +168,14 @@ public abstract class BaseActivity extends BaseProjectActivity {
     protected void setCurrentProblemId(String idProblem) {
         // TODO: set current problem id change to Problem
         Prefs.putString(getString(R.string.key_ongoing_problem), idProblem);
+    }
+
+    protected void saveProfile(String profile) {
+        Prefs.putString(getString(R.string.key_profile), profile);
+    }
+
+    protected Preference<String> loadProfile() {
+        return NewtonApplication.rxSharedPreferences.getString(getString(R.string.key_profile), "");
     }
 
 }

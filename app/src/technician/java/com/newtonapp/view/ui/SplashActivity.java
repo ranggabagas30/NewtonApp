@@ -16,7 +16,7 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         compositeDisposable.add(
-                Completable.timer(3, TimeUnit.SECONDS)
+                Completable.timer(2, TimeUnit.SECONDS)
                         .subscribe(() -> {
                             if (isLoggedIn()) {
                                 navigateTo(this, DashboardActivity.class);
