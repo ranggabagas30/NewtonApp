@@ -56,7 +56,7 @@
     <string name="error_empty_report_detail">No report detail found</string>
     <string name="error_crash_test">crash_test</string>
     <string name="error_otp_null">Lakukan scan id printer ulang untuk mendapatkan OTP</string>
-
+    <string name="error_otp_count_down_crash">Found OTP countdown error. Please kindly report to us</string>
     <!-- warning messages-->
     <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
     <string name="warning_message_open_camera_for_scanning">Click here for scanning</string>

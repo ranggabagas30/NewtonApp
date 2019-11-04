@@ -22,6 +22,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import com.newtonapp.BuildConfig;
 import com.newtonapp.R;
 import com.newtonapp.data.network.APIHelper;
@@ -31,14 +32,17 @@ import com.newtonapp.data.network.pojo.request.UpdateRequestModel;
 import com.newtonapp.data.network.pojo.response.ComplainResponseModel;
 import com.newtonapp.data.network.pojo.response.TrackResponseModel;
 import com.newtonapp.data.network.pojo.response.UpdateResponseModel;
+import com.newtonapp.utility.CommonUtil;
 import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NetworkUtil;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
@@ -46,6 +50,7 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private Toolbar toolbar;
+    private LinearLayout llOtp;
     private LinearLayout llVerification;
     private LinearLayout llNote;
     private LinearLayout llFailedBody;
@@ -59,6 +64,7 @@ public class MainActivity extends BaseActivity {
     private AppCompatImageView ivFailedLogo;
     private AppCompatTextView tvFailedMessage;
     private AppCompatTextView tvOTP;
+    private CircularProgressBar cpbOTP;
 
     private String idCustomer;
     private String idPrinter;
@@ -66,10 +72,14 @@ public class MainActivity extends BaseActivity {
     private String statusComplain = Constants.FLAG_OPEN;
     private String otp;
     private String OTP_CURRENT_LABEL;
+    private boolean isCountingDown = false;
 
-    private static final String LABEL_OTP_HIDDEN = "Lihat kode OTP";
-    private static final String LABEL_OTP_VISIBLE = "Kode OTP ";
-    private static final int OTP_VISIBLE_COUNT_DOWN = 4; // seconds;
+    private static final int DRAWABLE_START_OTP_HIDDEN_RES_ID = R.drawable.ic_lock_black_24dp;
+    private static final String LABEL_OTP_NULL = "OTP not present";
+    private static final String LABEL_OTP_HIDDEN = "Tap to see OTP code";
+    private static final String LABEL_OTP_VISIBLE = "OTP code ";
+    private static final long OTP_VISIBLE_DURATION = 20; // seconds;
+    private static final long OTP_PROGRESS_BAR_MAX_COUNT = 10000;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -140,6 +150,7 @@ public class MainActivity extends BaseActivity {
     private void initView() {
         toolbar = findViewById(R.id.header_layout_toolbar);
         tvOTP = findViewById(R.id.verification_tv_otp);
+        llOtp = findViewById(R.id.verification_layout_otp);
         llVerification = findViewById(R.id.verification_layout_verify);
         llNote = findViewById(R.id.verification_layout_note);
         llFailedBody = findViewById(R.id.failed_layout_body);
@@ -152,21 +163,22 @@ public class MainActivity extends BaseActivity {
         imgBtnScan = findViewById(R.id.verification_imgbtn_camera);
         ivFailedLogo = findViewById(R.id.body_iv_failed_logo);
         tvFailedMessage = findViewById(R.id.body_tv_failed_text);
+        cpbOTP = findViewById(R.id.verification_cpb_otp);
+        cpbOTP.setProgressMax(OTP_PROGRESS_BAR_MAX_COUNT);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.screen_verification));
         setBlockMode();
-
-        OTP_CURRENT_LABEL = LABEL_OTP_HIDDEN;
+        resetOtp();
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
 
-        /*tvOTP.setOnClickListener(view -> {
-            if (TextUtils.isEmpty(otp)) { // OTP kosong, harus scan lagi
+        tvOTP.setOnClickListener(view -> {
+            if (!isCountingDown && !TextUtils.isEmpty(otp)) showOtp();
+        });
 
-            }
-        });*/
         etIdCustomer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -281,7 +293,6 @@ public class MainActivity extends BaseActivity {
                                          Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
                                          onSuccessTrackVerify(response);
                                      } else {
-                                         //Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
                                          if (response.getAck().equalsIgnoreCase(Constants.ACK_CONTRACT_NOT_FOUND)) {
                                              setComplainMode();
                                          }
@@ -372,7 +383,13 @@ public class MainActivity extends BaseActivity {
     private void onSuccessTrackVerify(TrackResponseModel response) {
         saveToken(response.getToken());
         obtainToken(this);
-        otp = loginToken.getClaim(Constants.CLAIM_OTP).asString();
+
+        String otpFromToken = loginToken.getClaim(Constants.CLAIM_OTP).asString();
+        if (!TextUtils.isEmpty(otpFromToken)) {
+            DebugUtil.d("otp from token: " + otpFromToken);
+            setOtp(otpFromToken);
+        }
+
         statusComplain = response.getData().getStatusComplain();
         if (!TextUtils.isEmpty(statusComplain)) {
             etNote.setText(response.getData().getNote());
@@ -394,18 +411,6 @@ public class MainActivity extends BaseActivity {
     private void onSuccessUpdate(UpdateResponseModel response) {
         saveToken(response.getToken());
         obtainToken(this);
-    }
-
-    private void startOTPCountDown() {
-        compositeDisposable.add(
-                Completable.timer(OTP_VISIBLE_COUNT_DOWN, TimeUnit.SECONDS)
-                            .subscribe(
-                                    () -> {
-                                        // otp visible time out, hide it
-
-                                    }
-                            )
-        );
     }
 
     private void setFailedMode() {
@@ -493,4 +498,63 @@ public class MainActivity extends BaseActivity {
     private void notifyNoteDisabled() {
         etNote.setEnabled(false);
     }
+
+    private void startOTPCountDown(long initDelay, long period, TimeUnit intervalTimeUnit, Consumer<? super Long> onNext, Consumer<? super Throwable> onError, Action onComplete) {
+        compositeDisposable.add(
+                Observable.interval(initDelay, period, intervalTimeUnit)
+                        .take(OTP_PROGRESS_BAR_MAX_COUNT)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                onNext,
+                                onError,
+                                onComplete
+                        )
+        );
+    }
+
+    private void resetOtp() { // nulling
+        this.otp = null;
+        isCountingDown = false;
+        tvOTP.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        tvOTP.setText(LABEL_OTP_NULL);
+        tvOTP.setTextColor(getResources().getColor(R.color.color_otp_null));
+        cpbOTP.setProgress(0);
+        cpbOTP.setVisibility(View.GONE);
+    }
+
+    private void setOtp(String otp) { // hidden
+        this.otp = otp;
+        tvOTP.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(DRAWABLE_START_OTP_HIDDEN_RES_ID), null, null, null);
+        tvOTP.setText(LABEL_OTP_HIDDEN);
+        tvOTP.setTextColor(getResources().getColor(R.color.color_otp_hidden));
+        cpbOTP.setVisibility(View.GONE);
+    }
+
+    private void showOtp() { // visible
+        String labelOtp = LABEL_OTP_VISIBLE + otp;
+        tvOTP.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        tvOTP.setText(labelOtp);
+        tvOTP.setTextColor(getResources().getColor(R.color.color_otp_visible));
+        cpbOTP.setVisibility(View.VISIBLE);
+
+        isCountingDown = true;
+        long period = CommonUtil.getPeriodMillis(OTP_PROGRESS_BAR_MAX_COUNT, OTP_VISIBLE_DURATION, TimeUnit.SECONDS);
+        startOTPCountDown(0, period, TimeUnit.MILLISECONDS,
+                tick -> {
+                    long progress = tick + 1;
+                    cpbOTP.setProgress(progress);
+                    DebugUtil.d("otp proggress: " + progress);
+                },
+                error -> {
+                    DebugUtil.e("ERROR: OTP countdown", error);
+                    Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+                    resetOtp();
+                },
+                () -> {
+                    resetOtp();
+                }
+        );
+    }
+
 }

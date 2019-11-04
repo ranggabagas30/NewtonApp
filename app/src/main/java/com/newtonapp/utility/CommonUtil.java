@@ -12,6 +12,7 @@ import com.auth0.android.jwt.DecodeException;
 import com.auth0.android.jwt.JWT;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class CommonUtil {
 
@@ -60,5 +61,10 @@ public class CommonUtil {
         String imei = telephonyManager.getDeviceId();
         DebugUtil.d("imei : " + imei);
         return imei;
+    }
+
+    public static long getPeriodMillis(long maxCount, long duration, TimeUnit durationTimeUnit) {
+        if (durationTimeUnit == TimeUnit.SECONDS) duration *= 1000;
+        return duration / maxCount;
     }
 }

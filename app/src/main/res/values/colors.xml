@@ -9,6 +9,7 @@
     <color name="color_control_highlight">@color/fifty_percent_transparency_grey_400</color>
     <color name="fifty_percent_transparency_grey_400">#80bdbdbd</color>
     <color name="transparency_white">#C1FFFFFF</color>
+
     <!-- table view color -->
     <color name="selected_color">#C7C6C6</color>
     <color name="unselected_color">#FFFFFF</color>
@@ -25,12 +26,19 @@
     <color name="button_green">#327C36</color>
     <color name="button_disabled">#cccccc</color>
 
+    <!-- status complain color -->
     <color name="status_solved">#4CAF50</color>
     <color name="status_hold">#F32C2C</color>
     <color name="status_unknown">@android:color/black</color>
 
+    <!-- camera scanning -->
     <color name="scanner_line_color">#B80606</color>
     <color name="frame_color_1">#44000000</color>
     <color name="frame_color_2">#CC000000</color>
     <color name="corner_line_color">#00BCD4</color>
+
+    <!-- OTP -->
+    <color name="color_otp_null">@color/icon_problem_inactive</color>
+    <color name="color_otp_hidden">@android:color/black</color>
+    <color name="color_otp_visible">@android:color/black</color>
 </resources>
