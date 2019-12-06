@@ -62,6 +62,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         setContentView(R.layout.activity_login);
         initView();
         setListener();
+        if (BuildConfig.DEBUG) setDummy();
         if (isLoggedIn()) {
             navigateTo(this, DashboardActivity.class);
             finish();
@@ -108,8 +109,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         etPassword = findViewById(R.id.main_et_password);
         btnLogin = findViewById(R.id.main_btn_login);
         tvForgetPassword = findViewById(R.id.main_tv_forgetpassword_link);
-
-        if (BuildConfig.DEBUG) setDummy();
     }
 
     private void setDummy() {
