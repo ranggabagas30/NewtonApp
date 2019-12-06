@@ -74,7 +74,7 @@ android {
             buildConfigField("String", "HOST_DEV", '"http://newton-app.com/"')
             buildConfigField("String", "HOST_PROD", '"http://newton-app.com/"')
             versionMajor = 1
-            versionMinor = 0
+            versionMinor = 1
             versionPatch = 0
             versionCode minAPIlevel * 1000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
             versionName "${versionMajor}.${versionMinor}.${versionPatch}"

@@ -2,6 +2,7 @@ package com.newtonapp.view.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -24,8 +25,11 @@ import com.newtonapp.data.network.pojo.request.TrackingRequestModel;
 import com.newtonapp.data.network.pojo.response.OutstandingResponseModel;
 import com.newtonapp.data.network.pojo.response.TrackingResponseModel;
 import com.newtonapp.model.rvmodel.OutstandingRvModelNew;
+import com.newtonapp.utility.CommonUtil;
+import com.newtonapp.utility.Constants;
 import com.newtonapp.utility.DebugUtil;
 import com.newtonapp.utility.NetworkUtil;
+import com.newtonapp.utility.PermissionUtil;
 import com.newtonapp.view.adapter.rvadapter.OutstandingRvAdapter;
 
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import pub.devrel.easypermissions.AfterPermissionGranted;
 
 public class OutstandingActivity extends BaseActivity {
 
@@ -97,8 +102,9 @@ public class OutstandingActivity extends BaseActivity {
 
     private void prepareRecyclerView() {
         outstandingList = new ArrayList<>();
-        outstandingRvAdapter = new OutstandingRvAdapter(outstandingList, R.layout.item_outstanding_task);
-        outstandingRvAdapter.setOnItemClickListener(this::showConfirmationDialog);
+        outstandingRvAdapter = new OutstandingRvAdapter(outstandingList);
+        outstandingRvAdapter.setOnItemClickListener(this::takingJobConfirmation);
+        outstandingRvAdapter.setOnCallPicListener(phoneNumber -> CommonUtil.dial(this, phoneNumber));
         rvOutstandingList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rvOutstandingList.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         rvOutstandingList.setItemAnimator(new DefaultItemAnimator());
@@ -142,7 +148,7 @@ public class OutstandingActivity extends BaseActivity {
         downloadOutstandingJoblist();
     }
 
-    private void showConfirmationDialog(OutstandingRvModelNew outstanding) {
+    private void takingJobConfirmation(OutstandingRvModelNew outstanding) {
         new AlertDialog.Builder(this)
                 .setTitle("Konfirmasi pengambilan tugas")
                 .setMessage("Lanjutkan pengambilan tugas untuk customer " + outstanding.getCustomer().getIdCust() + " ?")
@@ -159,7 +165,6 @@ public class OutstandingActivity extends BaseActivity {
     }
 
     private void downloadOutstandingJoblist() {
-        //showMessageDialog(getString(R.string.progress_loading));
         OutstandingRequestModel formBody = new OutstandingRequestModel();
         formBody.setToken(loginToken.toString());
         compositeDisposable.add(
@@ -256,7 +261,7 @@ public class OutstandingActivity extends BaseActivity {
 
     private void showNormalMode() {
         setNormalMode();
-        outstandingRvAdapter.setOnItemClickListener(this::showConfirmationDialog);
+        outstandingRvAdapter.setOnItemClickListener(this::takingJobConfirmation);
         rvOutstandingList.setAdapter(outstandingRvAdapter);
     }
 
@@ -273,4 +278,15 @@ public class OutstandingActivity extends BaseActivity {
         outstandingRvAdapter.setOnItemClickListener(null);
         rvOutstandingList.setAdapter(outstandingRvAdapter);
     }
+
+    @AfterPermissionGranted(Constants.RC_READ_PHONE_STATE)
+    private void requestDialPhone() {
+        if (PermissionUtil.hasPermission(this, PermissionUtil.READ_PHONE_STATE_PERMISSION)) {
+
+        } else {
+            PermissionUtil.requestPermission(this, getString(R.string.warning_message_rationale_read_phone_state), Constants.RC_READ_PHONE_STATE, PermissionUtil.READ_PHONE_STATE_PERMISSION);
+        }
+    }
+
+
 }

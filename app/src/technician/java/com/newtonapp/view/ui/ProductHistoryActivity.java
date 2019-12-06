@@ -37,7 +37,7 @@ public class ProductHistoryActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.screen_historical_usage);
 
-        outstandingRvAdapter = new OutstandingRvAdapter(outstandingList, R.layout.item_outstanding_task);
+        outstandingRvAdapter = new OutstandingRvAdapter(outstandingList);
         rvProductHistory.setAdapter(outstandingRvAdapter);
         rvProductHistory.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         rvProductHistory.setItemAnimator(new DefaultItemAnimator());

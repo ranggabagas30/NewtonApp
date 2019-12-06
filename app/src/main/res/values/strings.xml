@@ -57,8 +57,11 @@
     <string name="error_crash_test">crash_test</string>
     <string name="error_otp_null">Lakukan scan id printer ulang untuk mendapatkan OTP</string>
     <string name="error_otp_count_down_crash">Found OTP countdown error. Please kindly report to us</string>
+    <string name="error_pic_phone_unavailable">tidak tersedia</string>
+
     <!-- warning messages-->
     <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
+    <string name="warning_message_rationale_read_phone_state">Please granted telephone permission for dialing phone</string>
     <string name="warning_message_open_camera_for_scanning">Click here for scanning</string>
 
     <!-- success messages-->

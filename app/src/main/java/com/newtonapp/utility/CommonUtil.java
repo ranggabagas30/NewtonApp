@@ -2,6 +2,8 @@ package com.newtonapp.utility;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -66,5 +68,12 @@ public class CommonUtil {
     public static long getPeriodMillis(long maxCount, long duration, TimeUnit durationTimeUnit) {
         if (durationTimeUnit == TimeUnit.SECONDS) duration *= 1000;
         return duration / maxCount;
+    }
+
+    public static void dial(Context context, String phoneNumber) {
+        DebugUtil.d("diall " + phoneNumber);
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        context.startActivity(intent);
     }
 }
