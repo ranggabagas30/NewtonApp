@@ -5,6 +5,8 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.devs.readmoreoption.ReadMoreOption;
+
 public class UserInterfaceUtil {
 
     public static int dp2px(Context context, int dp) {

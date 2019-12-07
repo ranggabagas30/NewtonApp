@@ -102,7 +102,7 @@ public class OutstandingActivity extends BaseActivity {
 
     private void prepareRecyclerView() {
         outstandingList = new ArrayList<>();
-        outstandingRvAdapter = new OutstandingRvAdapter(outstandingList);
+        outstandingRvAdapter = new OutstandingRvAdapter(this, outstandingList);
         outstandingRvAdapter.setOnItemClickListener(this::takingJobConfirmation);
         outstandingRvAdapter.setOnCallPicListener(phoneNumber -> CommonUtil.dial(this, phoneNumber));
         rvOutstandingList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));

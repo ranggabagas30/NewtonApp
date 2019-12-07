@@ -57,7 +57,9 @@
     <string name="error_crash_test">crash_test</string>
     <string name="error_otp_null">Lakukan scan id printer ulang untuk mendapatkan OTP</string>
     <string name="error_otp_count_down_crash">Found OTP countdown error. Please kindly report to us</string>
+    <string name="error_pic_name_unavailable">nama pic tidak tersedia</string>
     <string name="error_pic_phone_unavailable">tidak tersedia</string>
+    <string name="error_problem_desc_unavailable">problem note tidak tersedia</string>
 
     <!-- warning messages-->
     <string name="warning_message_rationale_all_permissions">Please granted all required permissions for optimal use</string>
@@ -96,4 +98,8 @@
     <string name="label_id_customer">Customer ID</string>
     <string name="label_note">Note :</string>
     <string name="label_note_available">N/A</string>
+    <string name="label_more">Tampilkan lebih banyak</string>
+    <string name="label_less">Kurangi</string>
+
+    <string name="dummy_long_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 </resources>

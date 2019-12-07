@@ -41,4 +41,8 @@
     <color name="color_otp_null">@color/icon_problem_inactive</color>
     <color name="color_otp_hidden">@android:color/black</color>
     <color name="color_otp_visible">@android:color/black</color>
+    
+    <!-- read more -->
+    <color name="color_more_label">@color/colorPrimary</color>
+    <color name="color_less_label">@color/colorPrimary</color>
 </resources>
