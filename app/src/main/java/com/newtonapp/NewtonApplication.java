@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 
+import androidx.multidex.MultiDexApplication;
+
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -13,7 +15,7 @@ import com.newtonapp.utility.CrashlyticsWrapperUtil;
 import com.newtonapp.utility.DebugUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
-public class NewtonApplication extends Application implements ActivityLifecycleHandler.LifecycleListener {
+public class NewtonApplication extends MultiDexApplication implements ActivityLifecycleHandler.LifecycleListener {
 
     public static RxSharedPreferences rxSharedPreferences;
 

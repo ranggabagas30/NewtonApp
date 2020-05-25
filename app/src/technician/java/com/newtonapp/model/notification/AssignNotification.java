@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -22,7 +23,7 @@ public class AssignNotification extends BaseNotification {
                 message,
                 HighNotificationChannel.CHANNEL_ID,
                 HighNotificationChannel.CHANNEL_PRIORITY_LEVEL,
-                NotificationCompat.CATEGORY_MESSAGE
+                NotificationCompat.CATEGORY_EMAIL
         );
 
         Intent intent = new Intent(context, SolvingActivity.class);
@@ -31,5 +32,6 @@ public class AssignNotification extends BaseNotification {
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         setPendingIntent(pendingIntent);
         setAutoCancel(true);
+        setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
     }
 }

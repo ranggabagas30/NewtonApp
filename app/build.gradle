@@ -24,6 +24,8 @@ android {
         setProperty("archivesBaseName", "customer" + "-v" + versionName)
         buildConfigField"String", "GIT_SHA", "\"${gitSha}\""
         buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+        // Enabling multidex support, targetting Android 21 below
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -103,6 +105,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.1.0-alpha09'
+    implementation 'com.android.support:multidex:1.0.3'
 
     // firebase integration
     implementation 'com.google.firebase:firebase-core:16.0.5'

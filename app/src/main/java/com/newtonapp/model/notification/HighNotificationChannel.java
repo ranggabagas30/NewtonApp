@@ -16,7 +16,7 @@ public class HighNotificationChannel extends BaseNotificationChannel {
     private CharSequence CHANNEL_NAME = "HIGH NOTIFICATION";
     private String CHANNEL_DESC = "High level priority notification";
     private int CHANNEL_IMPORTANCE_LEVEL = NotificationManager.IMPORTANCE_HIGH; // for Android OS 8.0 and above
-    public static int CHANNEL_PRIORITY_LEVEL = NotificationCompat.PRIORITY_HIGH; // for Android OS 7.0 and lower
+    public static int CHANNEL_PRIORITY_LEVEL = NotificationCompat.PRIORITY_HIGH; // for Android OS 7.1 and lower
     private NotificationChannel channel;
 
     @Override

@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -26,7 +27,7 @@ public class BaseNotification {
                 .setContentText(message)
                 .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0))
                 .setAutoCancel(true)
-                .setPriority(priorityLevel)
+                .setPriority(priorityLevel) // for Android 7.0 and lower
                 .setCategory(category);
     }
 
@@ -36,6 +37,14 @@ public class BaseNotification {
 
     public void setAutoCancel(boolean isAutoCancel) {
         notificationBuilder.setAutoCancel(isAutoCancel);
+    }
+
+    public void setPriorityLevel(int priorityLevel) {
+        notificationBuilder.setPriority(priorityLevel);
+    }
+
+    public void setSound(Uri ringtone) {
+        notificationBuilder.setSound(ringtone);
     }
 
     public void show() {
