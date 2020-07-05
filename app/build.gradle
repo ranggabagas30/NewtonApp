@@ -4,8 +4,8 @@ apply plugin: 'io.fabric'
 // Manifest version information!
 def minAPIlevel = rootProject.ext.minSdkVersion
 def versionMajor = 1
-def versionMinor = 0
-def versionPatch = 0
+def versionMinor = 1
+def versionPatch = 1
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new GregorianCalendar().format("dd-MM-yyyy' 'HH:mm:ss z")
@@ -77,7 +77,7 @@ android {
             buildConfigField("String", "HOST_PROD", '"http://newton-app.com/"')
             versionMajor = 1
             versionMinor = 1
-            versionPatch = 0
+            versionPatch = 1
             versionCode minAPIlevel * 1000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
             versionName "${versionMajor}.${versionMinor}.${versionPatch}"
             setProperty("archivesBaseName", "technician" + "-v" + versionName)
